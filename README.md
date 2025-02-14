@@ -1,2 +1,2 @@
-# bat.nvim
+# batphone.nvim
 My Lazy Neovim
