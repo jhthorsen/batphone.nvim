@@ -13,8 +13,24 @@ vim.g.maplocalleader = "\\"
 
 require("lazy").setup({
   spec = {
-    "jhthorsen/batphone.nvim"
+    { "jhthorsen/batphone.nvim", config = true, lazy = false, import = "batphone.plugins" }
+    -- { dir = "/path/to/batphone.nvim", config = true, lazy = false, import = "batphone.plugins" }
+    -- { dir = "plugins" },
+    -- { dir = "config" },
   },
-  install = { colorscheme = { "habamax" } },
-  checker = { enabled = true },
+  checker = {
+    enabled = true,
+    notify = false,
+  },
+  performance = {
+    rtp = {
+      disabled_plugins = {
+        "gzip",
+        "tarPlugin",
+        "tohtml",
+        "tutor",
+        "zipPlugin",
+      },
+    },
+  },
 })
