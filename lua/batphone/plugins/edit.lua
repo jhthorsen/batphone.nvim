@@ -16,4 +16,36 @@ return {
     enabled = vim.fn.has("nvim-0.10.0") == 1,
     opts = {},
   },
+  {
+    "stevearc/conform.nvim",
+    dependencies = { "mason.nvim" },
+    lazy = true,
+    cmd = "ConformInfo",
+    keys = {
+      {
+        "<leader>cF",
+        function()
+          require("conform").format({ formatters = { "injected" }, timeout_ms = 3000 })
+        end,
+        mode = { "n", "v" },
+        desc = "Format Injected Langs",
+      },
+    },
+    opts = {
+      default_format_opts = {
+        async = false,
+        lsp_format = "fallback",
+        quiet = false,
+        timeout_ms = 3000,
+      },
+      formatters_by_ft = {
+        fish = { "fish_indent" },
+        lua = { "stylua" },
+        sh = { "shfmt" },
+      },
+      formatters = {
+        injected = { options = { ignore_errors = true } },
+      },
+    },
+  },
 }
