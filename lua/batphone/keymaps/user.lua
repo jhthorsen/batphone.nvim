@@ -1,4 +1,12 @@
-local mapkey = require('batphone.utils').mapkey
+local mapkey = require("batphone.utils").mapkey
+
+local function edit_file()
+  local api = vim.api;
+  local dir = require("batphone.utils").dirname(vim.fn.bufname())
+  print(vim.api.nvim_buf_get_name(0));
+  api.nvim_feedkeys(":edit " .. dir:gsub("[[]", "\\[") .. "/", "n", false)
+  api.nvim_input("<TAB>")
+end
 
 mapkey("n", "<S-Tab>", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
 mapkey("n", "<Tab>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
@@ -8,6 +16,8 @@ mapkey("n", "<leader>bo", function() Snacks.bufdelete.other() end, { desc = "Del
 mapkey("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })
 mapkey("n", "<leader>fn", ":echo expand('%')<CR>", { desc = "Show filename" })
 mapkey({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
+
+mapkey('n', ',e', edit_file, {desc = 'Find and edit file'})
 
 mapkey("n", "G", "Gzz", { desc = "Move to end and stay in center" })
 mapkey("n", "<c-j>", "10j", { desc = "Jump ten lines down" })
