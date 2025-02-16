@@ -45,3 +45,4 @@ opt.splitbelow = true
 opt.splitright = true
 opt.termguicolors = true
 opt.wildmenu = true
+opt.wildmode = { "full" }
