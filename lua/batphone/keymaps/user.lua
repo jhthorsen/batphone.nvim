@@ -23,6 +23,7 @@ mapkey("v", "<A-j>", ":<C-u>execute \"'<,'>move '>+\" . v:count1<cr>gv=gv", { de
 mapkey("v", "<A-k>", ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv", { desc = "Move Up" })
 
 mapkey("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "Keywordprg" })
+mapkey("i", "<c-s>", "<cmd>Telescope spell_suggest", { desc = "Spell suggestions" });
 
 -- Greatest remap ever
 mapkey("x", "<leader>p", [["_dP]], {})
