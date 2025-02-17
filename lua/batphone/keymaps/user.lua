@@ -8,11 +8,23 @@ local function edit_file()
   api.nvim_input("<TAB>")
 end
 
+local function save_and_quit()
+  local api = vim.api
+  local modified = api.nvim_get_option_value("modified", { buf = api.nvim_get_current_buf() })
+  local cmd = modified and "w|bd" or "bd";
+  api.nvim_command(cmd)
+
+  if #vim.fn.getbufinfo({ buflisted = 1 }) <= 1 then
+    api.nvim_command("quit")
+  end
+end
+
 mapkey("n", "<S-Tab>", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
 mapkey("n", "<Tab>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
 mapkey("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 mapkey("n", "<leader>bd", function() Snacks.bufdelete() end, { desc = "Delete Buffer" })
 mapkey("n", "<leader>bo", function() Snacks.bufdelete.other() end, { desc = "Delete Other Buffers" })
+mapkey("n", "<leader>q", save_and_quit, { desc = "Save and Quit" })
 mapkey("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })
 mapkey("n", "<leader>fn", ":echo expand('%')<CR>", { desc = "Show filename" })
 mapkey({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
