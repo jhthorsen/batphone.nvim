@@ -64,7 +64,6 @@ lsp_servers.perlnavigator = {}
 lsp_servers.pylyzer = {}
 lsp_servers.remark_ls = {}
 lsp_servers.rust_analyzer = {}
-lsp_servers.spectral = {}
 lsp_servers.sqlls = {}
 lsp_servers.svelte = {}
 lsp_servers.templ = {}
