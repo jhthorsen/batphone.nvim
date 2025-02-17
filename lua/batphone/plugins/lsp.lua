@@ -111,7 +111,10 @@ return {
   },
   {
     "saghen/blink.cmp",
-    dependencies = "rafamadriz/friendly-snippets",
+    dependencies = {
+      "fang2hou/blink-copilot",
+      "rafamadriz/friendly-snippets",
+    },
     opts = {
       appearance = {
         use_nvim_cmp_as_default = false,
@@ -151,9 +154,16 @@ return {
           "lsp",
           "path",
           "snippets",
+          "copilot",
           "buffer",
         },
         providers = {
+          copilot = {
+            name = "copilot",
+            module = "blink-copilot",
+            async = true,
+            score_offset = 100,
+          },
           lazydev = {
             name = "LazyDev",
             module = "lazydev.integrations.blink",
@@ -196,5 +206,24 @@ return {
         end
       end)
     end,
+  },
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    build = ":Copilot auth",
+    event = "InsertEnter",
+    keys = {
+      { "<leader>ap", ":Copilot panel<CR>", desc = "Open a window with Copilot completions" },
+      { "<leader>ad", ":Copilot disable<CR>", desc = "Disable Copilot", silent = false },
+      { "<leader>as", ":Copilot status<CR>", desc = "Check Copilot status", silent = false },
+      { "<leader>ae", ":Copilot! attach<CR>:Copilot enable<CR>", desc = "Enable Copilot", silent = false },
+    },
+    opts = {
+      copilot_node_command = "node", -- Node.js version must be > 18.x
+      panel = { enabled = false },
+      server_opts_overrides = {},
+      suggestion = { enabled = false },
+      filetypes = { ["*"] = false },
+    },
   },
 }
