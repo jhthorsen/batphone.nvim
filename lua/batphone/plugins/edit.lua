@@ -17,6 +17,13 @@ return {
     opts = {},
   },
   {
+    "mg979/vim-visual-multi",
+    event = "VeryLazy",
+    keys = {
+      { "<c-d>", "<c-n>", mode = { "n", "v" }, remap = true, desc = "Multiple cursors" },
+    },
+  },
+  {
     "stevearc/conform.nvim",
     dependencies = { "mason.nvim" },
     lazy = true,
