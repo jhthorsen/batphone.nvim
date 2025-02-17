@@ -2,7 +2,8 @@ return {
   {
     "nvim-telescope/telescope.nvim",
     cmd = "Telescope",
-    keys = require("batphone.keymaps.telescope"),
+    keys = require("batphone.keymaps.plugins").telescope,
+    dependencies = { "nvim-lua/plenary.nvim" },
     opts = {
       defaults = {
         preview = false,

@@ -18,8 +18,8 @@ opt.numberwidth = 4
 opt.scrolloff = 8
 opt.showtabline = 0
 
-opt.hlsearch = true
-opt.ignorecase = true
+opt.hlsearch = false
+opt.ignorecase = false
 opt.incsearch = true
 opt.number = true
 opt.relativenumber = true
@@ -45,4 +45,4 @@ opt.splitbelow = true
 opt.splitright = true
 opt.termguicolors = true
 opt.wildmenu = true
-opt.wildmode = { "full" }
+opt.wildmode = { "longest:list", "full" }

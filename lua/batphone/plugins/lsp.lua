@@ -110,6 +110,18 @@ return {
     end,
   },
   {
+    "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
+    opts = {
+      ensure_installed = require("batphone.language_servers").tree_sitter_ensure_installed,
+      sync_install = false,
+      auto_install = true,
+      highlight = {
+        enable = true,
+      },
+    },
+  },
+  {
     "saghen/blink.cmp",
     dependencies = {
       "fang2hou/blink-copilot",
@@ -212,12 +224,7 @@ return {
     cmd = "Copilot",
     build = ":Copilot auth",
     event = "InsertEnter",
-    keys = {
-      { "<leader>ap", ":Copilot panel<CR>", desc = "Open a window with Copilot completions" },
-      { "<leader>ad", ":Copilot disable<CR>", desc = "Disable Copilot", silent = false },
-      { "<leader>as", ":Copilot status<CR>", desc = "Check Copilot status", silent = false },
-      { "<leader>ae", ":Copilot! attach<CR>:Copilot enable<CR>", desc = "Enable Copilot", silent = false },
-    },
+    keys = require("batphone.keymaps.plugins").copilot,
     opts = {
       copilot_node_command = "node", -- Node.js version must be > 18.x
       panel = { enabled = false },

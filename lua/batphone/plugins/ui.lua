@@ -3,9 +3,36 @@ local function buffers_max_length()
 end
 
 return {
+  { "nvim-lua/plenary.nvim" },
+  { "nvim-tree/nvim-web-devicons", lazy = true },
+  { "echasnovski/mini.icons", event = "VeryLazy",
+  },
   {
-    "echasnovski/mini.icons",
-    lazy = true,
+    "folke/snacks.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {
+      zen = {
+        toggles = {
+          diagnostics = false,
+          dim = false,
+          git_signs = false,
+          inlay_hints = false,
+          mini_diff_signs = false,
+        },
+      },
+      styles = {
+        zen = {
+          height = 0.95,
+          width = 120,
+          minimal = true,
+          backdrop = {
+            transparent = true,
+            blend = 10,
+          },
+        },
+      },
+    },
   },
   {
     "folke/which-key.nvim",

@@ -1,43 +1,29 @@
 return {
   {
-    "folke/flash.nvim",
-    event = "VeryLazy",
-    keys = {
-      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
-      { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
-    },
+    "echasnovski/mini.nvim",
+    version = "*",
+    config = function(_, _)
+      -- require('mini.basics').setup() -- https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-basics.md#features
+      require("mini.comment").setup()
+      require('mini.surround').setup()
+    end,
   },
   {
-    "folke/ts-comments.nvim",
+    "folke/flash.nvim",
     event = "VeryLazy",
-    enabled = vim.fn.has("nvim-0.10.0") == 1,
-    opts = {},
+    keys = require("batphone.keymaps.plugins").flash,
   },
   {
     "mg979/vim-visual-multi",
     event = "VeryLazy",
-    keys = {
-      { "<c-d>", "<c-n>", mode = { "n", "v" }, remap = true, desc = "Multiple cursors" },
-    },
+    keys = require("batphone.keymaps.plugins").multi,
   },
   {
     "stevearc/conform.nvim",
     dependencies = { "mason.nvim" },
     lazy = true,
     cmd = "ConformInfo",
-    keys = {
-      {
-        "<leader>cF",
-        function()
-          require("conform").format({ formatters = { "injected" }, timeout_ms = 3000 })
-        end,
-        mode = { "n", "v" },
-        desc = "Format Injected Langs",
-      },
-    },
+    keys = require("batphone.keymaps.plugins").conform,
     opts = {
       default_format_opts = {
         async = false,

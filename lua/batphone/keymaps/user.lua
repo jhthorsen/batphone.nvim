@@ -11,10 +11,11 @@ end
 local function save_and_quit()
   local api = vim.api
   local modified = api.nvim_get_option_value("modified", { buf = api.nvim_get_current_buf() })
-  local cmd = modified and "w|bd" or "bd";
-  api.nvim_command(cmd)
+  local n_buffers = #vim.fn.getbufinfo({ buflisted = 1 })
 
-  if #vim.fn.getbufinfo({ buflisted = 1 }) <= 1 then
+  api.nvim_command(modified and "w|bd" or "bd");
+
+  if n_buffers <= 1 then
     api.nvim_command("quit")
   end
 end
@@ -29,6 +30,7 @@ mapkey("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })
 mapkey("n", "<leader>fn", ":echo expand('%')<CR>", { desc = "Show filename" })
 mapkey({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
 
+mapkey("n", "<leader>e", function() Snacks.explorer() end, { desc = "Open file explorer" })
 mapkey('n', ',e', edit_file, { desc = 'Find and edit file' })
 
 mapkey("n", "G", "Gzz", { desc = "Move to end and stay in center" })
@@ -45,6 +47,6 @@ mapkey("v", "<A-j>", ":<C-u>execute \"'<,'>move '>+\" . v:count1<cr>gv=gv", { de
 mapkey("v", "<A-k>", ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv", { desc = "Move line up" })
 
 mapkey("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "Open man page for word" })
-mapkey("i", "<c-s>", "<cmd>Telescope spell_suggest", { desc = "Spell suggestions" });
+mapkey("i", "<c-s>", "<cmd>Telescope spell_suggest<cr>", { desc = "Spell suggestions" });
 
 mapkey("x", "<leader>p", [["_dP]], { desc = "Paste into selection" })
