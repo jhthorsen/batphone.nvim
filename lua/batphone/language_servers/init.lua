@@ -1,22 +1,3 @@
-local function on_attach(_, bufnr)
-  local mapkey = require('batphone.utils').mapkey
-  mapkey("i", "<c-k>", function() return vim.lsp.buf.signature_help() end, { desc = "Signature Help" })
-  mapkey("n", "<leader>cC", vim.lsp.codelens.refresh, { desc = "Refresh & Display Codelens" })
-  mapkey("n", "<leader>cR", function() Snacks.rename.rename_file() end, { desc = "Rename File" })
-  mapkey("n", "<leader>cl", function() Snacks.picker.lsp_config() end, { desc = "Lsp Info" })
-  mapkey("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename" })
-  mapkey("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename" })
-  mapkey("n", "K", function() return vim.lsp.buf.hover() end, { desc = "Displays information about the symbol under the cursor in a floating window"})
-  mapkey("n", "gD", vim.lsp.buf.declaration, { desc = "Goto Declaration" })
-  mapkey("n", "gI", vim.lsp.buf.implementation, { desc = "Goto Implementation" })
-  mapkey("n", "gK", function() return vim.lsp.buf.signature_help() end, { desc = "Signature Help" })
-  mapkey("n", "gd", vim.lsp.buf.definition, { desc = "Goto Definition" })
-  mapkey("n", "gr", vim.lsp.buf.references, { desc = "References", nowait = true })
-  mapkey("n", "gy", vim.lsp.buf.type_definition, { desc = "Jumps to the definition of the type of the symbol under the cursor"})
-  mapkey({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
-  mapkey({ "n", "v" }, "<leader>cc", vim.lsp.codelens.run, { desc = "Run Codelens" })
-end
-
 local tree_sitter_ensure_installed = {
   "bash",
   "c",
@@ -60,37 +41,37 @@ local tree_sitter_ensure_installed = {
   "zig",
 }
 
-local servers = {}
+local lsp_servers = {}
 
-servers.ansiblels = {}
-servers.bashls = {}
-servers.biome = {}
-servers.clangd = {}
-servers.css_variables = {}
-servers.cssls = {}
-servers.cssmodules_ls = {}
-servers.dockerls = {}
-servers.emmet_language_server = {}
-servers.eslint = {}
-servers.gopls = {}
-servers.html = {}
-servers.htmx = {}
-servers.jinja_lsp = {}
-servers.jqls = {}
-servers.jsonls = {}
-servers.nginx_language_server = {}
-servers.perlnavigator = {}
-servers.pylyzer = {}
-servers.remark_ls = {}
-servers.rust_analyzer = {}
-servers.spectral = {}
-servers.sqlls = {}
-servers.svelte = {}
-servers.templ = {}
-servers.ts_ls = {}
-servers.yamlls = {}
+lsp_servers.ansiblels = {}
+lsp_servers.bashls = {}
+lsp_servers.biome = {}
+lsp_servers.clangd = {}
+lsp_servers.css_variables = {}
+lsp_servers.cssls = {}
+lsp_servers.cssmodules_ls = {}
+lsp_servers.dockerls = {}
+lsp_servers.emmet_language_server = {}
+lsp_servers.eslint = {}
+lsp_servers.gopls = {}
+lsp_servers.html = {}
+lsp_servers.htmx = {}
+lsp_servers.jinja_lsp = {}
+lsp_servers.jqls = {}
+lsp_servers.jsonls = {}
+lsp_servers.nginx_language_server = {}
+lsp_servers.perlnavigator = {}
+lsp_servers.pylyzer = {}
+lsp_servers.remark_ls = {}
+lsp_servers.rust_analyzer = {}
+lsp_servers.spectral = {}
+lsp_servers.sqlls = {}
+lsp_servers.svelte = {}
+lsp_servers.templ = {}
+lsp_servers.ts_ls = {}
+lsp_servers.yamlls = {}
 
-servers.lua_ls = {
+lsp_servers.lua_ls = {
   settings = {
     Lua = {
       workspace = {
@@ -118,7 +99,6 @@ servers.lua_ls = {
 }
 
 return {
-  on_attach = on_attach,
-  servers = servers,
+  lsp_servers = lsp_servers,
   tree_sitter_ensure_installed = tree_sitter_ensure_installed,
 }

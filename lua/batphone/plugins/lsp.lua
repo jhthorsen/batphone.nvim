@@ -1,5 +1,3 @@
-local config = require("batphone.language_servers")
-
 return {
   {
     "folke/lazydev.nvim",
@@ -19,7 +17,7 @@ return {
       { "williamboman/mason-lspconfig.nvim", config = function() end },
     },
     opts = {
-      servers = config.servers,
+      servers = require("batphone.language_servers").lsp_servers,
       codelens = { enabled = false },
       inlay_hints = { enabled = true },
       capabilities = {
@@ -78,7 +76,7 @@ return {
       local function setup(server)
         local server_opts = vim.tbl_deep_extend(
           "force",
-          { capabilities = vim.deepcopy(capabilities), on_attach = config.on_attach },
+          { capabilities = vim.deepcopy(capabilities), on_attach = require("batphone.keymaps.lsp").on_attach },
           opts.servers[server] or {}
         )
 
