@@ -6,8 +6,6 @@ function M.setup(opts)
   require("batphone.autocmds")
   require("batphone.keymaps.automagic")
   require("batphone.keymaps.user")
-  require("batphone.keymaps.lsp")
-  require("batphone.keymaps.ui")
 end
 
 return M
