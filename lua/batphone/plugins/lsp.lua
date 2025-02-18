@@ -128,17 +128,12 @@ return {
       "rafamadriz/friendly-snippets",
     },
     opts = {
+      keymap = require("batphone.keymaps.plugins").blink,
       appearance = {
         use_nvim_cmp_as_default = false,
       },
       cmdline = {
         enabled = false,
-      },
-      keymap = {
-        preset = "default",
-        ["<CR>"] = { "select_and_accept", "fallback" },
-        ["<Tab>"] = { "select_next", "fallback" },
-        ["<S-Tab>"] = { "select_prev", "fallback" },
       },
       completion = {
         documentation = {

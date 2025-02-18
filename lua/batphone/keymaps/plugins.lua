@@ -3,6 +3,12 @@ local format_code = function()
 end
 
 return {
+  blink = {
+    preset = "default",
+    ["<CR>"] = { "select_and_accept", "fallback" },
+    ["<Tab>"] = { "select_next", "fallback" },
+    ["<S-Tab>"] = { "select_prev", "fallback" },
+  },
   conform = {
     { "<leader>cF", mode = { "n", "v" }, format_code, desc = "Format Injected Langs" },
   },
