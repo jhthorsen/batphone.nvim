@@ -10,10 +10,9 @@ return {
   },
   {
     "neovim/nvim-lspconfig",
-    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
+    event = { "BufReadPost", "BufNewFile" },
     dependencies = {
       "saghen/blink.cmp",
-      "williamboman/mason.nvim",
       { "williamboman/mason-lspconfig.nvim", config = function() end },
     },
     opts = {
@@ -111,6 +110,7 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter",
+    event = { "BufReadPost", "BufNewFile" },
     build = ":TSUpdate",
     opts = {
       ensure_installed = require("batphone.language_servers").tree_sitter_ensure_installed,
@@ -123,6 +123,7 @@ return {
   },
   {
     "saghen/blink.cmp",
+    event = { "BufReadPost", "BufNewFile" },
     dependencies = {
       "fang2hou/blink-copilot",
       "rafamadriz/friendly-snippets",
@@ -182,8 +183,10 @@ return {
   },
   {
     "williamboman/mason.nvim",
+    event = { "BufReadPost", "BufNewFile" },
     cmd = "Mason",
     build = ":MasonUpdate",
+    keys = require("batphone.keymaps.plugins").mason,
     opts_extend = { "ensure_installed" },
     opts = {
       ensure_installed = {
@@ -218,7 +221,7 @@ return {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     build = ":Copilot auth",
-    event = "InsertEnter",
+    lazy = true,
     keys = require("batphone.keymaps.plugins").copilot,
     opts = {
       copilot_node_command = "node", -- Node.js version must be > 18.x

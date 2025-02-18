@@ -2,6 +2,7 @@ return {
   {
     "echasnovski/mini.nvim",
     version = "*",
+    event = "VeryLazy",
     config = function(_, _)
       -- require('mini.basics').setup() -- https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-basics.md#features
       require("mini.comment").setup()
@@ -10,12 +11,12 @@ return {
   },
   {
     "folke/flash.nvim",
-    event = "VeryLazy",
+    lazy = true,
     keys = require("batphone.keymaps.plugins").flash,
   },
   {
     "mg979/vim-visual-multi",
-    event = "VeryLazy",
+    lazy = true,
     keys = require("batphone.keymaps.plugins").multi,
   },
   {

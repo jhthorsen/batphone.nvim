@@ -43,7 +43,6 @@ mapkey("n", "<leader>ui", vim.show_pos, { desc = "Inspect Pos" })
 mapkey("n", "<leader>uI", "<cmd>InspectTree<cr>", { desc = "Inspect Tree" })
 
 mapkey("n", "<leader>wL", "<cmd>Lazy<cr>", { desc = "Lazy" })
-mapkey("n", "<leader>wM", "<cmd>Mason<cr>", { desc = "Mason" })
 
 local toggle = require("snacks.toggle")
 toggle.animate():map("<leader>ua")
