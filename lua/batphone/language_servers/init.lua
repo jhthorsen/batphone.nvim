@@ -62,7 +62,6 @@ lsp_servers.jsonls = {}
 lsp_servers.nginx_language_server = {}
 lsp_servers.perlnavigator = {}
 lsp_servers.pylyzer = {}
-lsp_servers.remark_ls = {}
 lsp_servers.rust_analyzer = {}
 lsp_servers.sqlls = {}
 lsp_servers.svelte = {}
