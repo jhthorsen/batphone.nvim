@@ -3,12 +3,12 @@ local function buffers_max_length()
 end
 
 return {
-  { "nvim-lua/plenary.nvim" },
-  { "nvim-tree/nvim-web-devicons", lazy = true },
-  { "echasnovski/mini.icons", event = "VeryLazy",
-  },
+  { "nvim-lua/plenary.nvim", version = "*" },
+  { "nvim-tree/nvim-web-devicons", lazy = true, version = "*" },
+  { "echasnovski/mini.icons", event = "VeryLazy", version = "*" },
   {
     "folke/snacks.nvim",
+    version = "*",
     lazy = false,
     priority = 1000,
     opts = {
@@ -36,10 +36,12 @@ return {
   },
   {
     "folke/which-key.nvim",
+    version = "*",
     event = "VeryLazy",
   },
   {
     "nvim-lualine/lualine.nvim",
+    version = "*",
     opts = {
       sections = {
         lualine_a = { { "buffers", max_length = buffers_max_length, mode = 0, symbols = { alternate_file = "" } } },
@@ -62,6 +64,7 @@ return {
   },
   {
     "rebelot/kanagawa.nvim",
+    version = "*",
     priority = 1000,
     lazy = false,
     opts = {

@@ -11,6 +11,7 @@ return {
   },
   {
     "folke/flash.nvim",
+    version = "*",
     lazy = true,
     keys = require("batphone.keymaps.plugins").flash,
   },
@@ -21,6 +22,7 @@ return {
   },
   {
     "stevearc/conform.nvim",
+    version = "*",
     dependencies = { "mason.nvim" },
     lazy = true,
     cmd = "ConformInfo",

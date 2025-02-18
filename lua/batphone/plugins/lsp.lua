@@ -1,6 +1,7 @@
 return {
   {
     "folke/lazydev.nvim",
+    version = "*",
     ft = "lua",
     opts = {
       library = {
@@ -10,6 +11,7 @@ return {
   },
   {
     "neovim/nvim-lspconfig",
+    version = "*",
     event = { "BufReadPost", "BufNewFile" },
     dependencies = {
       "saghen/blink.cmp",
@@ -110,6 +112,7 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter",
+    version = "*",
     event = { "BufReadPost", "BufNewFile" },
     build = ":TSUpdate",
     opts = {
@@ -123,6 +126,7 @@ return {
   },
   {
     "saghen/blink.cmp",
+    version = "*",
     event = { "BufReadPost", "BufNewFile" },
     dependencies = {
       "fang2hou/blink-copilot",
@@ -183,6 +187,7 @@ return {
   },
   {
     "williamboman/mason.nvim",
+    version = "*",
     event = { "BufReadPost", "BufNewFile" },
     cmd = "Mason",
     build = ":MasonUpdate",
@@ -219,6 +224,7 @@ return {
   },
   {
     "zbirenbaum/copilot.lua",
+    version = "*",
     cmd = "Copilot",
     build = ":Copilot auth",
     lazy = true,
