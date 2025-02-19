@@ -45,6 +45,20 @@ mapkey("n", "<leader>uI", "<cmd>InspectTree<cr>", { desc = "Inspect Tree" })
 mapkey("n", "<leader>wL", "<cmd>Lazy<cr>", { desc = "Lazy" })
 
 local toggle = require("snacks.toggle")
+
+toggle.new({
+  id = "signcolumn",
+  name = "Toggle sign column",
+  get = function()
+    return vim.wo.signcolumn == "yes"
+  end,
+  set = function(show)
+    vim.wo.signcolumn = show and 'yes' or 'no'
+    vim.wo.number = show
+    vim.wo.relativenumber = show
+  end
+}):map("<leader>uS")
+
 toggle.animate():map("<leader>ua")
 toggle.dim():map("<leader>uD")
 toggle.indent():map("<leader>ug")
