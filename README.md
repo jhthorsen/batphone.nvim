@@ -17,6 +17,17 @@ You need [Neovim](https://github.com/neovim/neovim/releases) 0.10.x or later.
         > "$HOME/.config/nvim/init.lua";
     $ neovim;
 
+## Environment variables
+
+### BATPHONE\_NVIM\_DISABLE\_LSP\_SERVERS
+
+This environment variable can be set to disable certain
+[language\_servers](/jhthorsen/batphone.nvim/tree/main/lua/batphone/language_servers)
+
+Example:
+
+    export BATPHONE_NVIM_DISABLE_LSP_SERVERS="gopls perlnavigator"
+
 ## Structure
 
 It's a bug if something is out of place.

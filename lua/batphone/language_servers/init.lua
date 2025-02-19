@@ -96,6 +96,12 @@ lsp_servers.lua_ls = {
   },
 }
 
+for _, name in ipairs(require("batphone.utils").split_string(os.getenv("BATPHONE_NVIM_DISABLE_LSP_SERVERS") or "")) do
+  if lsp_servers[name] ~= nil then
+    lsp_servers[name].enabled = false
+  end
+end
+
 return {
   lsp_servers = lsp_servers,
   tree_sitter_ensure_installed = tree_sitter_ensure_installed,
