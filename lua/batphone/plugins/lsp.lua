@@ -1,3 +1,7 @@
+local lsp_keymaps = require("batphone.keymaps.lsp")
+local plugins_keymaps = require("batphone.keymaps.plugins")
+local language_servers = require("batphone.language_servers")
+
 return {
   {
     "folke/lazydev.nvim",
@@ -19,7 +23,7 @@ return {
       { "williamboman/mason-lspconfig.nvim", config = function() end },
     },
     opts = {
-      servers = require("batphone.language_servers").lsp_servers,
+      servers = language_servers.lsp_servers,
       codelens = { enabled = false },
       inlay_hints = { enabled = true },
       capabilities = {
@@ -78,12 +82,11 @@ return {
       local function setup(server)
         local server_opts = vim.tbl_deep_extend(
           "force",
-          { capabilities = vim.deepcopy(capabilities), on_attach = require("batphone.keymaps.lsp").on_attach },
+          { capabilities = vim.deepcopy(capabilities), on_attach = lsp_keymaps.on_attach },
           opts.servers[server] or {}
         )
 
-        if server_opts.enabled == false then
-        else
+        if server_opts.enabled ~= false then
           require("lspconfig")[server].setup(server_opts)
         end
       end
@@ -97,7 +100,7 @@ return {
           if server_opts.enabled ~= false then
             if server_opts.mason == false or not vim.tbl_contains(all_mslp_servers, server) then
               setup(server)
-            else
+            elseif ensure_installed[server] == nil then
               ensure_installed[#ensure_installed + 1] = server
             end
           end
@@ -117,7 +120,7 @@ return {
     event = { "BufReadPost", "BufNewFile" },
     build = ":TSUpdate",
     opts = {
-      ensure_installed = require("batphone.language_servers").tree_sitter_ensure_installed,
+      ensure_installed = language_servers.tree_sitter_ensure_installed,
       sync_install = false,
       auto_install = true,
       highlight = {
@@ -128,13 +131,13 @@ return {
   {
     "saghen/blink.cmp",
     version = "*",
-    event = { "BufReadPost", "BufNewFile" },
+    lazy = true,
     dependencies = {
       "fang2hou/blink-copilot",
       "rafamadriz/friendly-snippets",
     },
     opts = {
-      keymap = require("batphone.keymaps.plugins").blink,
+      keymap = plugins_keymaps.blink,
       appearance = {
         use_nvim_cmp_as_default = false,
       },
@@ -192,7 +195,7 @@ return {
     event = { "BufReadPost", "BufNewFile" },
     cmd = "Mason",
     build = ":MasonUpdate",
-    keys = require("batphone.keymaps.plugins").mason,
+    keys = plugins_keymaps.mason,
     opts_extend = { "ensure_installed" },
     opts = {
       ensure_installed = {
@@ -229,7 +232,7 @@ return {
     cmd = "Copilot",
     build = ":Copilot auth",
     lazy = true,
-    keys = require("batphone.keymaps.plugins").copilot,
+    keys = plugins_keymaps.copilot,
     opts = {
       copilot_node_command = "node", -- Node.js version must be > 18.x
       panel = { enabled = false },
