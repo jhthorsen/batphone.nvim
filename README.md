@@ -10,6 +10,11 @@ I am however quite happy with my setup, since I like it a bit more minimalistic.
 
 You need [Neovim](https://github.com/neovim/neovim/releases) 0.10.x or later.
 
+If you already have neovim set up, then you want to (back up) and clear out the
+following directories first:
+
+    $ rm -rf ~/.config/nvim ~/.cache/nvim ~/.local/share/nvim;
+
 ## Installation
 
     $ mkdir -p "$HOME/.config/nvim";
