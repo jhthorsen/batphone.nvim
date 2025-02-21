@@ -48,7 +48,7 @@ local toggle = require("snacks.toggle")
 
 toggle.new({
   id = "signcolumn",
-  name = "Toggle sign column",
+  name = "Sign column",
   get = function()
     return vim.wo.signcolumn == "yes"
   end,
