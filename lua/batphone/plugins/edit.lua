@@ -16,8 +16,17 @@ return {
     keys = require("batphone.keymaps.plugins").flash,
   },
   {
-    "mg979/vim-visual-multi",
+    "brenton-leighton/multiple-cursors.nvim",
+    version = "*",
     lazy = true,
+    opts = {
+      pre_hook = function()
+        require("cmp").setup({ enabled = false })
+      end,
+      post_hook = function()
+        require("cmp").setup({ enabled = true })
+      end,
+    },
     keys = require("batphone.keymaps.plugins").multi,
   },
   {

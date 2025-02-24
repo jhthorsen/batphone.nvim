@@ -29,7 +29,12 @@ return {
     { "<leader>wM", "<cmd>Mason<cr>", desc = "Mason" },
   },
   multi = {
-    { "<c-d>", "<c-n>", mode = { "n", "v" }, remap = true, desc = "Multiple cursors" },
+    {"<c-s-j>", "<Cmd>MultipleCursorsAddDown<CR>", mode = {"n", "x"}, desc = "Add cursor and move down"},
+    {"<c-s-k>", "<Cmd>MultipleCursorsAddUp<CR>", mode = {"n", "x"}, desc = "Add cursor and move up"},
+    {"<leader>ma", "<Cmd>MultipleCursorsAddMatches<CR>", mode = {"n", "x"}, desc = "Add cursors to cword"},
+    {"<leader>md", "<Cmd>MultipleCursorsAddJumpNextMatch<CR>", mode = {"n", "x"}, desc = "Add cursor and jump to next cword"},
+    {"<c-d>", "<Cmd>MultipleCursorsJumpNextMatch<CR>", mode = {"n", "v", "x"}, desc = "Jump to next cword"},
+    {"<leader>ml", "<Cmd>MultipleCursorsLock<CR>", mode = {"n", "x"}, desc = "Lock virtual cursors"},
   },
   telescope = {
     { "<c-p>", "<cmd>Telescope git_files<cr>", desc = "Find Files (git-files)" },
