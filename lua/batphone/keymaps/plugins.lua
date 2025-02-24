@@ -2,6 +2,15 @@ local format_code = function()
   require("conform").format({ formatters = { "injected" }, timeout_ms = 3000 })
 end
 
+local toggle_multicursors = function()
+  local mc = require("multicursor-nvim")
+  if not mc.cursorsEnabled() then
+    mc.enableCursors()
+  elseif mc.hasCursors() then
+    mc.clearCursors()
+  end
+end
+
 return {
   blink = {
     preset = "default",
@@ -28,13 +37,13 @@ return {
   mason = {
     { "<leader>wM", "<cmd>Mason<cr>", desc = "Mason" },
   },
-  multi = {
-    {"<c-s-j>", "<Cmd>MultipleCursorsAddDown<CR>", mode = {"n", "x"}, desc = "Add cursor and move down"},
-    {"<c-s-k>", "<Cmd>MultipleCursorsAddUp<CR>", mode = {"n", "x"}, desc = "Add cursor and move up"},
-    {"<leader>ma", "<Cmd>MultipleCursorsAddMatches<CR>", mode = {"n", "x"}, desc = "Add cursors to cword"},
-    {"<leader>md", "<Cmd>MultipleCursorsAddJumpNextMatch<CR>", mode = {"n", "x"}, desc = "Add cursor and jump to next cword"},
-    {"<c-d>", "<Cmd>MultipleCursorsJumpNextMatch<CR>", mode = {"n", "v", "x"}, desc = "Jump to next cword"},
-    {"<leader>ml", "<Cmd>MultipleCursorsLock<CR>", mode = {"n", "x"}, desc = "Lock virtual cursors"},
+  multicursor = {
+    { "<c-d>", mode = { "n", "x" }, function() require("multicursor-nvim").matchAddCursor(1) end, desc = "Add new cursor by matching word/selection" },
+    { "<c-s-d>", mode = { "n", "x" }, function() require("multicursor-nvim").matchAddCursor(-1) end, desc = "Add new cursor by matching word/selection" },
+    { "<esc>", mode = { "n" }, toggle_multicursors, desc = "Clear cursors" },
+    { "<leader>mt", mode = { "n", "x" }, function() require("multicursor-nvim").toggleCursor() end, desc = "Add and remove cursors using the main cursor" },
+    { "<leader>mr", function() require("multicursor-nvim").restoreCursors() end, desc = "Bring back cursors if you accidentally clear them" },
+    { "<leader>mL", function() require("multicursor-nvim").alignCursors() end, desc = "Align cursor columns" },
   },
   telescope = {
     { "<c-p>", "<cmd>Telescope git_files<cr>", desc = "Find Files (git-files)" },

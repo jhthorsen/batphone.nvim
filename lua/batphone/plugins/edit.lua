@@ -16,18 +16,11 @@ return {
     keys = require("batphone.keymaps.plugins").flash,
   },
   {
-    "brenton-leighton/multiple-cursors.nvim",
+    "jake-stewart/multicursor.nvim",
     version = "*",
     lazy = true,
-    opts = {
-      pre_hook = function()
-        require("cmp").setup({ enabled = false })
-      end,
-      post_hook = function()
-        require("cmp").setup({ enabled = true })
-      end,
-    },
-    keys = require("batphone.keymaps.plugins").multi,
+    keys = require("batphone.keymaps.plugins").multicursor,
+    opts = {},
   },
   {
     "stevearc/conform.nvim",
