@@ -1,4 +1,4 @@
-local mapkey = require('batphone.utils').mapkey
+local mapkey = require("batphone.utils").mapkey
 
 mapkey("v", "<", "<gv", { desc = "Indent and stay in indent mode" })
 mapkey("v", ">", ">gv", { desc = "Indent and stay in indent mode" })

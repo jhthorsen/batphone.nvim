@@ -28,10 +28,10 @@ function M.save_and_quit()
 end
 
 function M.split_string(s, delimiter)
-    delimiter = delimiter or '%s'
+    delimiter = delimiter or "%s"
     local t = {}
     local i = 1
-    for str in string.gmatch(s, '([^' .. delimiter .. ']+)') do
+    for str in string.gmatch(s, "([^" .. delimiter .. "]+)") do
         t[i] = str
         i = i + 1
     end

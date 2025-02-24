@@ -12,7 +12,7 @@ mapkey("n", "<leader>fn", ":echo expand('%')<CR>", { desc = "Show filename" })
 mapkey({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
 
 mapkey("n", "<leader>e", function() Snacks.explorer() end, { desc = "Open file explorer" })
-mapkey('n', ',e', utils.edit_file, { desc = 'Find and edit file' })
+mapkey("n", ",e", utils.edit_file, { desc = "Find and edit file" })
 
 mapkey("n", "G", "Gzz", { desc = "Move to end and stay in center" })
 mapkey("n", "<c-j>", "10j", { desc = "Jump ten lines down" })
@@ -53,7 +53,7 @@ toggle.new({
     return vim.wo.signcolumn == "yes"
   end,
   set = function(show)
-    vim.wo.signcolumn = show and 'yes' or 'no'
+    vim.wo.signcolumn = show and "yes" or "no"
     vim.wo.number = show
     vim.wo.relativenumber = show
   end
