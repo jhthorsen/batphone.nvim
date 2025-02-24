@@ -1,5 +1,6 @@
 local function on_attach(_, _)
-  local mapkey = require('batphone.utils').mapkey
+  local mapkey = require("batphone.utils").mapkey
+  local snacks = require("snacks")
 
   local diagnostic_goto = function(next, severity)
     local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
@@ -9,7 +10,7 @@ local function on_attach(_, _)
     end
   end
 
-  Snacks.toggle.diagnostics():map("<leader>ud")
+  snacks.toggle.diagnostics():map("<leader>ud")
 
   mapkey("n", "<leader>dd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
   mapkey("n", "<leader>dn", diagnostic_goto(true), { desc = "Next Diagnostic" })
@@ -20,8 +21,8 @@ local function on_attach(_, _)
   mapkey("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
   mapkey("i", "<leader>cS", function() return vim.lsp.buf.signature_help() end, { desc = "Signature Help" })
   mapkey("n", "<leader>cC", vim.lsp.codelens.refresh, { desc = "Refresh & Display Codelens" })
-  mapkey("n", "<leader>cR", function() Snacks.rename.rename_file() end, { desc = "Rename File" })
-  mapkey("n", "<leader>cl", function() Snacks.picker.lsp_config() end, { desc = "Lsp Info" })
+  mapkey("n", "<leader>cR", function() snacks.rename.rename_file() end, { desc = "Rename File" })
+  mapkey("n", "<leader>cl", function() snacks.picker.lsp_config() end, { desc = "Lsp Info" })
   mapkey("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename" })
   mapkey("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename" })
   mapkey("n", "K", function() return vim.lsp.buf.hover() end, { desc = "Displays information about the symbol under the cursor in a floating window"})
