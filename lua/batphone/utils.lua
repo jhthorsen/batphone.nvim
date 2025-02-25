@@ -1,3 +1,4 @@
+local find_parent_files_cache = {}
 local M = {}
 
 M.dirname = vim.fs and vim.fs.dirname or function(p) return vim.fn.fnamemodify(p, ":h") end
@@ -8,6 +9,10 @@ function M.edit_file()
   print(vim.api.nvim_buf_get_name(0));
   api.nvim_feedkeys(":edit " .. dir:gsub("[[]", "\\[") .. "/", "n", false)
   api.nvim_input("<TAB>")
+end
+
+function M.format_code()
+  require("conform").format({ formatters = { "injected" }, timeout_ms = 3000 })
 end
 
 function M.mapkey(mode, key, action, opts)
@@ -36,6 +41,47 @@ function M.split_string(s, delimiter)
         i = i + 1
     end
     return t
+end
+
+function M.telescope_find_package_files()
+  require("telescope.builtin").find_files({
+    cwd = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy")
+  })
+end
+
+function M.telescope_find_parent_files(opts)
+  opts = opts or {}
+
+  local parent_dir = vim.fn.fnamemodify(vim.uv.cwd(), ":h")
+  local dynamic_finder = {
+    entry_maker = require("telescope.make_entry").gen_from_file({ cwd = parent_dir }),
+    fn = function()
+     local results = find_parent_files_cache[parent_dir]
+     if not results then
+       results = vim.fn.systemlist("rg --files " .. parent_dir)
+       find_parent_files_cache[parent_dir] = results
+     end
+
+     return results
+    end,
+  }
+
+  require("telescope.pickers").new(opts, {
+    prompt_title = "Parent files",
+    debounce = 200,
+    finder = require("telescope.finders").new_dynamic(dynamic_finder),
+    previewer = nil,
+    sorter = require("telescope.config").values.file_sorter(opts),
+  }):find()
+end
+
+function M.toggle_multicursors()
+  local mc = require("multicursor-nvim")
+  if not mc.cursorsEnabled() then
+    mc.enableCursors()
+  elseif mc.hasCursors() then
+    mc.clearCursors()
+  end
 end
 
 return M

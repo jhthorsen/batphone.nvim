@@ -1,48 +1,4 @@
-local find_package_files = function()
-  require("telescope.builtin").find_files({
-    cwd = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy")
-  })
-end
-
-local find_parent_files_cache = {}
-local find_parent_files = function(opts)
-  opts = opts or {}
-
-  local parent_dir = vim.fn.fnamemodify(vim.uv.cwd(), ":h")
-  local dynamic_finder = {
-    entry_maker = require("telescope.make_entry").gen_from_file({ cwd = parent_dir }),
-    fn = function()
-     local results = find_parent_files_cache[parent_dir]
-     if not results then
-       results = vim.fn.systemlist("rg --files " .. parent_dir)
-       find_parent_files_cache[parent_dir] = results
-     end
-
-     return results
-    end,
-  }
-
-  require("telescope.pickers").new(opts, {
-    prompt_title = "Parent files",
-    debounce = 200,
-    finder = require("telescope.finders").new_dynamic(dynamic_finder),
-    previewer = nil,
-    sorter = require("telescope.config").values.file_sorter(opts),
-  }):find()
-end
-
-local format_code = function()
-  require("conform").format({ formatters = { "injected" }, timeout_ms = 3000 })
-end
-
-local toggle_multicursors = function()
-  local mc = require("multicursor-nvim")
-  if not mc.cursorsEnabled() then
-    mc.enableCursors()
-  elseif mc.hasCursors() then
-    mc.clearCursors()
-  end
-end
+local utils = require("batphone.utils")
 
 return {
   blink = {
@@ -52,7 +8,7 @@ return {
     ["<S-Tab>"] = { "select_prev", "fallback" },
   },
   conform = {
-    { "<leader>cF", mode = { "n", "v" }, format_code, desc = "Format Injected Langs" },
+    { "<leader>cF", mode = { "n", "v" }, utils.format_code, desc = "Format Injected Langs" },
   },
   copilot = {
     { "<leader>ap", ":Copilot panel<CR>", desc = "Open a window with Copilot completions" },
@@ -73,7 +29,7 @@ return {
   multicursor = {
     { "<c-d>", mode = { "n", "x" }, function() require("multicursor-nvim").matchAddCursor(1) end, desc = "Add new cursor by matching word/selection" },
     { "<c-s-d>", mode = { "n", "x" }, function() require("multicursor-nvim").matchAddCursor(-1) end, desc = "Add new cursor by matching word/selection" },
-    { "<esc>", mode = { "n" }, toggle_multicursors, desc = "Clear cursors" },
+    { "<esc>", mode = { "n" }, utils.toggle_multicursors, desc = "Clear cursors" },
     { "<leader>mt", mode = { "n", "x" }, function() require("multicursor-nvim").toggleCursor() end, desc = "Add and remove cursors using the main cursor" },
     { "<leader>mr", function() require("multicursor-nvim").restoreCursors() end, desc = "Bring back cursors if you accidentally clear them" },
     { "<leader>mL", function() require("multicursor-nvim").alignCursors() end, desc = "Align cursor columns" },
@@ -87,8 +43,8 @@ return {
     { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find all files" },
     { "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Grep" },
     { "<leader>fG", "<cmd>Telescope git_files<cr>", desc = "Find git files" },
-    { "<leader>fP", find_package_files, desc = "Find package files" },
-    { "<leader>fp", find_parent_files, desc = "Find parent files" },
+    { "<leader>fP", utils.telescope_find_package_files, desc = "Find package files" },
+    { "<leader>fp", utils.telescope_find_parent_files, desc = "Find parent files" },
     { "<leader>gc", "<cmd>Telescope git_commits<CR>", desc = "Commits" },
     { "<leader>gs", "<cmd>Telescope git_status<CR>", desc = "Status" },
     { "<leader>s\"", "<cmd>Telescope registers<cr>", desc = "Registers" },
