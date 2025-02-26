@@ -33,6 +33,7 @@ opt.swapfile = false
 opt.undodir = os.getenv("HOME") .. "/.cache/nvim/undo"
 opt.undofile = true
 
+opt.signcolumn = "yes"
 opt.virtualedit = "block"
 opt.isfname:append("@-@")
 opt.errorbells = false
@@ -40,7 +41,6 @@ opt.foldenable = false
 opt.lazyredraw = true
 opt.showcmd = false
 opt.showmode = false
-opt.signcolumn = "yes"
 opt.splitbelow = true
 opt.splitright = true
 opt.termguicolors = true

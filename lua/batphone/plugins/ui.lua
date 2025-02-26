@@ -4,7 +4,6 @@ end
 
 return {
   { "nvim-lua/plenary.nvim", version = "*" },
-  { "nvim-tree/nvim-web-devicons", lazy = true, version = "*" },
   { "echasnovski/mini.icons", event = "VeryLazy", version = "*" },
   {
     "folke/snacks.nvim",
@@ -46,15 +45,10 @@ return {
   {
     "nvim-lualine/lualine.nvim",
     version = "*",
+    dependencies = {
+      { "nvim-tree/nvim-web-devicons", version = "*" },
+    },
     opts = {
-      sections = {
-        lualine_a = { { "buffers", max_length = buffers_max_length, mode = 0, symbols = { alternate_file = "" } } },
-        lualine_b = {},
-        lualine_c = {},
-        lualine_x = {},
-        lualine_y = { "selectioncount" },
-        lualine_z = { "progress", "location" },
-      },
       options = {
         always_divide_middle = true,
         globalstatus = true,
@@ -62,8 +56,16 @@ return {
         component_separators = { left = "", right = ""},
         section_separators = { left = "", right = ""},
       },
-      statusline = {},
-      tabline = {},
+      sections = {
+        lualine_b = { },
+        lualine_a = { { "buffers", show_filename_only = true, symbols = { alternate_file = "" } } },
+        lualine_c = { },
+        lualine_x = { { "mode", fmt = function(str) return str:sub(1, 3) end } },
+        lualine_y = { "selectioncount" },
+        lualine_z = { "progress", "location" },
+      },
+      tabline = { },
+      winbar = { },
     },
   },
   {
@@ -79,13 +81,15 @@ return {
       keywordStyle = { bold = false, italic = false },
       statementStyle = { bold = false, italic = false },
       transparent = false,
-      colors = {
-        theme = {
-          wave = {
-            ui = { float = { bg = "none" } },
-          },
-        },
-      },
+      overrides = function(colors)
+        local theme = colors.theme
+        return {
+          CursorLine = { bg = theme.ui.bg_p1 },
+          CursorLineNr = { bg = theme.ui.bg_gutter, fg = theme.diag.warning, bold = false },
+          LineNr = { bg = theme.ui.bg_gutter, fg = theme.ui.special, bold = false },
+          Float = { bg = "none" },
+        }
+      end,
     },
   },
 }
