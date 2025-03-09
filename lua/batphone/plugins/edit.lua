@@ -10,12 +10,6 @@ return {
     end,
   },
   {
-    "folke/flash.nvim",
-    version = "*",
-    lazy = true,
-    keys = require("batphone.keymaps.plugins").flash,
-  },
-  {
     "jake-stewart/multicursor.nvim",
     version = "*",
     lazy = true,
