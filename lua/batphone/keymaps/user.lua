@@ -1,22 +1,22 @@
 local mapkey = require("batphone.utils").mapkey
 local utils = require("batphone.utils")
 
-mapkey("c", "<c-h>", "<left>", { desc = "Cmdline mode movement", silent = false })
-mapkey("c", "<c-l>", "<right>", { desc = "Cmdline mode movement", silent = false })
-mapkey("c", "<c-a>", "<home>", { desc = "Cmdline mode movement", silent = false })
-mapkey("c", "<c-e>", "<end>", { desc = "Cmdline mode movement", silent = false })
+mapkey("c", "<c-h>", "<left>", { desc = "Cmdline Movement", silent = false })
+mapkey("c", "<c-l>", "<right>", { desc = "Cmdline Movement", silent = false })
+mapkey("c", "<c-a>", "<home>", { desc = "Cmdline Movement", silent = false })
+mapkey("c", "<c-e>", "<end>", { desc = "Cmdline Movement", silent = false })
 
 mapkey("n", "<S-Tab>", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
 mapkey("n", "<Tab>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
 mapkey("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 mapkey("n", "<leader>bd", function() Snacks.bufdelete() end, { desc = "Delete Buffer" })
 mapkey("n", "<leader>bo", function() Snacks.bufdelete.other() end, { desc = "Delete Other Buffers" })
-mapkey("n", "<leader><esc>", utils.save_and_quit, { desc = "Save and Quit" })
+mapkey("n", "<leader>sq", utils.save_and_quit, { desc = "Save and Quit" })
 mapkey("n", "<leader>fn", ":echo expand('%')<CR>", { desc = "Show filename" })
 mapkey({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
 
-mapkey("n", "<leader>e", function() Snacks.explorer() end, { desc = "Open file explorer" })
-mapkey("n", ",e", utils.edit_file, { desc = "Find and edit file" })
+mapkey("n", "<leader>e", function() Snacks.explorer() end, { desc = "Open File Explorer" })
+mapkey("n", ",e", utils.edit_file, { desc = "Find and Edit" })
 
 mapkey("n", "G", "Gzz", { desc = "Move to end and stay in center" })
 mapkey("n", "<c-j>", "10j", { desc = "Jump ten lines down" })

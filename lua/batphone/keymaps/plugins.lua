@@ -48,8 +48,8 @@ return {
     { "<leader>fG", "<cmd>Telescope git_files<cr>", desc = "Find git files" },
     { "<leader>fP", utils.telescope_find_package_files, desc = "Find package files" },
     { "<leader>fp", utils.telescope_find_parent_files, desc = "Find parent files" },
-    { "<leader>qf", "<cmd>Telescope quickfix<cr>", desc = "Quickfix" },
-    { "<leader>qh", "<cmd>Telescope quickfixhistory<cr>", desc = "Quickfix history" },
+    { "<leader>qf", "<cmd>Telescope quickfix<cr>", desc = "Quickfix List" },
+    { "<leader>qh", "<cmd>Telescope quickfixhistory<cr>", desc = "Quickfix History" },
     { "<leader>gs", "<cmd>Telescope git_status<CR>", desc = "Status" },
     { "<leader>s\"", "<cmd>Telescope registers<cr>", desc = "Registers" },
     { "<leader>sa", "<cmd>Telescope autocommands<cr>", desc = "Auto Commands" },
@@ -66,6 +66,5 @@ return {
     { "<leader>sm", "<cmd>Telescope marks<cr>", desc = "Jump to Mark" },
     { "<leader>so", "<cmd>Telescope vim_options<cr>", desc = "Options" },
     { "<leader>sR", "<cmd>Telescope resume<cr>", desc = "Resume" },
-    { "<leader>sq", "<cmd>Telescope quickfix<cr>", desc = "Quickfix List" },
   },
 }
