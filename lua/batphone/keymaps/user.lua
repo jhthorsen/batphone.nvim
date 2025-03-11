@@ -72,7 +72,5 @@ toggle.option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.c
 toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")
 toggle.option("spell", { name = "Spelling" }):map("<leader>us")
 toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
-toggle.profiler():map("<leader>dpp")
-toggle.profiler_highlights():map("<leader>dph")
 toggle.treesitter():map("<leader>uT")
 toggle.zen():map("<leader>uz")
