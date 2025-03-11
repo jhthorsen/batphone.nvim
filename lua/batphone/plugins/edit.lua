@@ -12,7 +12,7 @@ return {
   {
     "jake-stewart/multicursor.nvim",
     version = "*",
-    lazy = true,
+    event = "VeryLazy",
     keys = require("batphone.keymaps.plugins").multicursor,
     opts = {},
   },
