@@ -48,6 +48,8 @@ return {
     { "<leader>fG", "<cmd>Telescope git_files<cr>", desc = "Find git files" },
     { "<leader>fP", utils.telescope_find_package_files, desc = "Find package files" },
     { "<leader>fp", utils.telescope_find_parent_files, desc = "Find parent files" },
+    { "<leader>qf", "<cmd>Telescope quickfix<cr>", desc = "Quickfix" },
+    { "<leader>qh", "<cmd>Telescope quickfixhistory<cr>", desc = "Quickfix history" },
     { "<leader>gs", "<cmd>Telescope git_status<CR>", desc = "Status" },
     { "<leader>s\"", "<cmd>Telescope registers<cr>", desc = "Registers" },
     { "<leader>sa", "<cmd>Telescope autocommands<cr>", desc = "Auto Commands" },
