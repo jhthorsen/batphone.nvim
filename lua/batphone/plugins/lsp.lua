@@ -147,14 +147,14 @@ return {
       completion = {
         documentation = {
           auto_show = true,
-          auto_show_delay_ms = 1000,
+          auto_show_delay_ms = 750,
         },
         ghost_text = {
-          enabled = false,
+          enabled = true,
         },
         list = {
           selection = {
-            preselect = true,
+            preselect = false,
             auto_insert = true,
           }
         },
@@ -168,10 +168,10 @@ return {
         default = {
           "lazydev",
           "lsp",
-          "path",
           "snippets",
           "copilot",
           "buffer",
+          "path",
         },
         providers = {
           copilot = {
