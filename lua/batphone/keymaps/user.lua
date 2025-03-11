@@ -1,6 +1,11 @@
 local mapkey = require("batphone.utils").mapkey
 local utils = require("batphone.utils")
 
+mapkey("c", "<c-h>", "<left>", { desc = "Cmdline mode movement", silent = false })
+mapkey("c", "<c-l>", "<right>", { desc = "Cmdline mode movement", silent = false })
+mapkey("c", "<c-a>", "<home>", { desc = "Cmdline mode movement", silent = false })
+mapkey("c", "<c-e>", "<end>", { desc = "Cmdline mode movement", silent = false })
+
 mapkey("n", "<S-Tab>", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
 mapkey("n", "<Tab>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
 mapkey("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
