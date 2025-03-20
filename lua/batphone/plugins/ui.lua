@@ -57,8 +57,14 @@ return {
         section_separators = { left = "", right = ""},
       },
       sections = {
+        lualine_a = { {
+          "buffers",
+          max_length = buffers_max_length,
+          show_filename_only = true,
+          hide_filename_extension = true,
+          symbols = { alternate_file = "" },
+        } },
         lualine_b = { },
-        lualine_a = { { "buffers", show_filename_only = true, symbols = { alternate_file = "" } } },
         lualine_c = { },
         lualine_x = { { "mode", fmt = function(str) return str:sub(1, 3) end } },
         lualine_y = { "selectioncount" },
