@@ -6,6 +6,8 @@ mapkey("c", "<c-l>", "<right>", { desc = "Cmdline Movement", silent = false })
 mapkey("c", "<c-a>", "<home>", { desc = "Cmdline Movement", silent = false })
 mapkey("c", "<c-e>", "<end>", { desc = "Cmdline Movement", silent = false })
 
+mapkey({ "n", "v" }, "0d", '"_d', { desc = "Delete" })
+
 mapkey("n", "<S-Tab>", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
 mapkey("n", "<Tab>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
 mapkey("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
