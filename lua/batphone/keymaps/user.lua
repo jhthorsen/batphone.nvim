@@ -6,8 +6,6 @@ mapkey("c", "<c-l>", "<right>", { desc = "Cmdline Movement", silent = false })
 mapkey("c", "<c-a>", "<home>", { desc = "Cmdline Movement", silent = false })
 mapkey("c", "<c-e>", "<end>", { desc = "Cmdline Movement", silent = false })
 
-mapkey({ "n", "v" }, "0d", '"_d', { desc = "Delete" })
-
 mapkey("n", "<S-Tab>", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
 mapkey("n", "<Tab>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
 mapkey("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
@@ -37,6 +35,7 @@ mapkey("v", "<A-k>", ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv"
 mapkey("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "Open man page for word" })
 mapkey("i", "<c-s>", "<cmd>Telescope spell_suggest<cr>", { desc = "Spell suggestions" });
 
+mapkey({ "n", "v" }, "0d", '"_d', { desc = "Delete" })
 mapkey("x", "<leader>p", [["_dP]], { desc = "Paste into selection" })
 
 mapkey("n", "<leader>ur", "<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>",
