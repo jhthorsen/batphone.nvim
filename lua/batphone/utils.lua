@@ -45,6 +45,7 @@ end
 
 function M.telescope_find_package_files()
   require("telescope.builtin").find_files({
+    prompt_title = "Find package files",
     cwd = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy")
   })
 end
@@ -67,7 +68,7 @@ function M.telescope_find_parent_files(opts)
   }
 
   require("telescope.pickers").new(opts, {
-    prompt_title = "Parent files",
+    prompt_title = "Find files in parent directories",
     debounce = 200,
     finder = require("telescope.finders").new_dynamic(dynamic_finder),
     previewer = nil,

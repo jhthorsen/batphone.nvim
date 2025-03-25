@@ -10,6 +10,15 @@ return {
         preview = false,
         prompt_prefix = " ",
         selection_caret = " ",
+        layout_strategy = "bottom_pane",
+        sorting_strategy = "ascending",
+        border = true,
+        borderchars = {
+          prompt = { "─", " ", " ", " ", "─", "─", " ", " " },
+          results = { " " },
+          preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+        },
+
         -- open files in the first window that is an actual file.
         -- use the current window if no other window is available.
         get_selection_window = function()
@@ -25,14 +34,8 @@ return {
         end,
       },
       pickers = {
-        buffers = { theme = "ivy" },
-        diagnostics = { theme = "ivy" },
-        git_files = { theme = "ivy" },
-        find_files = { theme = "ivy" },
-        live_grep = { theme = "ivy" },
-        keymaps = { theme = "ivy" },
-        oldfiles = { theme = "ivy" },
-        spell_suggest = { theme = "ivy" },
+        registers = { theme = "cursor" },
+        spell_suggest = { theme = "cursor" },
       },
     },
   },
