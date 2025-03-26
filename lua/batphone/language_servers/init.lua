@@ -60,7 +60,14 @@ lsp_servers.jinja_lsp = {}
 lsp_servers.jqls = {}
 lsp_servers.jsonls = {}
 lsp_servers.nginx_language_server = {}
-lsp_servers.perlnavigator = {}
+lsp_servers.perlnavigator = {
+  settings = {
+    perlnavigator = {
+      enableWarnings = true,
+      perlcriticEnabled = false,
+    },
+  },
+}
 lsp_servers.pylyzer = {}
 lsp_servers.rust_analyzer = {}
 lsp_servers.sqlls = {}
