@@ -19,15 +19,13 @@ opt.scrolloff = 8
 opt.showtabline = 0
 opt.textwidth = 80
 
+opt.backup = false
 opt.hlsearch = false
 opt.ignorecase = false
 opt.incsearch = true
 opt.number = true
 opt.relativenumber = true
 opt.ruler = false
-
-opt.backup = false
-opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus"
 
 opt.timeoutlen = 250
 opt.swapfile = false
