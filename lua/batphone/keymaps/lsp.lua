@@ -10,6 +10,7 @@ local function on_attach(_, _)
     end
   end
 
+  require("batphone.utils").set_diagnostics({})
   snacks.toggle.diagnostics():map("<leader>ud")
 
   mapkey("n", "<leader>dd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })

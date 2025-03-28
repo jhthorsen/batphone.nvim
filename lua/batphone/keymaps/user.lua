@@ -45,12 +45,24 @@ mapkey("n", "<c-_>", function() Snacks.terminal() end, { desc = "Terminal (cwd)"
 mapkey("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 mapkey("t", "<c-_>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 
-mapkey("n", "<leader>ui", vim.show_pos, { desc = "Inspect Pos" })
-mapkey("n", "<leader>uI", "<cmd>InspectTree<cr>", { desc = "Inspect Tree" })
+mapkey("n", "<leader>ti", vim.show_pos, { desc = "Inspect Pos" })
+mapkey("n", "<leader>tI", "<cmd>InspectTree<cr>", { desc = "Inspect Tree" })
 
 mapkey("n", "<leader>wL", "<cmd>Lazy<cr>", { desc = "Lazy" })
 
 local toggle = require("snacks.toggle")
+
+toggle.new({
+  id = "virtual_text",
+  name = "Virtual text",
+  get = function()
+    return utils.set_diagnostics(nil).virtual_text
+  end,
+  set = function(virtual_text)
+    print(virtual_text)
+    utils.set_diagnostics({virtual_text = virtual_text})
+  end
+}):map("<leader>uv")
 
 toggle.new({
   id = "signcolumn",
@@ -65,7 +77,6 @@ toggle.new({
   end
 }):map("<leader>uS")
 
-toggle.animate():map("<leader>ua")
 toggle.dim():map("<leader>uD")
 toggle.indent():map("<leader>ug")
 toggle.line_number():map("<leader>ul")

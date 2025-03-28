@@ -1,4 +1,12 @@
 local find_parent_files_cache = {}
+local diagnostics_opts = {
+  severity_sort = false,
+  signs = true,
+  underline = true,
+  update_in_insert = true,
+  virtual_text = false,
+}
+
 local M = {}
 
 M.dirname = vim.fs and vim.fs.dirname or function(p) return vim.fn.fnamemodify(p, ":h") end
@@ -30,6 +38,16 @@ function M.save_and_quit()
   if n_buffers <= 1 then
     api.nvim_command("quit")
   end
+end
+
+function M.set_diagnostics(opts)
+  if opts == nil then
+    return diagnostics_opts
+  end
+
+  diagnostics_opts = vim.tbl_extend("force", diagnostics_opts, opts)
+  vim.diagnostic.config(diagnostics_opts)
+  return diagnostics_opts
 end
 
 function M.split_string(s, delimiter)
