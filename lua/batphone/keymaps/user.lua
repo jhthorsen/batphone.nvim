@@ -53,16 +53,26 @@ mapkey("n", "<leader>wL", "<cmd>Lazy<cr>", { desc = "Lazy" })
 local toggle = require("snacks.toggle")
 
 toggle.new({
-  id = "virtual_text",
-  name = "Virtual text",
+  id = "diagnostics_virtual_text",
+  name = "Diagnostics virtual text",
   get = function()
     return utils.set_diagnostics(nil).virtual_text
   end,
   set = function(virtual_text)
-    print(virtual_text)
     utils.set_diagnostics({virtual_text = virtual_text})
   end
 }):map("<leader>uv")
+
+toggle.new({
+  id = "diagnostics_underline",
+  name = "Diagnostics underline",
+  get = function()
+    return utils.set_diagnostics(nil).underline
+  end,
+  set = function(underline)
+    utils.set_diagnostics({underline = underline})
+  end
+}):map("<leader>uu")
 
 toggle.new({
   id = "signcolumn",

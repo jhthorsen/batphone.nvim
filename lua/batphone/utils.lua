@@ -2,7 +2,7 @@ local find_parent_files_cache = {}
 local diagnostics_opts = {
   severity_sort = false,
   signs = true,
-  underline = true,
+  underline = false,
   update_in_insert = true,
   virtual_text = false,
 }
