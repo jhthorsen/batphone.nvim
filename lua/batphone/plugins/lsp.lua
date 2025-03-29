@@ -241,14 +241,39 @@ return {
     version = "*",
     cmd = "Copilot",
     build = ":Copilot auth",
-    lazy = true,
+    event = "InsertEnter",
     keys = plugins_keymaps.copilot,
     opts = {
-      copilot_node_command = "node", -- Node.js version must be > 18.x
-      panel = { enabled = false },
       server_opts_overrides = {},
-      suggestion = { enabled = false },
-      filetypes = { ["*"] = false },
+      suggestion = { debounce = 350 },
+      should_attach = function(_, bufname)
+        local logger = require("copilot.logger")
+        if not vim.bo.buflisted then
+          logger.debug("not attaching, buffer is not 'buflisted'")
+          return false
+        end
+        if vim.bo.buftype ~= "" then
+          logger.debug("not attaching, buffer 'buftype' is " .. vim.bo.buftype)
+          return false
+        end
+        if vim.env.ENABLE_COPILOT == "force" then
+          return true
+        end
+        if string.match(bufname, "_alien") then
+          logger.debug("not attaching, buffer is /_alien/")
+          return false
+        end
+        if string.match(bufname, "env") then
+          logger.debug("not attaching, buffer is /env/")
+          return false
+        end
+        if vim.env.ENABLE_COPILOT ~= "yes" then
+          logger.debug("not attaching, vim.env.ENABLE_COPILOT != yes")
+          return false
+        end
+
+        return true
+      end
     },
   },
 }
