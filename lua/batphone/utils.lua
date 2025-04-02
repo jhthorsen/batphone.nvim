@@ -16,11 +16,20 @@ function M.edit_file()
   local dir = require("batphone.utils").dirname(vim.fn.bufname())
   print(vim.api.nvim_buf_get_name(0));
   api.nvim_feedkeys(":edit " .. dir:gsub("[[]", "\\[") .. "/", "n", false)
-  api.nvim_input("<TAB>")
+  api.nvim_input("<tab>")
 end
 
 function M.format_code()
   require("conform").format({ formatters = { "injected" }, timeout_ms = 3000 })
+end
+
+function M.has_words_before()
+  local col = vim.api.nvim_win_get_cursor(0)[2]
+  if col == 0 then
+    return false
+  end
+  local line = vim.api.nvim_get_current_line()
+  return line:sub(col, col):match("%w") ~= nil
 end
 
 function M.mapkey(mode, key, action, opts)

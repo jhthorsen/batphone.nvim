@@ -3,9 +3,20 @@ local utils = require("batphone.utils")
 return {
   blink = {
     preset = "default",
-    ["<CR>"] = { "select_and_accept", "fallback" },
-    ["<Tab>"] = { "select_next", "fallback" },
-    ["<S-Tab>"] = { "select_prev", "fallback" },
+    ["<cr>"] = {
+      function(cmp)
+        if utils.has_words_before() then return cmp.select_and_accept() end
+      end,
+      "fallback",
+    },
+    ["<tab>"] = {
+      function(cmp) return cmp.select_next() end,
+      "fallback",
+    },
+    ["<s-tab>"] = {
+      function(cmp) return cmp.select_prev() end,
+      "fallback",
+    }
   },
   conform = {
     { "<leader>cF", mode = { "n", "v" }, utils.format_code, desc = "Format Injected Langs" },
