@@ -241,8 +241,13 @@ return {
     version = "*",
     cmd = "Copilot",
     build = ":Copilot auth",
-    event = "InsertEnter",
+    event = "VeryLazy",
     keys = plugins_keymaps.copilot,
+    config = function(_, opts)
+      if vim.env.ENABLE_COPILOT == "force" or vim.env.ENABLE_COPILOT == "yes" then
+        require("copilot").setup(opts)
+      end
+    end,
     opts = {
       server_opts_overrides = {},
       suggestion = { debounce = 350 },
@@ -265,10 +270,6 @@ return {
         end
         if string.match(bufname, "env") then
           logger.debug("not attaching, buffer is /env/")
-          return false
-        end
-        if vim.env.ENABLE_COPILOT ~= "yes" then
-          logger.debug("not attaching, vim.env.ENABLE_COPILOT != yes")
           return false
         end
 
