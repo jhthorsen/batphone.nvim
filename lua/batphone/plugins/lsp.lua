@@ -201,7 +201,7 @@ return {
   },
   {
     "williamboman/mason.nvim",
-    version = "*",
+    version = "^1.0.0",
     event = { "BufReadPost", "BufNewFile" },
     cmd = "Mason",
     build = ":MasonUpdate",
@@ -235,6 +235,10 @@ return {
         end
       end)
     end,
+  },
+  {
+    "williamboman/mason-lspconfig.nvim",
+    version = "^1.0.0",
   },
   {
     "zbirenbaum/copilot.lua",
