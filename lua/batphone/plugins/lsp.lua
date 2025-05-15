@@ -178,7 +178,7 @@ return {
             opts = {
               get_bufnrs = function()
                 return vim.tbl_filter(
-                  function(bufnr) return vim.bo[bufnr].buftype == '' end,
+                  function(bufnr) return vim.bo[bufnr].buftype == "" end,
                   vim.api.nvim_list_bufs()
                 )
               end,
@@ -279,6 +279,31 @@ return {
 
         return true
       end
+    },
+  },
+  {
+    "copilotc-nvim/copilotchat.nvim",
+    dependencies = {
+      { "zbirenbaum/copilot.lua" },
+      { "nvim-lua/plenary.nvim" },
+    },
+    build = "make tiktoken",
+    lazy = true,
+    keys = plugins_keymaps.copilotchat,
+    opts = {
+      auto_follow_cursor = false,
+      auto_insert_mode = true,
+      answer_header = "# Copilot ",
+      question_header = "# Me ",
+      mappings = {
+        close = { },
+      },
+      window = {
+        layout = "horizontal",
+        border = "single",
+        height = 0.8,
+        width = 1,
+      },
     },
   },
 }

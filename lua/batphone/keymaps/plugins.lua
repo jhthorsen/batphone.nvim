@@ -22,10 +22,14 @@ return {
     { "<leader>cF", mode = { "n", "v" }, utils.format_code, desc = "Format Injected Langs" },
   },
   copilot = {
-    { "<leader>ap", ":Copilot panel<CR>", desc = "Open a window with Copilot completions" },
-    { "<leader>ad", ":Copilot disable<CR>", desc = "Disable Copilot", silent = false },
-    { "<leader>as", ":Copilot status<CR>", desc = "Check Copilot status", silent = false },
-    { "<leader>ae", ":Copilot! attach<CR>:Copilot enable<CR>", desc = "Enable Copilot", silent = false },
+    { "<leader>cs", ":Copilot panel<CR>", desc = "Open Copilot completions" },
+    { "<leader>cxd", ":Copilot disable<CR>", desc = "Disable Copilot", silent = false },
+    { "<leader>cxs", ":Copilot status<CR>", desc = "Copilot status", silent = false },
+    { "<leader>cxe", ":Copilot! attach<CR>:Copilot enable<CR>", desc = "Enable Copilot", silent = false },
+  },
+  copilotchat = {
+    { "<leader>cc", utils.copilotchat_toggle, desc = "Open Copilot Chat" },
+    { "<leader>cxx", function() require("CopilotChat").stop() end, desc = "Stop Copilot Chat" },
   },
   flash = {
     { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },

@@ -33,8 +33,6 @@ local function on_attach(_, _)
   mapkey("n", "gd", vim.lsp.buf.definition, { desc = "Goto Definition" })
   mapkey("n", "gr", vim.lsp.buf.references, { desc = "References", nowait = true })
   mapkey("n", "gy", vim.lsp.buf.type_definition, { desc = "Jumps to the definition of the type of the symbol under the cursor"})
-  mapkey({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
-  mapkey({ "n", "v" }, "<leader>cc", vim.lsp.codelens.run, { desc = "Run Codelens" })
 end
 
 return {
