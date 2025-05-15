@@ -12,14 +12,17 @@ local M = {}
 
 M.dirname = vim.fs and vim.fs.dirname or function(p) return vim.fn.fnamemodify(p, ":h") end
 
-function M.copilotchat_toggle()
+function M.copilotchat_toggle(layout)
   local cc = require("CopilotChat")
 
   if copilotchat_first_time then cc.load("all") end
   copilotchat_first_time = false
 
-  if cc.chat:visible() then cc.save("all") end
-  cc.toggle({})
+  if layout == "replace" then
+    cc.toggle({window = {layout = layout}})
+  else
+    cc.toggle({window = {layout = layout, width = 1, height = 0.8}})
+  end
 end
 
 function M.edit_file()

@@ -28,8 +28,9 @@ return {
     { "<leader>cxe", ":Copilot! attach<CR>:Copilot enable<CR>", desc = "Enable Copilot", silent = false },
   },
   copilotchat = {
-    { "<leader>cc", utils.copilotchat_toggle, desc = "Open Copilot Chat" },
-    { "<leader>cxx", function() require("CopilotChat").stop() end, desc = "Stop Copilot Chat" },
+    { "<leader>cc", function() utils.copilotchat_toggle("horizontal") end, desc = "Open Copilot Chat" },
+    { "<leader>cz", function() utils.copilotchat_toggle("replace") end, desc = "Open Copilot Chat in fullscreen" },
+    { "<leader>cp", function() require("CopilotChat").stop() end, desc = "Stop Copilot Chat" },
   },
   flash = {
     { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },

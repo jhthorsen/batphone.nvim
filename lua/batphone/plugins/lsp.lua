@@ -295,6 +295,7 @@ return {
       auto_insert_mode = true,
       answer_header = "# Copilot ",
       question_header = "# Me ",
+      callback = function() require("CopilotChat").save("all") end,
       mappings = {
         close = { },
       },
