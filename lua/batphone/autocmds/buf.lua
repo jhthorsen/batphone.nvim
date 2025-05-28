@@ -1,16 +1,13 @@
-local function augroup(name)
-  return vim.api.nvim_create_augroup("batphone_" .. name, { clear = true })
-end
-
--- go to last loc when opening a buffer
+-- Go to last loc when opening a buffer
 vim.api.nvim_create_autocmd("BufReadPost", {
-  group = augroup("last_loc"),
+  group = vim.api.nvim_create_augroup("batphone_last_loc", { clear = true }),
   callback = function(event)
     local exclude = { "gitcommit" }
     local buf = event.buf
     if vim.tbl_contains(exclude, vim.bo[buf].filetype) or vim.b[buf].lazyvim_last_loc then
       return
     end
+
     vim.b[buf].lazyvim_last_loc = true
     local mark = vim.api.nvim_buf_get_mark(buf, "\"")
     local lcount = vim.api.nvim_buf_line_count(buf)
@@ -20,9 +17,9 @@ vim.api.nvim_create_autocmd("BufReadPost", {
   end,
 })
 
--- close some filetypes with <q>
+-- Close some filetypes with <q>
 vim.api.nvim_create_autocmd("FileType", {
-  group = augroup("close_with_q"),
+  group = vim.api.nvim_create_augroup("batphone_close_with_q", { clear = true }),
   pattern = {
     "PlenaryTestPopup",
     "checkhealth",
@@ -55,9 +52,9 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- wrap and check for spell in text filetypes
+-- Wrap and check for spell in text filetypes
 vim.api.nvim_create_autocmd("FileType", {
-  group = augroup("wrap_spell"),
+  group = vim.api.nvim_create_augroup("batphone_wrap_spell", { clear = true }),
   pattern = { "text", "plaintex", "typst", "gitcommit", "markdown" },
   callback = function()
     vim.opt_local.wrap = true
@@ -65,13 +62,14 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- auto create dir when saving a file, in case some intermediate directory does not exist
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-  group = augroup("auto_create_dir"),
+-- Auto create dir when saving a file, in case some intermediate directory does not exist
+vim.api.nvim_create_autocmd("BufWritePre", {
+  group = vim.api.nvim_create_augroup("batphone_auto_create_dir", { clear = true }),
   callback = function(event)
     if event.match:match("^%w%w+:[\\/][\\/]") then
       return
     end
+
     local file = vim.uv.fs_realpath(event.match) or event.match
     vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
   end,

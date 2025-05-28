@@ -1,17 +1,28 @@
-local function on_attach(_, _)
+local diagnostic_goto = function(next, severity)
+  local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
+  severity = severity and vim.diagnostic.severity[severity] or nil
+  return function()
+    go({ severity = severity })
+  end
+end
+
+return function()
   local mapkey = require("batphone.utils").mapkey
+  local set_diagnostics = require("batphone.utils").set_diagnostics
   local snacks = require("snacks")
 
-  local diagnostic_goto = function(next, severity)
-    local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
-    severity = severity and vim.diagnostic.severity[severity] or nil
-    return function()
-      go({ severity = severity })
-    end
-  end
-
-  require("batphone.utils").set_diagnostics({})
   snacks.toggle.diagnostics():map("<leader>ud")
+  snacks.toggle.inlay_hints():map("<leader>uh")
+  snacks.toggle.new({
+    id = "diagnostics_virtual_lines",
+    name = "Diagnostics virtual lines",
+    get = function()
+      return set_diagnostics(nil).virtual_lines
+    end,
+    set = function(virtual_lines)
+      set_diagnostics({virtual_lines = virtual_lines})
+    end
+  }):map("<leader>uv")
 
   mapkey("n", "<leader>dd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
   mapkey("n", "<leader>dn", diagnostic_goto(true), { desc = "Next Diagnostic" })
@@ -34,7 +45,3 @@ local function on_attach(_, _)
   mapkey("n", "gr", vim.lsp.buf.references, { desc = "References", nowait = true })
   mapkey("n", "gy", vim.lsp.buf.type_definition, { desc = "Jumps to the definition of the type of the symbol under the cursor"})
 end
-
-return {
-  on_attach = on_attach,
-}

@@ -1,5 +1,5 @@
-local mapkey = require("batphone.utils").mapkey
 local utils = require("batphone.utils")
+local mapkey = utils.mapkey
 
 mapkey("c", "<c-h>", "<left>", { desc = "Cmdline Movement", silent = false })
 mapkey("c", "<c-l>", "<right>", { desc = "Cmdline Movement", silent = false })
@@ -53,28 +53,6 @@ mapkey("n", "<leader>wL", "<cmd>Lazy<cr>", { desc = "Lazy" })
 local toggle = require("snacks.toggle")
 
 toggle.new({
-  id = "diagnostics_virtual_text",
-  name = "Diagnostics virtual text",
-  get = function()
-    return utils.set_diagnostics(nil).virtual_text
-  end,
-  set = function(virtual_text)
-    utils.set_diagnostics({virtual_text = virtual_text})
-  end
-}):map("<leader>uv")
-
-toggle.new({
-  id = "diagnostics_underline",
-  name = "Diagnostics underline",
-  get = function()
-    return utils.set_diagnostics(nil).underline
-  end,
-  set = function(underline)
-    utils.set_diagnostics({underline = underline})
-  end
-}):map("<leader>uu")
-
-toggle.new({
   id = "signcolumn",
   name = "Sign column",
   get = function()
@@ -87,10 +65,8 @@ toggle.new({
   end
 }):map("<leader>uS")
 
-toggle.dim():map("<leader>uD")
 toggle.indent():map("<leader>ug")
 toggle.line_number():map("<leader>ul")
-toggle.option("background", { off = "light", on = "dark" , name = "Dark Background" }):map("<leader>ub")
 toggle.option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2, name = "Conceal Level" }):map("<leader>uc")
 toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")
 toggle.option("spell", { name = "Spelling" }):map("<leader>us")
