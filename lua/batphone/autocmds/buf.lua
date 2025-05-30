@@ -1,5 +1,5 @@
 -- Go to last loc when opening a buffer
-vim.api.nvim_create_autocmd("BufReadPost", {
+vim.api.nvim_create_autocmd("BufEnter", {
   group = vim.api.nvim_create_augroup("batphone_last_loc", { clear = true }),
   callback = function(event)
     local exclude = { "gitcommit" }
@@ -60,13 +60,6 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.wrap = true
     vim.opt_local.spell = true
   end,
-})
-
-vim.api.nvim_create_autocmd("BufWinEnter", {
-  group = vim.api.nvim_create_augroup("batphone_show_filename", { clear = true }),
-  callback = function()
-    vim.cmd("echo expand('%')")
-  end
 })
 
 -- Auto create dir when saving a file, in case some intermediate directory does not exist

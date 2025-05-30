@@ -33,6 +33,11 @@ function M.edit_file()
   api.nvim_input("<tab>")
 end
 
+function M.focus_buffer(next_or_previous)
+  vim.cmd("b" .. next_or_previous)
+  vim.cmd("echo expand('%')")
+end
+
 function M.format_code()
   require("conform").format({ formatters = { "injected" }, timeout_ms = 3000 })
 end
