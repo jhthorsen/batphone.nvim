@@ -64,7 +64,6 @@ return {
           "buffers",
           max_length = buffers_max_length,
           show_filename_only = true,
-          hide_filename_extension = true,
           symbols = { alternate_file = "" },
         } },
         lualine_b = { },
