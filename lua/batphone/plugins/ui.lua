@@ -6,40 +6,12 @@ return {
   { "nvim-lua/plenary.nvim", version = "*" },
   { "echasnovski/mini.icons", event = "VeryLazy", version = "*" },
   {
-    "folke/snacks.nvim",
-    version = "*",
-    lazy = false,
-    priority = 1000,
-    opts = {
-      zen = {
-        toggles = {
-          diagnostics = false,
-          dim = false,
-          git_signs = false,
-          inlay_hints = false,
-          mini_diff_signs = false,
-        },
-      },
-      styles = {
-        zen = {
-          height = 0.95,
-          width = 120,
-          minimal = true,
-          backdrop = {
-            transparent = true,
-            blend = 10,
-          },
-        },
-      },
-      terminal = {
-        shell = { vim.env.NVIM_TERMINAL_SHELL or vim.env.SHELL or "bash" }
-      },
-    },
-  },
-  {
     "folke/which-key.nvim",
     event = "VeryLazy",
-    opts = {},
+    opts = {
+      preset = "helix",
+      expand = 3,
+    },
     config = function(_, opts)
       require("which-key.plugins.presets").operators["v"] = nil
       require("which-key").setup(opts)

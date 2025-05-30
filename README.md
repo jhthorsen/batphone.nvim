@@ -64,7 +64,7 @@ The other files in the keymaps directory should map to a given
 
 ### LSP / Treesitter
 
-[lua/batphone/language\_servers](/jhthorsen/batphone.nvim/tree/main/lua/batphone/language_servers.lua)
+[lua/batphone/language\_servers](/jhthorsen/batphone.nvim/tree/main/lua/batphone/language_servers)
 contains instructions for the language server protocol and treesitter.
 
 ### Plugins
@@ -77,12 +77,11 @@ Currently the following plugins are (lazy) loaded:
 
 - [echasnovski/mini.nvim](https://github.com/echasnovski/mini.nvim)
 - [fang2hou/blink-copilot](https://github.com/fang2hou/blink-copilot)
-- [folke/flash.nvim](https://github.com/folke/flash.nvim)
 - [folke/lazy.nvim](https://github.com/folke/lazy.nvim)
 - [folke/lazydev.nvim](https://github.com/folke/lazydev.nvim)
 - [folke/snacks.nvim](https://github.com/folke/snacks.nvim)
 - [folke/which-key.nvim](https://github.com/folke/which-key.nvim)
-- [mg979/vim-visual-multi](https://github.com/mg979/vim-visual-multi)
+- [jake-stewart/multicursor.nvim](https://github.com/mg979/jake-stewart/multicursor.nvim)
 - [neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
 - [nvim-lua/plenary.nvim](https://github.com/nvim-lua/plenary.nvim)
 - [nvim-lualine/lualine.nvim](https://github.com/nvim-lualine/lualine.nvim)
@@ -109,8 +108,8 @@ arguments.
 
     vi() {
       if [ -n "$*" ]; then nvim "$@";
-      elif [ -d ".git" ]; then nvim -c ":Telescope git_files";
-      else nvim -c ":Telescope oldfiles";
+      elif [ -d ".git" ]; then nvim -c ":lua Snacks.picker.smart()";
+      else nvim -c ":lua Snacks.picker.recent()";
       fi
     }
 

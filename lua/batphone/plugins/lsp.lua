@@ -130,7 +130,6 @@ return {
     "williamboman/mason.nvim",
     event = { "BufReadPost", "BufNewFile" },
     build = ":MasonUpdate",
-    keys = plugins_keymaps.mason,
     dependencies = {
       { "williamboman/mason-lspconfig.nvim" },
     },
