@@ -13,10 +13,11 @@ mapkey("n", "<leader>bd", function() Snacks.bufdelete() end, { desc = "Delete Bu
 mapkey("n", "<leader>bo", function() Snacks.bufdelete.other() end, { desc = "Delete Other Buffers" })
 mapkey("n", "<leader>qa", "<cmd>wqa<cr>", { desc = "Save and Quit All" })
 mapkey("n", "<leader>qq", utils.save_and_quit, { desc = "Save and Close Buffer" })
-mapkey("n", "<leader>fn", ":echo expand('%')<CR>", { desc = "Show filename" })
+mapkey("n", "<leader>fn", ":echo expand('%')<cr>", { desc = "Show filename" })
 mapkey({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
 
-mapkey("n", "<leader>e", function() Snacks.explorer() end, { desc = "Open File Explorer" })
+mapkey("n", "-", "<cmd>Oil<cr>", { desc = "Open File Explorer" })
+mapkey("n", "<leader>e", function() require("oil").open_float() end, { desc = "Open File Explorer" })
 mapkey("n", ",e", utils.edit_file, { desc = "Find and Edit" })
 
 mapkey("n", "G", "Gzz", { desc = "Move to end and stay in center" })
@@ -38,7 +39,7 @@ mapkey("i", "<c-s>", "<cmd>Telescope spell_suggest<cr>", { desc = "Spell suggest
 mapkey({ "n", "v" }, "0d", '"_d', { desc = "Delete" })
 mapkey("x", "<leader>p", [["_dP]], { desc = "Paste into selection" })
 
-mapkey("n", "<leader>ur", "<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>",
+mapkey("n", "<leader>ur", "<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <c-l><cr>",
   { desc = "Redraw / Clear hlsearch / Diff Update" })
 
 mapkey("n", "<c-_>", function() Snacks.terminal() end, { desc = "Terminal (cwd)" })

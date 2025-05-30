@@ -162,3 +162,18 @@ vim.api.nvim_create_autocmd({ "LspAttach" }, {
     end
   end,
 })
+
+vim.api.nvim_create_autocmd("User", {
+  group = vim.api.nvim_create_augroup("batphone_oil_move_file", { clear = true }),
+  pattern = "OilActionsPost",
+  callback = function(event)
+    local actions = event.data.actions
+
+    -- normalize actions before reading "type"
+    if actions.type == nil then actions = actions[1] end
+
+    if actions.type == "move" then
+      require("snacks.rename").on_rename_file(actions.src_url, actions.dest_url)
+    end
+  end,
+})
