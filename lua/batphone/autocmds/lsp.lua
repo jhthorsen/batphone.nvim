@@ -12,6 +12,21 @@ vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI", "CursorMoved" }, {
     local packages_text = { "Do you want to run the following commands to get LSP and Treesitter support?", "" }
     local n_not_installed = 0
 
+    -- Find missing Treesitter packages
+    local ts_config = require("nvim-treesitter.config")
+    if not require("nvim-treesitter.parsers")[lang] then
+      table.insert(packages_text, "# Treesitter does not seem to support " .. lang .. ".")
+    elseif vim.list_contains(ts_config.get_installed(), lang) then
+      table.insert(packages_text, "# Treesitter is installed for " .. lang .. ".")
+    else
+      if n_not_installed == 0 and vim.fn.executable("tree-sitter") ~= 1 then
+        table.insert(packages_text, ":MasonInstall tree-sitter-cli")
+      end
+
+      table.insert(packages_text, ":TSInstall " .. lang)
+      n_not_installed = n_not_installed + 1
+    end
+
     -- Find missing Mason packages
     local lsp_mappings = require("mason-lspconfig.mappings").get_all()
     if not lsp_mappings.filetypes[lang] then
@@ -36,17 +51,6 @@ vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI", "CursorMoved" }, {
         n_not_installed = n_not_installed + 1
         ::continue::
       end
-    end
-
-    -- Find missing Treesitter packages
-    local ts_config = require("nvim-treesitter.config")
-    if not require("nvim-treesitter.parsers")[lang] then
-      table.insert(packages_text, "# Treesitter does not seem to support " .. lang .. ".")
-    elseif vim.list_contains(ts_config.get_installed(), lang) then
-      table.insert(packages_text, "# Treesitter is installed for " .. lang .. ".")
-    else
-        table.insert(packages_text, ":TSInstall " .. lang)
-        n_not_installed = n_not_installed + 1
     end
 
     if n_not_installed == 0 then
