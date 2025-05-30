@@ -142,6 +142,7 @@ return {
     "zbirenbaum/copilot.lua",
     event = "VeryLazy",
     build = ":Copilot auth",
+    cmd = "Copilot",
     keys = plugins_keymaps.copilot,
     config = function(_, opts)
       if vim.env.ENABLE_COPILOT == "force" or vim.env.ENABLE_COPILOT == "yes" then
@@ -179,13 +180,14 @@ return {
   },
   {
     "copilotc-nvim/copilotchat.nvim",
+    lazy = true,
+    build = "make tiktoken",
+    cmd = "CopilotChat",
+    keys = plugins_keymaps.copilotchat,
     dependencies = {
       { "zbirenbaum/copilot.lua" },
       { "nvim-lua/plenary.nvim" },
     },
-    build = "make tiktoken",
-    lazy = true,
-    keys = plugins_keymaps.copilotchat,
     opts = {
       auto_follow_cursor = false,
       auto_insert_mode = true,
