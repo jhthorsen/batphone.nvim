@@ -1,14 +1,17 @@
 local M = {}
 
-function M.setup(opts)
-  vim.cmd("colorscheme kanagawa-wave")
+function M.setup(_opts)
+  local colorscheme = vim.env.NVIM_COLORSCHEME or "kanagawa-wave"
+  vim.cmd("colorscheme " .. colorscheme)
   require("batphone.options")
-  require("batphone.options.lsp")
+  require("batphone.lsp")
+
+  local keymaps = require("batphone.keymaps")
+  keymaps.keys_automagic()
+  keymaps.keys_additional()
+
   require("batphone.clipboard")
-  require("batphone.autocmds.buf")
-  require("batphone.autocmds.lsp")
-  require("batphone.keymaps.automagic")
-  require("batphone.keymaps.user")
+  require("batphone.autocmds")
 end
 
 return M

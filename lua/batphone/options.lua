@@ -46,3 +46,11 @@ opt.splitright = true
 opt.termguicolors = true
 opt.wildmenu = true
 opt.wildmode = { "longest:list", "full" }
+
+vim.diagnostic.config({
+  severity_sort = false,
+  signs = true,
+  underline = false,
+  update_in_insert = true,
+  virtual_text = false,
+})

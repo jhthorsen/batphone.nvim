@@ -8,7 +8,7 @@ I am however quite happy with my setup, since I like it a bit more minimalistic.
 
 ## Prerequisites
 
-You need [Neovim](https://github.com/neovim/neovim/releases) 0.10.x or later.
+You need [Neovim](https://github.com/neovim/neovim/releases) 0.11.x or later.
 
 If you already have neovim set up, then you want to (back up) and clear out the
 following directories first:
@@ -22,84 +22,39 @@ following directories first:
         > "$HOME/.config/nvim/init.lua";
     $ neovim;
 
-## Structure
+## Auto installation of packages
 
-It's a bug if something is out of place.
+Batphone.nvim comes with a hook that will prompt you if you want to install a
+[LSP](/jhthorsen/batphone.nvim/blob/main/lua/batphone/lsp.lua) and
+Treesitter package.
 
-### Entry point
+## Plugins
 
-[lua/batphone/init.lua](/jhthorsen/batphone.nvim/blob/main/lua/batphone/init.lua)
-loads most basic parts. Some of these modules might become
-[lazy](https://github.com/folke/lazy.nvim/blob/e5e9bf48211a13d9ee6c1077c88327c49c1ab4a0/lua/lazy/core/plugin.lua#L382) in the future.
+* [echasnovski/mini.nvim](https://github.com/echasnovski/mini.nvim)
+* [copilotc-nvim/copilotchat.nvim](https://github.com/copilotc-nvim/copilotchat.nvim))
+* [fang2hou/blink-copilot](https://github.com/fang2hou/blink-copilot)
+* [folke/lazy.nvim](https://github.com/folke/lazy.nvim)
+* [folke/lazydev.nvim](https://github.com/folke/lazydev.nvim)
+* [folke/snacks.nvim](https://github.com/folke/snacks.nvim)
+* [folke/which-key.nvim](https://github.com/folke/which-key.nvim)
+* [jake-stewart/multicursor.nvim](https://github.com/mg979/jake-stewart/multicursor.nvim)
+* [neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
+* [nvim-lualine/lualine.nvim](https://github.com/nvim-lualine/lualine.nvim)
+* [nvim-treesitter/nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
+* [rafamadriz/friendly-snippets](https://github.com/rafamadriz/friendly-snippets)
+* [saghen/blink.cmp](https://github.com/saghen/blink.cmp)
+* [stevearc/conform.nvim](https://github.com/stevearc/conform.nvim)
+* [stevearc/oil.nvim](https://github.com/stevearc/oil.nvim)
+* [williamboman/mason-lspconfig.nvim](https://github.com/williamboman/mason-lspconfig.nvim)
+* [williamboman/mason.nvim](https://github.com/williamboman/mason.nvim)
+* [zbirenbaum/copilot.lua](https://github.com/zbirenbaum/copilot.lua)
 
-### Basics
+## Themes
 
-* [Auto commands](/jhthorsen/batphone.nvim/blob/main/lua/batphone/autocmds.lua)
-* [Options](/jhthorsen/batphone.nvim/blob/main/lua/batphone/options.lua)
+The color scheme can specified by setting the `NVIM_COLORSCHEME` environment
+variable.
 
-### Keymaps
-
-#### Automagic
-
-[lua/batphone/keymaps/automagic.lua](/jhthorsen/batphone.nvim/blob/main/lua/batphone/keymaps/automagic.lua)
-contains keymaps that does not require additional knowledge, meaning they
-*should just happen* when you press regular (neo)vim keys.
-
-#### User
-
-[lua/batphone/keymaps/user.lua](/jhthorsen/batphone.nvim/blob/main/lua/batphone/keymaps/user.lua)
-contains misc keymaps, which all should have a "desc", so the file does not
-require additional documentation.
-
-#### Plugin keys
-
-[lua/batphone/keymaps/plugins.lua](/jhthorsen/batphone.nvim/blob/main/lua/batphone/keymaps/plugins.lua)
-contains pure data structures that can be passed on to `keys`
-in the [Lazy spec](https://lazy.folke.io/spec#spec-lazy-loading).
-
-#### Other files
-
-The other files in the keymaps directory should map to a given
-[plugin](/jhthorsen/batphone.nvim/tree/main/lua/batphone/plugins).
-
-### LSP / Treesitter
-
-[lua/batphone/language\_servers](/jhthorsen/batphone.nvim/tree/main/lua/batphone/language_servers)
-contains instructions for the language server protocol and treesitter.
-
-### Plugins
-
-[lua/batphone/plugins](/jhthorsen/batphone.nvim/tree/main/lua/batphone/plugins)
-is imported by [Lazy.nvim](https://lazy.folke.io/usage/structuring#%EF%B8%8F-importing-specs-config--opts)
-when Batphone.nvim is loaded.
-
-Currently the following plugins are (lazy) loaded:
-
-- [echasnovski/mini.nvim](https://github.com/echasnovski/mini.nvim)
-- [fang2hou/blink-copilot](https://github.com/fang2hou/blink-copilot)
-- [folke/lazy.nvim](https://github.com/folke/lazy.nvim)
-- [folke/lazydev.nvim](https://github.com/folke/lazydev.nvim)
-- [folke/snacks.nvim](https://github.com/folke/snacks.nvim)
-- [folke/which-key.nvim](https://github.com/folke/which-key.nvim)
-- [jake-stewart/multicursor.nvim](https://github.com/mg979/jake-stewart/multicursor.nvim)
-- [neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
-- [nvim-lua/plenary.nvim](https://github.com/nvim-lua/plenary.nvim)
-- [nvim-lualine/lualine.nvim](https://github.com/nvim-lualine/lualine.nvim)
-- [nvim-tree/nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons)
-- [nvim-treesitter/nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
-- [rafamadriz/friendly-snippets](https://github.com/rafamadriz/friendly-snippets)
-- [rebelot/kanagawa.nvim](https://github.com/rebelot/kanagawa.nvim)
-- [saghen/blink.cmp](https://github.com/saghen/blink.cmp)
-- [stevearc/conform.nvim](https://github.com/stevearc/conform.nvim)
-- [williamboman/mason-lspconfig.nvim](https://github.com/williamboman/mason-lspconfig.nvim)
-- [williamboman/mason.nvim](https://github.com/williamboman/mason.nvim)
-- [zbirenbaum/copilot.lua](https://github.com/zbirenbaum/copilot.lua)
-
-### Utils and functions
-
-[utils](/jhthorsen/batphone.nvim/blob/main/lua/batphone/utils.lua) contains
-various functions, which is probably needs a better structure. Consider this
-experimental for now.
+* [Kanagawa](https://github.com/rebelot/kanagawa.nvim)
 
 ## Useful bash function
 
@@ -112,11 +67,6 @@ arguments.
       else nvim -c ":lua Snacks.picker.recent()";
       fi
     }
-
-## Credits
-
-This latest iteration of my neovim setup has config that is copy/pasted from
-[LazyVim](https://www.lazyvim.org).
 
 ## Author
 
