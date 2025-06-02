@@ -23,6 +23,19 @@ return {
   keys = require("batphone.keymaps").which_key,
   config = function(_, opts)
     require("which-key.plugins.presets").operators["v"] = nil
-    require("which-key").setup(opts)
+
+    local wk = require("which-key")
+    wk.setup(opts)
+    wk.add({
+      { "<space>b", group = "Buffers...", },
+      { "<space>c", group = "Code..." },
+      { "<space>d", group = "Diagnostics..." },
+      { "<space>f", group = "Files..." },
+      { "<space>g", group = "Git..." },
+      { "<space>m", group = "Multicursors...", icon = "󰎂" },
+      { "<space>n", group = "Neovim...", icon = "" },
+      { "<space>s", group = "Search..." },
+      { "<space>u", group = "User Interface...", icon = "󰂮" },
+    })
   end,
 }

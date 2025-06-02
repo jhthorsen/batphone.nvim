@@ -1,3 +1,5 @@
+-- Switch from v (visual) to x (select) mode by pressing c-g
+
 local M = {}
 
 -- utility functions
@@ -12,8 +14,15 @@ local function get_word_before_cursor()
 end
 
 local function mapkey(mode, key, action, opts)
+  local icon = opts.icon
+  opts.icon = nil
+
   local defaults = { silent = true }
   vim.keymap.set(mode, key, action, vim.tbl_extend("force", defaults, opts))
+
+  -- Document new keys in which-key
+  local ok, wk = pcall(require, "which-key")
+  if ok then wk.add({key, nil, desc = opts.desc, icon = icon, mode = mode}) end
 end
 
 -- keymap helpers
@@ -65,10 +74,9 @@ function M.keys_additional()
   mapkey("n", "<leader>fn", ":echo expand('%')<cr>", { desc = "Show filename" })
   mapkey({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
   mapkey("x", "<leader>p", [["_dP]], { desc = "Paste into selection" })
-  mapkey("n", "<leader>ur", "<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <c-l><cr>",
-    { desc = "Redraw / Clear hlsearch / Diff Update" })
-  mapkey("n", "<leader>ti", vim.show_pos, { desc = "Inspect Pos" })
-  mapkey("n", "<leader>tI", "<cmd>InspectTree<cr>", { desc = "Inspect Tree" })
+  mapkey("n", "<leader>ur", "<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <c-l><cr>", { desc = "Redraw" })
+  mapkey("n", "<leader>np", vim.show_pos, { desc = "Inspect Pos" })
+  mapkey("n", "<leader>nt", "<cmd>InspectTree<cr>", { desc = "Inspect Tree" })
 
   mapkey("n", ",e",
     function()
@@ -132,14 +140,13 @@ function M.keys_lsp()
 
   mapkey("n", "<leader>ca", function() vim.lsp.buf.code_action() end, { desc = "Code Action" })
   mapkey("n", "<leader>cR", function() require("snacks.rename").rename_file() end, { desc = "Rename File" })
-  mapkey("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename" })
+  mapkey("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename symbol" })
   mapkey("n", "<leader>da", function() picker.diagnostics() end, { desc = "Workspace Diagnostics" })
   mapkey("n", "<leader>db", function() picker.diagnostics_buffer() end, { desc = "Buffer Diagnostics" })
-  mapkey("n", "<leader>de", function() picker.diagnostics({ severity = "ERROR" }) end, { desc = "Workspace Errors" })
+  mapkey("n", "<leader>de", function() picker.diagnostics({ severity = "ERROR" }) end, { desc = "Workspace Errors", icon = "" })
   mapkey("n", "<leader>dd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
   mapkey("n", "<leader>dn", function() goto_diag(true) end, { desc = "Next Diagnostic" })
   mapkey("n", "<leader>dp", function() goto_diag(false) end, { desc = "Prev Diagnostic" })
-  mapkey("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename" })
   mapkey("n", "<leader>ss", function() picker.lsp_symbols() end, { desc = "LSP Symbols" })
   mapkey("n", "<leader>sS", function() picker.lsp_workspace_symbols() end, { desc = "LSP Workspace Symbols" })
   mapkey("n", "gD", function() picker.lsp_declarations() end, { desc = "Goto Declaration" })
@@ -156,12 +163,17 @@ function M.multicursor(mc)
   mapkey({ "n", "x" }, "<c-s-d>", function() mc.matchAddCursor(-1) end, { desc = "Add Prev Cursor" })
   mapkey({ "n", "x" }, "<c-q>", mc.toggleCursor, { desc = "Toggle cursor" })
 
-  mapkey({ "n", "x" }, "<leader>mt", function() require("multicursor-nvim").toggleCursor() end, { desc = "Add and remove cursors using the main cursor" })
-  mapkey({ "n" }, "<leader>mr", function() require("multicursor-nvim").restoreCursors() end, { desc = "Bring back cursors if you accidentally clear them" })
-  mapkey({ "n" }, "<leader>mL", function() require("multicursor-nvim").alignCursors() end, { desc = "Align cursor columns" })
+  mapkey({ "n", "x" }, "<leader>mt", function() require("multicursor-nvim").toggleCursor() end, { desc = "Add and Remove Cursors" })
+  mapkey({ "n" }, "<leader>mr", function() require("multicursor-nvim").restoreCursors() end, { desc = "Bring Back Cursors" })
+  mapkey({ "n", "x" }, "<leader>ma", mc.alignCursors, { desc = "Align Cursors" })
 
-  mc.addKeymapLayer(function(layerSet)
-    layerSet("n", "<esc>", function()
+  mapkey({ "n", "v", "x" }, "<leader>mI", mc.insertVisual, { desc = "Multicursor Insert" })
+  mapkey({ "n", "v", "x" }, "<leader>mA", mc.appendVisual, { desc = "Multicursor Append" })
+  mapkey({ "n", "x" }, "g<c-a>", mc.sequenceIncrement, {})
+  mapkey({ "n", "x" }, "g<c-x>", mc.sequenceDecrement, {})
+
+  mc.addKeymapLayer(function(mk)
+    mk({ "n", "x" }, "<esc>", function()
       if not mc.cursorsEnabled() then
         mc.enableCursors()
       else
@@ -220,12 +232,12 @@ M.blink = {
 M.conform = {
   { "<leader>cF", mode = { "n", "v" },
     function() require("conform").format({ formatters = { "injected" }, timeout_ms = 3000 }) end,
-    desc = "Format Injected Langs",
+    desc = "Format Code",
   },
 }
 
 M.copilot = {
-  { "<leader>cs", ":Copilot panel<cr>", desc = "Open Copilot completions" },
+  { "<leader>cs", ":Copilot panel<cr>", desc = "Open Copilot Completions" },
   { "<leader>cxd", ":Copilot disable<cr>", desc = "Disable Copilot", silent = false },
   { "<leader>cxs", ":Copilot status<cr>", desc = "Copilot status", silent = false },
   { "<leader>cxe", ":Copilot! attach<cr>:Copilot enable<cr>", desc = "Enable Copilot", silent = false },
@@ -234,7 +246,6 @@ M.copilot = {
 M.copilotchat = {
   { "<leader>cc", function() toggle_copilot("horizontal") end, desc = "Open Copilot Chat" },
   { "<leader>cz", function() toggle_copilot("replace") end, desc = "Open Copilot Chat in fullscreen" },
-  { "<leader>cp", function() require("CopilotChat").stop() end, desc = "Stop Copilot Chat" },
 }
 
 M.mason = {
@@ -250,16 +261,17 @@ M.snacks = {
   -- regular keys
   { "<leader>bd", function() require("snacks").bufdelete() end, desc = "Delete Buffer" },
   { "<leader>bo", function() require("snacks").bufdelete.other() end, desc = "Delete Other Buffers" },
+  { "<leader>bs", function() require("snacks.picker").buffers() end, desc = "Search Buffers (<leader>b)" },
 
   -- top pickers
-  { "<c-space>", function() require("snacks.picker").smart() end, desc = "Smart Find Files" },
+  { "<c-space>", function() require("snacks.picker").smart() end, desc = "Smart Find Files (^space)" },
   { "<leader><space>", function() require("snacks.picker").smart() end, desc = "Smart Find Files" },
   { "<leader>ff", function() require("snacks.picker").files() end, desc = "Find Files" },
   { "<leader>fg", function() require("snacks.picker").git_files() end, desc = "Find Git Files" },
   { "<leader>fr", function() require("snacks.picker").recent() end, desc = "Recent" },
-  { "<leader>fP", function() require("snacks.picker").files({ cwd = ".." }) end, desc = "Find parent Files" },
-  { "<leader>b", function() require("snacks.picker").buffers() end, desc = "Buffers" },
-  { "<leader>P", function() require("snacks.picker").projects() end, desc = "Projects" },
+  { "<leader>fp", function() require("snacks.picker").projects() end, desc = "Open File from Projects" },
+  { "<leader>fx", function() require("snacks.picker").files({ cwd = ".." }) end, desc = "Find parent Files" },
+  { "<leader>b", function() require("snacks.picker").buffers() end, desc = "Search Buffers" },
   { "<leader>:", function() require("snacks.picker").command_history() end, desc = "Command History" },
   { "z=", function() require("snacks.picker").spelling() end, desc = "Spelling suggestions" },
 
@@ -271,7 +283,7 @@ M.snacks = {
 
   -- grep
   { "<leader>sB", function() require("snacks.picker").grep_buffers() end, desc = "Grep Open Buffers" },
-  { "<leader>sg", function() require("snacks.picker").grep() end, desc = "Grep" },
+  { "<leader>sg", function() require("snacks.picker").grep() end, desc = "Grep Project Files" },
   { "<leader>sw", function() require("snacks.picker").grep_word() end, desc = "Visual selection or word", mode = { "n", "x" } },
 
   -- search
@@ -279,26 +291,25 @@ M.snacks = {
   { '<leader>s/', function() require("snacks.picker").search_history() end, desc = "Search History" },
   { "<leader>sb", function() require("snacks.picker").lines() end, desc = "Buffer Lines" },
   { "<leader>sc", function() require("snacks.picker").command_history() end, desc = "Command History" },
-  { "<leader>sh", function() require("snacks.picker").help() end, desc = "Help Pages" },
-  { "<leader>sH", function() require("snacks.picker").highlights() end, desc = "Highlights" },
   { "<leader>sj", function() require("snacks.picker").jumps() end, desc = "Jumps" },
   { "<leader>sl", function() require("snacks.picker").loclist() end, desc = "Location List" },
   { "<leader>sm", function() require("snacks.picker").marks() end, desc = "Marks" },
   { "<leader>sM", function() require("snacks.picker").man() end, desc = "Man Pages" },
   { "<leader>sq", function() require("snacks.picker").qflist() end, desc = "Quickfix List" },
-  { "<leader>sR", function() require("snacks.picker").resume() end, desc = "Resume" },
   { "<leader>su", function() require("snacks.picker").undo() end, desc = "Undo History" },
 
   -- neovim config and files
-  { "<leader>na", function() require("snacks.picker").autocmds() end, desc = "Autocmds" },
-  { "<leader>nl", function() require("snacks.picker").lsp_config() end, desc = "Lsp Info" },
-  { "<leader>nC", function() require("snacks.picker").commands() end, desc = "Commands" },
-  { "<leader>nc", function() require("snacks.picker").files({ cwd = vim.fn.stdpath("config") }) end, desc = "Config File" },
-  { "<leader>nI", function() require("snacks.picker").icons() end, desc = "Icons" },
-  { "<leader>nk", function() require("snacks.picker").keymaps() end, desc = "Keymaps" },
-  { "<leader>nf", function() require("snacks.picker").files({ cwd = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy") }) end, desc = "LazyVim files" },
-  { "<leader>nn", function() require("snacks.picker").notifications() end, desc = "Notification History" },
-  { "<leader>uC", function() require("snacks.picker").colorschemes() end, desc = "Colorschemes" },
+  { "<leader>na", function() require("snacks.picker").autocmds() end, desc = "Search Auto-commands" },
+  { "<leader>nl", function() require("snacks.picker").lsp_config() end, desc = "Search LSP Config" },
+  { "<leader>nC", function() require("snacks.picker").commands() end, desc = "Search Commands" },
+  { "<leader>nc", function() require("snacks.picker").files({ cwd = vim.fn.stdpath("config") }) end, desc = "Search Config Files" },
+  { "<leader>nh", function() require("snacks.picker").help() end, desc = "Help Pages" },
+  { "<leader>nH", function() require("snacks.picker").highlights() end, desc = "Highlights" },
+  { "<leader>nI", function() require("snacks.picker").icons() end, desc = "Search Icons" },
+  { "<leader>nk", function() require("snacks.picker").keymaps() end, desc = "Search Keymaps" },
+  { "<leader>nf", function() require("snacks.picker").files({ cwd = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy") }) end, desc = "Search LazyVim files" },
+  { "<leader>nn", function() require("snacks.picker").notifications() end, desc = "Show Notifications" },
+  { "<leader>uC", function() require("snacks.picker").colorschemes() end, desc = "Search Colorschemes" },
 
   -- terminal
   { "<C-/>", "<cmd>close<cr>", mode = "t", desc = "Hide Terminal" },
@@ -307,7 +318,7 @@ M.snacks = {
 }
 
 M.which_key = {
-  { "<leader>h", function() require("which-key").show() end, desc = "Show which-key" },
+  { "<leader>h", function() require("which-key").show() end, desc = "Show All Keys" },
 }
 
 return M
