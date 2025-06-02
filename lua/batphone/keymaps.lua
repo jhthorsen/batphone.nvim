@@ -261,7 +261,7 @@ M.snacks = {
   { "<leader>b", function() require("snacks.picker").buffers() end, desc = "Buffers" },
   { "<leader>P", function() require("snacks.picker").projects() end, desc = "Projects" },
   { "<leader>:", function() require("snacks.picker").command_history() end, desc = "Command History" },
-  { "<leader>a", function() require("snacks.picker").spelling() end, desc = "Spelling suggestions" },
+  { "z=", function() require("snacks.picker").spelling() end, desc = "Spelling suggestions" },
 
   -- git
   { "<leader>gb", function() require("snacks.picker").git_branches() end, desc = "Git Branches" },

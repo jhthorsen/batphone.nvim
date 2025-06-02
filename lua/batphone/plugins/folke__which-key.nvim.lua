@@ -4,7 +4,21 @@ return {
   event = "VeryLazy",
   opts = {
     preset = "helix",
-    expand = 3,
+    expand = 2,
+    plugins = {
+      marks = true,
+      registers = false,
+      spelling = { enabled = false },
+      presets = {
+        g = true,
+        motions = true,
+        nav = true,
+        operators = true,
+        text_objects = true,
+        windows = true,
+        z = true,
+      },
+    },
   },
   keys = require("batphone.keymaps").which_key,
   config = function(_, opts)
