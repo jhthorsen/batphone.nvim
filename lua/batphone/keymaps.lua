@@ -159,27 +159,37 @@ function M.keys_lsp()
 end
 
 function M.multicursor(mc)
+  local ok, toggle = pcall(require, "snacks.toggle")
+  if ok then
+    toggle.new({
+      id = "multicursor",
+      name = "Multicursor",
+      get = function() return mc.hasCursors() and mc.cursorsEnabled() end,
+      set = function(disable)
+        if not disable then mc.clearCursors()
+        elseif mc.hasCursors() then mc.enableCursors()
+        else mc.restoreCursors() end
+      end
+    }):map("<leader>me", { mode = { "n", "v", "x" } })
+  end
+
   mapkey({ "n", "x" }, "<c-d>", function() mc.matchAddCursor(1) end, { desc = "Add Next Cursor" })
   mapkey({ "n", "x" }, "<c-s-d>", function() mc.matchAddCursor(-1) end, { desc = "Add Prev Cursor" })
-  mapkey({ "n", "x" }, "<c-q>", mc.toggleCursor, { desc = "Toggle cursor" })
 
-  mapkey({ "n", "x" }, "<leader>mt", function() require("multicursor-nvim").toggleCursor() end, { desc = "Add and Remove Cursors" })
-  mapkey({ "n" }, "<leader>mr", function() require("multicursor-nvim").restoreCursors() end, { desc = "Bring Back Cursors" })
-  mapkey({ "n", "x" }, "<leader>ma", mc.alignCursors, { desc = "Align Cursors" })
+  mapkey({ "v", "x" }, "I", mc.insertVisual, { desc = "Multicursor Insert" })
+  mapkey({ "v", "x" }, "A", mc.appendVisual, { desc = "Multicursor Append" })
 
-  mapkey({ "n", "v", "x" }, "<leader>mI", mc.insertVisual, { desc = "Multicursor Insert" })
-  mapkey({ "n", "v", "x" }, "<leader>mA", mc.appendVisual, { desc = "Multicursor Append" })
+  mapkey({ "n" }, "<leader>mt", mc.toggleCursor, { desc = "Add and Remove Cursors" })
+  mapkey({ "n" }, "<leader>md", mc.disableCursors, { desc = "Multicursor Disable" })
+  mapkey({ "n", "v", "x" }, "<leader>ma", mc.alignCursors, { desc = "Align Cursors" })
+
   mapkey({ "n", "x" }, "g<c-a>", mc.sequenceIncrement, {})
   mapkey({ "n", "x" }, "g<c-x>", mc.sequenceDecrement, {})
 
   mc.addKeymapLayer(function(mk)
-    mk({ "n", "x" }, "<esc>", function()
-      if not mc.cursorsEnabled() then
-        mc.enableCursors()
-      else
-        mc.clearCursors()
-      end
-    end)
+    mk({ "n", "x" }, "<esc>", mc.clearCursors)
+    mk({ "v", "x" }, "i", "<c-a>i")
+    mk({ "v", "x" }, "n", "<esc>")
   end)
 end
 

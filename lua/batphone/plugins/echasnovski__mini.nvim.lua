@@ -4,7 +4,7 @@ return {
   event = "VeryLazy",
   keys = require("batphone.keymaps").mini,
   config = function(_, _)
-    require("mini.ai").setup()
+    -- require("mini.ai").setup() -- prevents "i" in multicursor mode from working
     require("mini.align").setup()
     require("mini.comment").setup()
     require("mini.move").setup()
