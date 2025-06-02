@@ -129,8 +129,8 @@ function M.keys_lsp()
   mapkey("n", "[w", function() goto_diag(false, "WARN") end, { desc = "Prev Warning" })
   mapkey("n", "]e", function() goto_diag(true, "ERROR") end, { desc = "Next Error" })
   mapkey("n", "]w", function() goto_diag(true, "WARN") end, { desc = "Next Warning" })
-  mapkey("n", "<leader>cC", vim.lsp.codelens.refresh, { desc = "Refresh & Display Codelens" })
-  mapkey("n", "<leader>cl", function() picker.lsp_config() end, { desc = "Lsp Info" })
+
+  mapkey("n", "<leader>ca", function() vim.lsp.buf.code_action() end, { desc = "Code Action" })
   mapkey("n", "<leader>cR", function() require("snacks.rename").rename_file() end, { desc = "Rename File" })
   mapkey("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename" })
   mapkey("n", "<leader>da", function() picker.diagnostics() end, { desc = "Workspace Diagnostics" })
@@ -171,7 +171,7 @@ function M.multicursor(mc)
   end)
 end
 
-function M.snacks_extra()
+function M.keys_snacks()
   local toggle = require("snacks.toggle")
   toggle.new({
     id = "signcolumn",
@@ -291,11 +291,12 @@ M.snacks = {
 
   -- neovim config and files
   { "<leader>na", function() require("snacks.picker").autocmds() end, desc = "Autocmds" },
+  { "<leader>nl", function() require("snacks.picker").lsp_config() end, desc = "Lsp Info" },
   { "<leader>nC", function() require("snacks.picker").commands() end, desc = "Commands" },
   { "<leader>nc", function() require("snacks.picker").files({ cwd = vim.fn.stdpath("config") }) end, desc = "Config File" },
   { "<leader>nI", function() require("snacks.picker").icons() end, desc = "Icons" },
   { "<leader>nk", function() require("snacks.picker").keymaps() end, desc = "Keymaps" },
-  { "<leader>nl", function() require("snacks.picker").files({ cwd = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy") }) end, desc = "LazyVim files" },
+  { "<leader>nf", function() require("snacks.picker").files({ cwd = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy") }) end, desc = "LazyVim files" },
   { "<leader>nn", function() require("snacks.picker").notifications() end, desc = "Notification History" },
   { "<leader>uC", function() require("snacks.picker").colorschemes() end, desc = "Colorschemes" },
 

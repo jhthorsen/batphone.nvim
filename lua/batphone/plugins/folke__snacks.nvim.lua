@@ -89,6 +89,6 @@ return {
   },
   config = function(_, opts)
     require("snacks").setup(opts)
-    require("batphone.keymaps").snacks_extra()
+    require("batphone.keymaps").keys_snacks()
   end,
 }
