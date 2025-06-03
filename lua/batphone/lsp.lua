@@ -7,9 +7,17 @@ local function setup(name, config)
     else vim.print("lsp-config does not exists for " .. name) end
   end
 
+  for _, skip in ipairs(vim.split(vim.env.BATPHONE_LSP_DISABLE or "", ",")) do
+    if skip == name then return end
+  end
+
   if config then vim.lsp.config(name, config) end
   vim.lsp.config(name, { auto_install_packages = config and true or false })
   if config then vim.lsp.enable(name) end
+end
+
+for _, name in ipairs(vim.split(vim.env.BATPHONE_LSP_ENABLE or "", ",")) do
+  setup(name, {})
 end
 
 setup("ansiblels", {})

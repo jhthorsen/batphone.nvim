@@ -22,6 +22,16 @@ following directories first:
         > "$HOME/.config/nvim/init.lua";
     $ neovim;
 
+## Environment variables
+
+* `BATPHONE_LSP_DISABLE="htmx,spectral"` - Disable LSP servers
+* `BATPHONE_LSP_ENABLE="superhtml"` - Enable LSP servers
+* `BATPHONE_NVIM_CHECK=1` - Check if the LSP servers are spelled correctly.
+* `ENABLE_COPILOT={no,yes,force}` - Enable Copilot plugin
+* `NVIM_AUTO_INSTALL_PACKAGES=1` - Show install screen, even if there's nothing to do.
+* `NVIM_COLORSCHEME=kanagawa-lotus` - Set a custom color scheme
+* `NVIM_TERMINAL_SHELL=tmux` - Change the terminal to be started inside neovim
+
 ## Auto installation of packages
 
 Batphone.nvim comes with a hook that will prompt you if you want to install a
