@@ -25,39 +25,13 @@ local function mapkey(mode, key, action, opts)
   if ok then wk.add({key, nil, desc = opts.desc, icon = icon, mode = mode}) end
 end
 
--- keymap helpers
-
-local function goto_diag(next, severity)
-  severity = severity and vim.diagnostic.severity[severity] or nil
-  local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
-  go({ severity = severity })
-end
-
-local function goto_buf(next_or_previous)
-  vim.cmd("b" .. next_or_previous)
-  vim.cmd("echo expand('%')")
-end
-
-local function toggle_copilot(layout)
-  local cc = require("CopilotChat")
-
-  if copilotchat_first_time then cc.load("all") end
-  copilotchat_first_time = false
-
-  if layout == "replace" then
-    cc.toggle({window = {layout = layout}})
-  else
-    cc.toggle({window = {layout = layout, width = 1, height = 0.8}})
-  end
-end
-
 -- keymaps module
 
 function M.keys_additional()
   mapkey("n", "<leader>nL", "<cmd>Lazy<cr>", { desc = "LazyVim manager" })
 
-  mapkey("n", "<s-tab>", function() goto_buf("previous") end, { desc = "Prev Buffer" })
-  mapkey("n", "<tab>", function() goto_buf("next") end, { desc = "Next Buffer" })
+  mapkey("n", "<s-tab>", "<cmd>bnext<cr>", { desc = "Prev Buffer" })
+  mapkey("n", "<tab>", "<cmd>bprevious<cr>", { desc = "Next Buffer" })
   mapkey("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
   mapkey("n", "<leader>qa", "<cmd>wqa<cr>", { desc = "Save and Quit All" })
 
@@ -131,6 +105,12 @@ function M.keys_lsp()
     get = function() return vim.diagnostic.config().virtual_lines end,
     set = function(virtual_lines) vim.diagnostic.config({ virtual_lines = virtual_lines }) end
   }):map("<leader>uv")
+
+  local function goto_diag(next, severity)
+    severity = severity and vim.diagnostic.severity[severity] or nil
+    local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
+    go({ severity = severity })
+  end
 
   mapkey("i", "<leader>cS", function() return vim.lsp.buf.signature_help() end, { desc = "Signature Help" })
   mapkey("n", "[e", function() goto_diag(false, "ERROR") end, { desc = "Prev Error" })
@@ -254,8 +234,8 @@ M.copilot = {
 }
 
 M.copilotchat = {
-  { "<leader>cc", function() toggle_copilot("horizontal") end, desc = "Open Copilot Chat" },
-  { "<leader>cz", function() toggle_copilot("replace") end, desc = "Open Copilot Chat in fullscreen" },
+  { "<leader>cc", function() require("CopilotChat").toggle({}) end, desc = "Open Copilot Chat" },
+  { "<leader>cz", function() require("CopilotChat").toggle({window = {layout = "replace"}}) end, desc = "Open Copilot Chat in fullscreen" },
 }
 
 M.mason = {

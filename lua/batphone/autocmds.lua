@@ -20,6 +20,13 @@ vim.api.nvim_create_autocmd("BufEnter", {
   end,
 })
 
+vim.api.nvim_create_autocmd("BufWinEnter", {
+  group = vim.api.nvim_create_augroup("batphone_show_filename", { clear = true }),
+  callback = function()
+    vim.cmd("echo expand('%')")
+  end
+})
+
 -- Auto create directory when saving a file, in case some intermediate directory does not exist
 vim.api.nvim_create_autocmd("BufWritePre", {
   group = vim.api.nvim_create_augroup("batphone_auto_create_dir", { clear = true }),
