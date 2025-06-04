@@ -1,6 +1,29 @@
 -- List of events:
 -- https://gist.github.com/dtr2300/2f867c2b6c051e946ef23f92bd9d1180
 
+local function rewrite_copilot_chat_history(name)
+  local cc = require("CopilotChat")
+  local history_file = vim.fs.normalize(cc.config.history_path or "") .. "/" .. name .. ".json"
+    vim.print(history_file)
+  local history_fh = io.open(history_file, "r")
+  if not history_fh then return end
+
+  local history = vim.json.decode(history_fh:read("*a"), { luanil = { array = true, object = true } })
+  if #history <= 1 then return end
+
+  history_fh:close()
+  for i = #history, 1, -1 do
+    if history[i].content == nil or history[i].content == "" then
+      table.remove(history, i)
+    end
+  end
+
+  history_fh = io.open(history_file, "w")
+  if not history_fh then return end
+  history_fh:write(vim.json.encode(history))
+  history_fh:close()
+end
+
 -- Go to last location when opening a buffer
 vim.api.nvim_create_autocmd("BufEnter", {
   group = vim.api.nvim_create_augroup("batphone_last_loc", { clear = true }),
@@ -18,6 +41,35 @@ vim.api.nvim_create_autocmd("BufEnter", {
       pcall(vim.api.nvim_win_set_cursor, 0, mark)
     end
   end,
+})
+
+local batphone_copilot_first_time = true
+vim.api.nvim_create_autocmd("BufEnter", {
+  group = vim.api.nvim_create_augroup("batphone_copilot_start", { clear = true }),
+  pattern = "copilot-*",
+  callback = function()
+    if batphone_copilot_first_time then
+      rewrite_copilot_chat_history("default")
+      require("CopilotChat").load("default")
+      batphone_copilot_first_time = false
+    end
+
+    vim.opt_local.colorcolumn = {}
+    vim.opt_local.conceallevel = 0
+    vim.opt_local.ignorecase = true
+    vim.opt_local.number = false
+    vim.opt_local.relativenumber = false
+    vim.opt_local.signcolumn = "no"
+    vim.opt_local.wrap = true
+  end
+})
+
+vim.api.nvim_create_autocmd("BufLeave", {
+  group = vim.api.nvim_create_augroup("batphone_copilot_end", { clear = true }),
+  pattern = "copilot-*",
+  callback = function()
+    require("CopilotChat").save("default")
+  end
 })
 
 vim.api.nvim_create_autocmd("BufWinEnter", {

@@ -10,14 +10,11 @@ return {
   },
   keys = require("batphone.keymaps").copilotchat,
   opts = {
-    auto_follow_cursor = false,
-    auto_insert_mode = true,
+    model = vim.env.BATPHONE_COPILOT_MODEL or "o3-mini",
+    auto_follow_cursor = true,
+    auto_insert_mode = false,
     answer_header = "# Copilot ",
     question_header = "# Me ",
-    callback = function() require("CopilotChat").save("all") end,
-    mappings = {
-      close = { },
-    },
     window = {
       layout = "horizontal",
       border = "single",

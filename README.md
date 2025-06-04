@@ -24,6 +24,7 @@ following directories first:
 
 ## Environment variables
 
+* `BATPHONE_COPILOT_MODEL=o3-mini` - Preselect a copilot model
 * `BATPHONE_LSP_DISABLE="htmx,spectral"` - Disable LSP servers
 * `BATPHONE_LSP_ENABLE="superhtml"` - Enable LSP servers
 * `BATPHONE_NVIM_CHECK=1` - Check if the LSP servers are spelled correctly.
