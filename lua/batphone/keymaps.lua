@@ -30,8 +30,8 @@ end
 function M.keys_additional()
   mapkey("n", "<leader>nL", "<cmd>Lazy<cr>", { desc = "LazyVim manager" })
 
-  mapkey("n", "<s-tab>", "<cmd>bnext<cr>", { desc = "Prev Buffer" })
-  mapkey("n", "<tab>", "<cmd>bprevious<cr>", { desc = "Next Buffer" })
+  mapkey("n", "<tab>", "<cmd>bnext<cr>", { desc = "Prev Buffer" })
+  mapkey("n", "<s-tab>", "<cmd>bprevious<cr>", { desc = "Next Buffer" })
   mapkey("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
   mapkey("n", "<leader>qa", "<cmd>wqa<cr>", { desc = "Save and Quit All" })
 
