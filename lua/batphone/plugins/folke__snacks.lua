@@ -66,7 +66,11 @@ return {
     styles = {
       zen = {
         height = 0.95,
-        width = 120,
+        width = function()
+          local cols = vim.o.columns
+          if cols > 122 then return 120 end
+          return cols - 6
+        end,
         minimal = true,
         backdrop = {
           transparent = true,
