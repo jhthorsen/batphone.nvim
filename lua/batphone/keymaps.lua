@@ -94,6 +94,12 @@ function M.keys_automagic()
   mapkey("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
 end
 
+function M.keys_filetype_lua()
+  mapkey("n", "<leader>fs", "<cmd>source %<CR>", { desc = "Source file" })
+  mapkey("n", "<leader>x", ":.lua<CR>", { desc = "Source line" })
+  mapkey("v", "<leader>x", ":lua<CR>", { desc = "Source block" })
+end
+
 function M.keys_lsp()
   local picker = require("snacks.picker")
   local toggle = require("snacks.toggle")
