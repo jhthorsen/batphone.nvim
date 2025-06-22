@@ -71,8 +71,8 @@ function M.keys_automagic()
   mapkey({ "n", "v" }, "0d", '"_d', { desc = "Delete" })
 
   mapkey("n", "G", "Gzz", { desc = "Move to end and stay in center" })
-  mapkey("n", "<c-j>", "10j", { desc = "Jump ten lines down" })
-  mapkey("n", "<c-k>", "10k", { desc = "Jump ten lines up" })
+  mapkey("n", "<c-j>", "10jzz", { desc = "Jump ten lines down" })
+  mapkey("n", "<c-k>", "10kzz", { desc = "Jump ten lines up" })
 
   mapkey("c", "<c-h>", "<left>", { desc = "Cmdline Movement", silent = false })
   mapkey("c", "<c-l>", "<right>", { desc = "Cmdline Movement", silent = false })
