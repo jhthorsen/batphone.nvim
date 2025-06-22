@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [ -n "$*" ];
+  then nvim "$@";
+elif [ -d ".git" ];
+  then nvim -c ":lua Snacks.picker.smart()";
+else
+  nvim -c ":lua Snacks.picker.recent()";
+fi
