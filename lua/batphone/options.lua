@@ -13,11 +13,9 @@ opt.mouse = ""
 opt.background = "dark"
 opt.cmdheight = 1
 opt.cursorline = true
-opt.colorcolumn = {80, 100}
 opt.numberwidth = 4
 opt.scrolloff = 8
 opt.showtabline = 0
-opt.textwidth = 80
 
 opt.backup = false
 opt.hlsearch = false
@@ -32,7 +30,6 @@ opt.swapfile = false
 opt.undodir = os.getenv("HOME") .. "/.cache/nvim/undo"
 opt.undofile = true
 
-opt.formatoptions = "cjqlnr"
 opt.signcolumn = "yes"
 opt.virtualedit = "block"
 opt.isfname:append("@-@")

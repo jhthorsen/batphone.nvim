@@ -97,17 +97,17 @@ vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI", "CursorMoved", "Inser
 vim.api.nvim_create_autocmd("FileType", {
   group = vim.api.nvim_create_augroup("batphone_close_with_q", { clear = true }),
   pattern = {
-    "PlenaryTestPopup",
     "checkhealth",
     "dbout",
     "gitsigns-blame",
     "grug-far",
     "help",
     "lspinfo",
-    "neotest-output",
     "neotest-output-panel",
+    "neotest-output",
     "neotest-summary",
     "notify",
+    "PlenaryTestPopup",
     "qf",
     "spectre_panel",
     "startuptime",
@@ -128,13 +128,14 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- Wrap and check for spell in text filetypes
+local batphone_filetypes = {}
 vim.api.nvim_create_autocmd("FileType", {
-  group = vim.api.nvim_create_augroup("batphone_wrap_spell", { clear = true }),
-  pattern = { "text", "plaintex", "typst", "gitcommit", "markdown" },
-  callback = function()
-    vim.opt_local.wrap = true
-    vim.opt_local.spell = true
+  group = vim.api.nvim_create_augroup("batphone_load_file_type_config", { clear = true }),
+  callback = function(ev)
+    if batphone_filetypes[ev.match] == nil then
+      pcall(require, "batphone.filetype." .. ev.match)
+      batphone_filetypes[ev.match] = true
+    end
   end,
 })
 
