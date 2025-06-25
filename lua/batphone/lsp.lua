@@ -1,3 +1,11 @@
+local function rust_features()
+  local features = {}
+  for _, feature in ipairs(vim.split(vim.env.CARGO_FEATURES or "", ",")) do
+    if feature ~= "" then table.insert(features, feature) end
+  end
+  return features
+end
+
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
 local function setup(name, config)
   if vim.env.BATPHONE_NVIM_CHECK == "1" then
@@ -11,13 +19,15 @@ local function setup(name, config)
     if skip == name then return end
   end
 
-  if config then vim.lsp.config(name, config) end
-  vim.lsp.config(name, { auto_install_packages = config and true or false })
-  if config then vim.lsp.enable(name) end
+  config.auto_install_packages = true
+  vim.lsp.config(name, config)
+  vim.lsp.enable(name)
 end
 
 for _, name in ipairs(vim.split(vim.env.BATPHONE_LSP_ENABLE or "", ",")) do
-  setup(name, {})
+  if name ~= "" then
+    setup(name, {})
+  end
 end
 
 setup("ansiblels", {})
@@ -46,7 +56,6 @@ setup("postgres_lsp", {})
 setup("prosemd_lsp", {})
 setup("pylyzer", {})
 setup("quick_lint_js", {})
-setup("rust_analyzer", {})
 setup("spectral", {})
 setup("svelte", {})
 setup("systemd_ls", {})
@@ -96,6 +105,27 @@ setup("perlnavigator", {
       perlcriticEnabled = false,
     },
   },
+})
+
+setup("rust-analyzer", {
+  settings = {
+    ["rust-analyzer"] = {
+      cargo = {
+        allFeatures = false,
+        features = rust_features(),
+        loadOutDirsFromCheck = false,
+        buildScripts = {
+          enable = true,
+        },
+      },
+      check = {
+        features = rust_features(),
+      },
+      procMacro = {
+        enable = false,
+      },
+    }
+  }
 })
 
 setup("sqlls", {

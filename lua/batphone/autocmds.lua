@@ -143,6 +143,9 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("batphone_lsp_config", { clear = true }),
   callback = function(ev)
+    -- Only need to run this once
+    vim.api.nvim_del_augroup_by_name("batphone_lsp_config")
+
     require("batphone.keymaps").keys_lsp();
 
     local signs = {

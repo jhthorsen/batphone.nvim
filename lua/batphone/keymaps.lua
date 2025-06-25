@@ -29,11 +29,16 @@ end
 
 function M.keys_additional()
   mapkey("n", "<leader>nL", "<cmd>Lazy<cr>", { desc = "LazyVim manager" })
+  mapkey("n", "<leader>nli", "<cmd>LspInfo<cr>", { desc = "LSP Info" })
+  mapkey("n", "<leader>nlr", "<cmd>LspRestart<cr>", { desc = "LSP Restart" })
 
   mapkey("n", "<tab>", "<cmd>bnext<cr>", { desc = "Prev Buffer" })
   mapkey("n", "<s-tab>", "<cmd>bprevious<cr>", { desc = "Next Buffer" })
   mapkey("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
   mapkey("n", "<leader>qa", "<cmd>wqa<cr>", { desc = "Save and Quit All" })
+
+  mapkey("n", "<a-j>", "<cmd>execute 'move .+' . v:count1<cr>==", { desc = "Move line down" })
+  mapkey("n", "<a-k>", "<cmd>execute 'move .-' . (v:count1 + 1)<cr>==", { desc = "Move line up" })
 
   mapkey("n", "<leader>qq",
     function()
@@ -136,7 +141,7 @@ function M.keys_lsp()
   mapkey("n", "gK", function() return vim.lsp.buf.signature_help() end, { desc = "Signature Help" })
   mapkey("n", "gr", function() picker.lsp_references() end, { desc = "References", nowait = true })
   mapkey("n", "gy", function() picker.lsp_type_definitions() end, { desc = "Goto T[y]pe Definition" })
-  mapkey("n", "K", function() return vim.lsp.buf.hover() end, { desc = "Displays information about the symbol under the cursor in a floating window"})
+  mapkey("n", "K", function() return vim.lsp.buf.hover() end, { desc = "Displays information about the symbol under the cursor in a floating window" })
 end
 
 function M.multicursor(mc)
