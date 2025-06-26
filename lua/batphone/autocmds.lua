@@ -128,17 +128,6 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
-local batphone_filetypes = {}
-vim.api.nvim_create_autocmd("FileType", {
-  group = vim.api.nvim_create_augroup("batphone_load_file_type_config", { clear = true }),
-  callback = function(ev)
-    if batphone_filetypes[ev.match] == nil then
-      pcall(require, "batphone.filetype." .. ev.match)
-      batphone_filetypes[ev.match] = true
-    end
-  end,
-})
-
 -- Setup LSP
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("batphone_lsp_config", { clear = true }),
