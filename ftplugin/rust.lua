@@ -8,3 +8,6 @@ vim.keymap.set("n", "<a-k>", rust_lsp({"moveItem",  "up"}), { desc = "RustLsp mo
 vim.keymap.set("n", "<leader>a", rust_lsp("codeAction"), { desc = "RustLsp codeAction", silent = true, buffer = true })
 vim.keymap.set("n", "<leader>ce", rust_lsp("expandMacro"), { desc = "RustLsp expandMacro", silent = true, buffer = true })
 vim.keymap.set("n", "<leader>ch", rust_lsp("explainError"), { desc = "RustLsp explainError", silent = true, buffer = true })
+
+-- mrcjkb/rustaceanvim sets up a "rust-analyzer" lsp
+-- vim.lsp.enable("rust_analyzer")

@@ -42,8 +42,8 @@ function M.install(lang)
       local lsp_config = vim.lsp.config[lsp_name] or {};
       local pkg_name = lsp_mappings.lspconfig_to_package[lsp_name]
 
-      if not pkg_name or lsp_config["auto_install_packages"] ~= true then
-        table.insert(packages_text, "# Missing vim.lsp.config(\"" .. lsp_name .. "\", { auto_install_packages = true })")
+      if not pkg_name or lsp_config["batphone_auto_install"] ~= true then
+        table.insert(packages_text, "# Missing vim.lsp.config(\"" .. lsp_name .. "\", { batphone_auto_install = true })")
         goto continue
       end
 

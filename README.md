@@ -27,7 +27,6 @@ following directories first:
 * `BATPHONE_COPILOT_MODEL=o3-mini` - Preselect a copilot model
 * `BATPHONE_LSP_DISABLE="htmx,spectral"` - Disable LSP servers
 * `BATPHONE_LSP_ENABLE="superhtml"` - Enable LSP servers
-* `BATPHONE_NVIM_CHECK=1` - Check if the LSP servers are spelled correctly.
 * `CARGO_FEATURES=a,b,c` - Enable features when editing rust files
 * `ENABLE_COPILOT={no,yes,force}` - Enable Copilot plugin
 * `NVIM_AUTO_INSTALL_PACKAGES=1` - Show install screen, even if there's nothing to do.

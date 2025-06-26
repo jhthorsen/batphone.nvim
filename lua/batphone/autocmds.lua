@@ -85,7 +85,8 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 
--- Auto install packages
+-- Auto install packages when cursor is idle or on insert enter,
+-- since when trigged from "BufRead" the window won't get focuc
 vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI", "CursorMoved", "InsertEnter" }, {
   group = vim.api.nvim_create_augroup("batphone_lsp_auto_install", { clear = true }),
   callback = function()
@@ -125,6 +126,21 @@ vim.api.nvim_create_autocmd("FileType", {
         desc = "Quit buffer",
       })
     end)
+  end,
+})
+
+-- Auto install packages and start LSP server
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+  group = vim.api.nvim_create_augroup("batphone_lsp", { clear = true }),
+  callback = function()
+    local lang = vim.bo.filetype
+    local lsp_mappings = require("mason-lspconfig.mappings").get_filetype_map()
+    for _, lsp_name in pairs(lsp_mappings[lang] or {}) do
+      local config = vim.lsp.config[lsp_name] or {}
+      if config.batphone_auto_install ~= nil then
+        vim.lsp.enable(lsp_name)
+      end
+    end
   end,
 })
 
