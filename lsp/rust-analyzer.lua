@@ -7,18 +7,13 @@ return {
   batphone_auto_install = true,
   settings = {
     ["rust-analyzer"] = {
-      rustfmt = {
-        extraArgs = { "+nightly" },
-      },
       cargo = {
         allFeatures = false,
         features = features,
         loadOutDirsFromCheck = false,
-        extraArgs = { "+nightly" },
       },
       check = {
         features = features,
-        extraArgs = { "+nightly" },
       },
     }
   }
