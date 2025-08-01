@@ -5,8 +5,8 @@ local treesitter = {}
 function M.install(lang)
   if lang == nil or lang == "" then return end
   if lang == "snacks_win" then return end
-  if treesitter[lang] == true then vim.treesitter.start() end
   if already_asked_lang[lang] then return end
+  if treesitter[lang] == true then vim.treesitter.start() end
   already_asked_lang[lang] = true
 
   local packages_text = { "The following commands will be run to install extra language support.", "" }
