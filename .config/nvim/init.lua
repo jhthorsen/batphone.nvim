@@ -9,6 +9,9 @@ vim.pack.add({
   { src = "https://github.com/mason-org/mason.nvim", version = "main" },
   { src = "https://github.com/zbirenbaum/copilot.lua", version = "master" },
   { src = "https://github.com/copilotc-nvim/copilotchat.nvim", version = "main" },
+  { src = "https://github.com/folke/lazydev.nvim", version = "main" },
+  { src = "https://github.com/fang2hou/blink-copilot", version = "main" },
+  { src = "https://github.com/saghen/blink.cmp", version = "v1.6.0" },
 })
 
 -- Either load jhthorsen.nvim from github...
@@ -30,6 +33,7 @@ require("jhthorsen.statusline").setup()
 
 require("jhthorsen.autocmd_buf_enter_goto_last_loc")
 require("jhthorsen.autocmd_buf_write_pre_mkdir")
+require("jhthorsen.autocmd_lsp_attach_settings")
 
 require("jhthorsen.copilot").setup()
 require("jhthorsen.mason").setup()

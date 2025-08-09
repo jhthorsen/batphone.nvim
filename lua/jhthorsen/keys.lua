@@ -28,6 +28,35 @@ function M.auto()
   key("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
 end
 
+function M.blink()
+  return {
+    preset = "default",
+    ["<cr>"] = {
+      function(ctx)
+        local item = ctx.get_selected_item() or {}
+        if item.source_id == "copilot" then return ctx.select_and_accept() end
+        if item.source_id == "snippets" then return ctx.select_and_accept() end
+
+        local col = vim.api.nvim_win_get_cursor(0)[2]
+        if col == 0 then return nil end
+
+        local line = vim.api.nvim_get_current_line()
+        local word_before = line:sub(col, col):match("%w")
+        if word_before ~= nil then return ctx.select_and_accept() end
+      end,
+      "fallback",
+    },
+    ["<tab>"] = {
+      function(ctx) return ctx.select_next() end,
+      "fallback",
+    },
+    ["<s-tab>"] = {
+      function(ctx) return ctx.select_prev() end,
+      "fallback",
+    }
+  }
+end
+
 function M.buffers()
   key("n", "<tab>", "<cmd>bnext<cr>", { desc = "Prev Buffer" })
   key("n", "<s-tab>", "<cmd>bprevious<cr>", { desc = "Next Buffer" })
@@ -134,6 +163,52 @@ function M.multicursor(mc)
     mk({ "v", "x" }, "i", "<c-a>i")
     mk({ "v", "x" }, "n", "<esc>")
   end)
+end
+
+function M.lsp()
+  local function goto_diag(next, severity)
+    severity = severity and vim.diagnostic.severity[severity] or nil
+    local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
+    go({ severity = severity })
+  end
+
+  local ok, toggle = pcall(require, "snacks.toggle")
+  if ok then
+    toggle.diagnostics():map("<leader>ud")
+    toggle.inlay_hints():map("<leader>uh")
+    toggle.new({
+      id = "diagnostics_virtual_lines",
+      name = "Diagnostics virtual lines",
+      get = function() return vim.diagnostic.config().virtual_lines end,
+      set = function(virtual_lines) vim.diagnostic.config({ virtual_lines = virtual_lines }) end
+    }):map("<leader>uv")
+  end
+
+  local picker = require("snacks.picker")
+  key("i", "<leader>cS", function() return vim.lsp.buf.signature_help() end, { desc = "Signature Help" })
+  key("i", "<leader>cf", function() return vim.lsp.buf.format() end, { desc = "Format code" })
+  key("n", "[e", function() goto_diag(false, "ERROR") end, { desc = "Prev Error" })
+  key("n", "[w", function() goto_diag(false, "WARN") end, { desc = "Prev Warning" })
+  key("n", "]e", function() goto_diag(true, "ERROR") end, { desc = "Next Error" })
+  key("n", "]w", function() goto_diag(true, "WARN") end, { desc = "Next Warning" })
+  key("n", "<leader>ca", function() vim.lsp.buf.code_action() end, { desc = "Code Action" })
+  key("n", "<leader>cR", function() require("snacks.rename").rename_file() end, { desc = "Rename File" })
+  key("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename symbol" })
+  key("n", "<leader>da", function() picker.diagnostics() end, { desc = "Workspace Diagnostics" })
+  key("n", "<leader>db", function() picker.diagnostics_buffer() end, { desc = "Buffer Diagnostics" })
+  key("n", "<leader>de", function() picker.diagnostics({ severity = "ERROR" }) end, { desc = "Workspace Errors" })
+  key("n", "<leader>dd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
+  key("n", "<leader>dn", function() goto_diag(true) end, { desc = "Next Diagnostic" })
+  key("n", "<leader>dp", function() goto_diag(false) end, { desc = "Prev Diagnostic" })
+  key("n", "<leader>ss", function() picker.lsp_symbols() end, { desc = "LSP Symbols" })
+  key("n", "<leader>sS", function() picker.lsp_workspace_symbols() end, { desc = "LSP Workspace Symbols" })
+  key("n", "gD", function() picker.lsp_declarations() end, { desc = "Goto Declaration" })
+  key("n", "gd", function() picker.lsp_definitions() end, { desc = "Goto Definition" })
+  key("n", "gI", function() picker.lsp_implementations() end, { desc = "Goto Implementation" })
+  key("n", "gK", function() return vim.lsp.buf.signature_help() end, { desc = "Signature Help" })
+  key("n", "gr", function() picker.lsp_references() end, { desc = "References", nowait = true })
+  key("n", "gy", function() picker.lsp_type_definitions() end, { desc = "Goto T[y]pe Definition" })
+  key("n", "K", function() return vim.lsp.buf.hover() end, { desc = "Displays information about the symbol under the cursor in a floating window" })
 end
 
 function M.snacks(snacks)
