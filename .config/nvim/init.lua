@@ -5,6 +5,7 @@ vim.pack.add({
   { src = "https://github.com/jake-stewart/multicursor.nvim", version = "main" },
   { src = "https://github.com/folke/snacks.nvim", version = "main" },
   { src = "https://github.com/folke/which-key.nvim", version = "main" },
+  { src = "https://github.com/mason-org/mason.nvim", version = "main" },
 })
 
 -- Either load jhthorsen.nvim from github...
@@ -26,6 +27,8 @@ require("jhthorsen.statusline").setup()
 require("jhthorsen.autocmd_buf_enter_goto_last_loc")
 require("jhthorsen.autocmd_buf_write_pre_mkdir")
 
+require("jhthorsen.mason").setup()
 require("jhthorsen.multicursor").setup()
+require("jhthorsen.which_key").setup()
 require("jhthorsen.snacks").setup()
 require("jhthorsen.which_key").setup()
