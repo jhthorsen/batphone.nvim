@@ -45,6 +45,37 @@ function M.buffers()
   )
 end
 
+function M.copilot()
+  local ok, toggle = pcall(require, "snacks.toggle")
+  if ok then
+    toggle.new({
+      id = "jhthorsen__copilot",
+      name = "Copilot",
+      get = function() return require("copilot.client").buf_is_attached(0) or false end,
+      set = function() M.load(); require("copilot.command").toggle() end
+    }):map("<leader>ct")
+
+    toggle.new({
+      id = "jhthorsen__copilotchat",
+      name = "Copilot Chat",
+      notify = false,
+      wk_desc = {
+        enabled = "Close ",
+        disabled = "Open ",
+      },
+      get = function() return string.match(vim.api.nvim_buf_get_name(0), "copilot%-chat") ~= nil end,
+      set = function(enable)
+        if enable then
+          M.load();
+          require("copilotchat").toggle({window = {layout = "replace"}})
+        else
+          vim.api.nvim_buf_delete(0, { force = true })
+        end
+      end
+    }):map("<leader>cc")
+  end
+end
+
 function M.edit()
   key("n", "<a-j>", "<cmd>execute 'move .+' . v:count1<cr>==", { desc = "Move line down" })
   key("n", "<a-k>", "<cmd>execute 'move .-' . (v:count1 + 1)<cr>==", { desc = "Move line up" })
