@@ -73,6 +73,71 @@ function M.editor()
   )
 end
 
+function M.snacks(snacks)
+  local picker = require("snacks.picker")
+  local toggle = require("snacks.toggle")
+  toggle.new({
+    id = "jhthorsen__signcolumn",
+    name = "Sign column",
+    get = function() return vim.wo.signcolumn == "yes" end,
+    set = function(show)
+      vim.wo.signcolumn = show and "yes" or "no"
+      vim.wo.number = show
+      vim.wo.relativenumber = show
+    end
+  }):map("<leader>uS")
+
+  toggle.indent():map("<leader>ug")
+  toggle.line_number():map("<leader>ul")
+  toggle.option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2, name = "Conceal Level" }):map("<leader>uc")
+  toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")
+  toggle.option("spell", { name = "Spelling" }):map("<leader>us")
+  toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
+  toggle.treesitter():map("<leader>uT")
+  toggle.zen():map("<leader>uz")
+
+  key("n", "<leader>bd", function() snacks.bufdelete() end, { desc = "Delete Buffer" })
+  key("n", "<leader>bo", function() snacks.bufdelete.other() end, { desc = "Delete Other Buffers" })
+  key("n", "<leader>bs", function() picker.buffers() end, { desc = "Search Buffers (<leader>b)" })
+
+  key("n", "<leader><space>", function() picker.smart() end, { desc = "Smart Find Files" })
+  key("n", "<leader>ff", function() picker.files() end, { desc = "Find Files" })
+  key("n", "<leader>fg", function() picker.git_files() end, { desc = "Find Git Files" })
+  key("n", "<leader>fr", function() picker.recent() end, { desc = "Recent" })
+  key("n", "<leader>fp", function() picker.projects() end, { desc = "Open File from Projects" })
+  key("n", "<leader>fx", function() picker.files({ cwd = ".." }) end, { desc = "Find parent Files" })
+  key("n", "<leader>b", function() picker.buffers() end, { desc = "Search Buffers" })
+  key("n", "<leader>:", function() picker.command_history() end, { desc = "Command History" })
+  key("n", "z=", function() picker.spelling() end, { desc = "Spelling suggestions" })
+
+  key("n", "<leader>gb", function() picker.git_branches() end, { desc = "Git Branches" })
+  key("n", "<leader>gl", function() picker.git_log() end, { desc = "Git Log" })
+  key("n", "<leader>gs", function() picker.git_status() end, { desc = "Git Status" })
+
+  key("n", "<leader>sB", function() picker.grep_buffers() end, { desc = "Grep Open Buffers" })
+  key("n", "<leader>sg", function() picker.grep() end, { desc = "Grep Project Files" })
+  key({ "n", "x" }, "<leader>sw", function() picker.grep_word() end, { desc = "Visual selection or word" })
+
+  key("n", '<leader>s"', function() picker.registers() end, { desc = "Registers" })
+  key("n", "<leader>sb", function() picker.lines() end, { desc = "Buffer Lines" })
+  key("n", "<leader>sj", function() picker.jumps() end, { desc = "Jumps" })
+  key("n", "<leader>sl", function() picker.loclist() end, { desc = "Location List" })
+  key("n", "<leader>sm", function() picker.marks() end, { desc = "Marks" })
+  key("n", "<leader>sq", function() picker.qflist() end, { desc = "Quickfix List" })
+
+  key("n", "<leader>na", function() picker.autocmds() end, { desc = "Search Auto-commands" })
+  key("n", "<leader>nC", function() picker.commands() end, { desc = "Search Commands" })
+  key("n", "<leader>nc", function() picker.files({ cwd = vim.fn.stdpath("config") }) end, { desc = "Search Config Files" })
+  key("n", "<leader>nI", function() picker.icons() end, { desc = "Search Icons" })
+  key("n", "<leader>nk", function() picker.keymaps() end, { desc = "Search Keymaps" })
+  key("n", "<leader>nf", function() picker.files({ dirs = vim.api.nvim_get_runtime_file("lua/", true) }) end, { desc = "Plugin files" })
+  key("n", "<leader>uC", function() picker.colorschemes() end, { desc = "Search Colorschemes" })
+
+  key("n", "<c-_>", function() snacks.terminal() end, { desc = "Terminal (cwd)" })
+  key("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
+  key("t", "<C-_>", "<cmd>close<cr>", { desc = "Hide Terminal" })
+end
+
 function M.setup()
   M.auto()
   M.buffers()
