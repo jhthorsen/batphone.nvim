@@ -2,6 +2,7 @@ vim.pack.add({
   { src = "https://github.com/nvim-lua/plenary.nvim", version = "master" },
   { src = "https://github.com/rebelot/kanagawa.nvim", version = "master" },
   { src = "https://github.com/echasnovski/mini.nvim", version = "main" },
+  { src = "https://github.com/jake-stewart/multicursor.nvim", version = "main" },
   { src = "https://github.com/folke/snacks.nvim", version = "main" },
 })
 
@@ -24,4 +25,5 @@ require("jhthorsen.statusline").setup()
 require("jhthorsen.autocmd_buf_enter_goto_last_loc")
 require("jhthorsen.autocmd_buf_write_pre_mkdir")
 
+require("jhthorsen.multicursor").setup()
 require("jhthorsen.snacks").setup()

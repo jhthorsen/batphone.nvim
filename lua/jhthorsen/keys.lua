@@ -73,6 +73,38 @@ function M.editor()
   )
 end
 
+function M.multicursor(mc)
+  local ok, toggle = pcall(require, "snacks.toggle")
+  if ok then
+    toggle.new({
+      id = "multicursor",
+      name = "Multicursor",
+      get = function() return mc.hasCursors() and mc.cursorsEnabled() end,
+      set = function(disable)
+        if not disable then mc.clearCursors()
+        elseif mc.hasCursors() then mc.enableCursors()
+        else mc.restoreCursors() end
+      end
+    }):map("<leader>me", { mode = { "n", "v", "x" } })
+  end
+
+  key({ "n", "x" }, "<c-d>", function() mc.matchAddCursor(1) end, { desc = "Add Next Cursor" })
+  key({ "n", "x" }, "<c-s-d>", function() mc.matchAddCursor(-1) end, { desc = "Add Prev Cursor" })
+  key({ "v", "x" }, "I", mc.insertVisual, { desc = "Multicursor Insert" })
+  key({ "v", "x" }, "A", mc.appendVisual, { desc = "Multicursor Append" })
+  key({ "n" }, "<leader>mt", mc.toggleCursor, { desc = "Add and Remove Cursors" })
+  key({ "n" }, "<leader>md", mc.disableCursors, { desc = "Multicursor Disable" })
+  key({ "n", "v", "x" }, "<leader>ma", mc.alignCursors, { desc = "Align Cursors" })
+  key({ "n", "x" }, "g<c-a>", mc.sequenceIncrement, {})
+  key({ "n", "x" }, "g<c-x>", mc.sequenceDecrement, {})
+
+  mc.addKeymapLayer(function(mk)
+    mk({ "n", "x" }, "<esc>", mc.clearCursors)
+    mk({ "v", "x" }, "i", "<c-a>i")
+    mk({ "v", "x" }, "n", "<esc>")
+  end)
+end
+
 function M.snacks(snacks)
   local picker = require("snacks.picker")
   local toggle = require("snacks.toggle")
