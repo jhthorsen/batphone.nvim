@@ -1,6 +1,7 @@
 vim.pack.add({
   { src = "https://github.com/nvim-lua/plenary.nvim", version = "master" },
   { src = "https://github.com/rebelot/kanagawa.nvim", version = "master" },
+  { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main" },
   { src = "https://github.com/echasnovski/mini.nvim", version = "main" },
   { src = "https://github.com/jake-stewart/multicursor.nvim", version = "main" },
   { src = "https://github.com/folke/snacks.nvim", version = "main" },
@@ -17,6 +18,7 @@ require("mini.align").setup({})
 require("mini.comment").setup({})
 require("mini.move").setup({})
 require("mini.surround").setup({})
+require("nvim-treesitter").setup({})
 
 require("jhthorsen.options")
 require("jhthorsen.clipboard")
