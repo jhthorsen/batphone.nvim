@@ -4,6 +4,7 @@ vim.pack.add({
   { src = "https://github.com/echasnovski/mini.nvim", version = "main" },
   { src = "https://github.com/jake-stewart/multicursor.nvim", version = "main" },
   { src = "https://github.com/folke/snacks.nvim", version = "main" },
+  { src = "https://github.com/folke/which-key.nvim", version = "main" },
 })
 
 -- Either load jhthorsen.nvim from github...
@@ -27,3 +28,4 @@ require("jhthorsen.autocmd_buf_write_pre_mkdir")
 
 require("jhthorsen.multicursor").setup()
 require("jhthorsen.snacks").setup()
+require("jhthorsen.which_key").setup()

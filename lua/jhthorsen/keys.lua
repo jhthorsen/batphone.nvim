@@ -170,6 +170,10 @@ function M.snacks(snacks)
   key("t", "<C-_>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 end
 
+function M.which_key(wk)
+  key("n", "<leader>h", function() wk.show() end, { desc = "Show All Keys" })
+end
+
 function M.setup()
   M.auto()
   M.buffers()
