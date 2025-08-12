@@ -56,4 +56,10 @@ function M.treesitter_install(parser)
   vim.cmd("TSInstall " .. parser)
 end
 
+function M.startup()
+  local method = vim.fs.root(0, ".git") ~= nil and "smart" or "recent"
+  local picker = require("jhthorsen.snacks").lazy("snacks.picker")
+  picker()[method]()
+end
+
 return M

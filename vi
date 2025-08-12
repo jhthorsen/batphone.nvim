@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [ -n "$*" ];
+  then nvim "$@";
+else
+  nvim -c ':lua require("jhthorsen.util").startup()';
+fi
