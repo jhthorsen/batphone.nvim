@@ -78,7 +78,7 @@ end
 function M.copilot()
   local copilot_client = require("jhthorsen.copilot").lazy("copilot.client")
   local copilot_command = require("jhthorsen.copilot").lazy("copilot.command")
-  local copilotchat = require("jhthorsen.copilot").lazy("copilotchat")
+  local copilotchat = require("jhthorsen.copilot").lazy("CopilotChat")
 
   toggle({
     key = "<leader>ct",

@@ -8,7 +8,7 @@ vim.pack.add({
   { src = "https://github.com/folke/which-key.nvim", version = "main" },
   { src = "https://github.com/mason-org/mason.nvim", version = "main" },
   { src = "https://github.com/zbirenbaum/copilot.lua", version = "master" },
-  { src = "https://github.com/copilotc-nvim/copilotchat.nvim", version = "main" },
+  { src = "https://github.com/CopilotC-Nvim/CopilotChat.nvim", version = vim.version.range("4.4") },
   { src = "https://github.com/folke/lazydev.nvim", version = "main" },
   { src = "https://github.com/fang2hou/blink-copilot", version = "main" },
   { src = "https://github.com/saghen/blink.cmp", version = vim.version.range("1.6") },
