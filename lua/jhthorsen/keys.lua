@@ -1,5 +1,6 @@
 local dirname = vim.fs and vim.fs.dirname or function(p) return vim.fn.fnamemodify(p, ":h") end
 local key = vim.keymap.set
+local toggle = require("jhthorsen.toggle").toggle;
 local M = {}
 
 function M.auto()
@@ -75,34 +76,25 @@ function M.buffers()
 end
 
 function M.copilot()
-  local ok, toggle = pcall(require, "snacks.toggle")
-  if ok then
-    toggle.new({
-      id = "jhthorsen__copilot",
-      name = "Copilot",
-      get = function() return require("copilot.client").buf_is_attached(0) or false end,
-      set = function() M.load(); require("copilot.command").toggle() end
-    }):map("<leader>ct")
+  toggle({
+    key = "<leader>ct",
+    desc = { enabled = "Disable Copilot", disabled = "Enable Copilot" },
+    current = function() return require("copilot.client").buf_is_attached(0) and true or false end,
+    set = function(_) require("copilot.command").toggle() end
+  })
 
-    toggle.new({
-      id = "jhthorsen__copilotchat",
-      name = "Copilot Chat",
-      notify = false,
-      wk_desc = {
-        enabled = "Close ",
-        disabled = "Open ",
-      },
-      get = function() return string.match(vim.api.nvim_buf_get_name(0), "copilot%-chat") ~= nil end,
-      set = function(enable)
-        if enable then
-          M.load();
-          require("copilotchat").toggle({window = {layout = "replace"}})
-        else
-          vim.api.nvim_buf_delete(0, { force = true })
-        end
+  toggle({
+    key = "<leader>cc",
+    desc = { enabled = "Close Copilot Chat", disabled = "Open Copilot Chat" },
+    current = function() return string.match(vim.api.nvim_buf_get_name(0), "copilot%-chat") ~= nil end,
+    set = function(enabled)
+      if enabled then
+        vim.api.nvim_buf_delete(0, { force = true })
+      else
+        require("copilotchat").toggle({window = {layout = "replace"}})
       end
-    }):map("<leader>cc")
-  end
+    end
+  })
 end
 
 function M.edit()
@@ -131,22 +123,56 @@ function M.editor()
     end,
     { desc = "Find and Edit" }
   )
+
+  toggle({
+    key = "<leader>uS",
+    desc = { enabled = "Hide Sign Column", disabled = "Show Sign Column" },
+    current = function() return vim.wo.signcolumn == "yes" end,
+    set = function(enabled)
+      vim.wo.signcolumn = enabled and "no" or "yes"
+      vim.wo.number = not enabled
+      vim.wo.relativenumber = not enabled
+    end
+  })
+
+  toggle({
+    key = "<leader>uL",
+    desc = { enabled = "Show Absolute Line Numbers", disabled = "Show Relative Line Numbers" },
+    option = "relativenumber",
+  })
+
+  toggle({
+    key = "<leader>us",
+    desc = { enabled = "Disable Spellcheck", disabled = "Enable Spellcheck" },
+    option = "spell",
+  })
+
+  toggle({
+    key = "<leader>uT",
+    desc = { enabled = "Disable Treesitter", disabled = "Enable Treesitter" },
+    current = function() return vim.b.ts_highlight end,
+    set = function(enabled) vim.treesitter[enabled and "stop" or "start"]() end,
+  })
+
+  toggle({
+    key = "<leader>uw",
+    desc = { enabled = "Cut Long Lines", disabled = "Wrap Lines" },
+    option = "wrap",
+  })
 end
 
 function M.multicursor(mc)
-  local ok, toggle = pcall(require, "snacks.toggle")
-  if ok then
-    toggle.new({
-      id = "multicursor",
-      name = "Multicursor",
-      get = function() return mc.hasCursors() and mc.cursorsEnabled() end,
-      set = function(disable)
-        if not disable then mc.clearCursors()
-        elseif mc.hasCursors() then mc.enableCursors()
-        else mc.restoreCursors() end
-      end
-    }):map("<leader>me", { mode = { "n", "v", "x" } })
-  end
+  toggle({
+    key = "<leader>me",
+    mode = { "n", "v", "x" },
+    desc = { enabled = "Clear Multicursors", disabled = "Enable Multicursors" },
+    current = function() return mc.hasCursors() and mc.cursorsEnabled() end,
+    set = function(enabled)
+      if enabled then mc.clearCursors()
+      elseif mc.hasCursors() then mc.enableCursors()
+      else mc.restoreCursors() end
+    end
+  })
 
   key({ "n", "x" }, "<c-d>", function() mc.matchAddCursor(1) end, { desc = "Add Next Cursor" })
   key({ "n", "x" }, "<c-s-d>", function() mc.matchAddCursor(-1) end, { desc = "Add Prev Cursor" })
@@ -172,17 +198,26 @@ function M.lsp()
     go({ severity = severity })
   end
 
-  local ok, toggle = pcall(require, "snacks.toggle")
-  if ok then
-    toggle.diagnostics():map("<leader>ud")
-    toggle.inlay_hints():map("<leader>uh")
-    toggle.new({
-      id = "diagnostics_virtual_lines",
-      name = "Diagnostics virtual lines",
-      get = function() return vim.diagnostic.config().virtual_lines end,
-      set = function(virtual_lines) vim.diagnostic.config({ virtual_lines = virtual_lines }) end
-    }):map("<leader>uv")
-  end
+  toggle({
+    key = "<leader>ud",
+    desc = { enabled = "Disable Diagnostics", disabled = "Enable Diagnostics" },
+    current = function() return vim.diagnostic.is_enabled() end,
+    set = function(enabled) vim.diagnostic.enable(not enabled) end,
+  })
+
+  toggle({
+    key = "<leader>uh",
+    desc = { enabled = "Hide Inlay Hints", disabled = "Show Inlay Hints" },
+    current = function() return vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }) end,
+    set = function(enabled) vim.lsp.inlay_hint.enable(not enabled, { bufnr = 0 }) end,
+  })
+
+  toggle({
+    key = "<leader>uv",
+    desc = { enabled = "Hide Virtual Lines", disabled = "Show Virtual Lines" },
+    current = function() return vim.diagnostic.config().virtual_lines and true or false end,
+    set = function(enabled) vim.diagnostic.config({ virtual_lines = not enabled }) end
+  })
 
   local picker = require("snacks.picker")
   key("i", "<leader>cS", function() return vim.lsp.buf.signature_help() end, { desc = "Signature Help" })
@@ -218,26 +253,6 @@ end
 
 function M.snacks(snacks)
   local picker = require("snacks.picker")
-  local toggle = require("snacks.toggle")
-  toggle.new({
-    id = "jhthorsen__signcolumn",
-    name = "Sign column",
-    get = function() return vim.wo.signcolumn == "yes" end,
-    set = function(show)
-      vim.wo.signcolumn = show and "yes" or "no"
-      vim.wo.number = show
-      vim.wo.relativenumber = show
-    end
-  }):map("<leader>uS")
-
-  toggle.indent():map("<leader>ug")
-  toggle.line_number():map("<leader>ul")
-  toggle.option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2, name = "Conceal Level" }):map("<leader>uc")
-  toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")
-  toggle.option("spell", { name = "Spelling" }):map("<leader>us")
-  toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
-  toggle.treesitter():map("<leader>uT")
-  toggle.zen():map("<leader>uz")
 
   key("n", "<leader>bd", function() snacks.bufdelete() end, { desc = "Delete Buffer" })
   key("n", "<leader>bo", function() snacks.bufdelete.other() end, { desc = "Delete Other Buffers" })
