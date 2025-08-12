@@ -64,7 +64,8 @@ function M.blink_sources()
   table.insert(default, "lsp")
   table.insert(default, "snippets")
 
-  if pcall(require, "blink-copilot") then
+  local blink_copilot = require("jhthorsen.copilot").lazy("blink-copilot")
+  if pcall(blink_copilot) then
     table.insert(default, "copilot")
   end
 

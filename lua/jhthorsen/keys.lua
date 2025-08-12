@@ -76,11 +76,15 @@ function M.buffers()
 end
 
 function M.copilot()
+  local copilot_client = require("jhthorsen.copilot").lazy("copilot.client")
+  local copilot_command = require("jhthorsen.copilot").lazy("copilot.command")
+  local copilotchat = require("jhthorsen.copilot").lazy("copilotchat")
+
   toggle({
     key = "<leader>ct",
     desc = { enabled = "Disable Copilot", disabled = "Enable Copilot" },
-    current = function() return require("copilot.client").buf_is_attached(0) and true or false end,
-    set = function(_) require("copilot.command").toggle() end
+    current = function() return copilot_client().buf_is_attached(0) and true or false end,
+    set = function(_) copilot_command().toggle() end
   })
 
   toggle({
@@ -91,7 +95,7 @@ function M.copilot()
       if enabled then
         vim.api.nvim_buf_delete(0, { force = true })
       else
-        require("copilotchat").toggle({window = {layout = "replace"}})
+        copilotchat().toggle({window = {layout = "replace"}})
       end
     end
   })
@@ -246,65 +250,65 @@ function M.lsp()
   key("n", "K", function() return vim.lsp.buf.hover() end, { desc = "Displays information about the symbol under the cursor in a floating window" })
 end
 
-function M.oil(oil)
-  key("n", "-", "<cmd>Oil<cr>", { desc = "Open File Explorer" })
-  key("n", "<leader>e", function() oil.open_float() end, { desc = "Open File Explorer" })
+function M.mason()
+  local ui = require("jhthorsen.mason").lazy("mason.ui")
+  key("n", "<leader>nM", function() ui().open() end, { desc = "Open Mason Package Manager" })
 end
 
-function M.snacks(snacks)
-  local picker = require("snacks.picker")
+function M.oil()
+  local oil = require("jhthorsen.oil").lazy("oil")
+  key("n", "-", function() oil().open() end, { desc = "Open File Explorer" })
+  key("n", "<leader>e", function() oil().open_float() end, { desc = "Open File Explorer" })
+end
 
-  key("n", "<leader>bd", function() snacks.bufdelete() end, { desc = "Delete Buffer" })
-  key("n", "<leader>bo", function() snacks.bufdelete.other() end, { desc = "Delete Other Buffers" })
-  key("n", "<leader>bs", function() picker.buffers() end, { desc = "Search Buffers (<leader>b)" })
+function M.snacks()
+  local snacks = require("jhthorsen.snacks").lazy("snacks")
+  local picker = require("jhthorsen.snacks").lazy("snacks.picker")
 
-  key("n", "<leader><space>", function() picker.smart() end, { desc = "Smart Find Files" })
-  key("n", "<leader>ff", function() picker.files() end, { desc = "Find Files" })
-  key("n", "<leader>fg", function() picker.git_files() end, { desc = "Find Git Files" })
-  key("n", "<leader>fr", function() picker.recent() end, { desc = "Recent" })
-  key("n", "<leader>fp", function() picker.projects() end, { desc = "Open File from Projects" })
-  key("n", "<leader>fx", function() picker.files({ cwd = ".." }) end, { desc = "Find parent Files" })
-  key("n", "<leader>b", function() picker.buffers() end, { desc = "Search Buffers" })
-  key("n", "<leader>:", function() picker.command_history() end, { desc = "Command History" })
-  key("n", "z=", function() picker.spelling() end, { desc = "Spelling suggestions" })
+  key("n", "<leader>bd", function() snacks().bufdelete() end, { desc = "Delete Buffer" })
+  key("n", "<leader>bo", function() snacks().bufdelete.other() end, { desc = "Delete Other Buffers" })
+  key("n", "<leader>bs", function() picker().buffers() end, { desc = "Search Buffers (<leader>b)" })
 
-  key("n", "<leader>gb", function() picker.git_branches() end, { desc = "Git Branches" })
-  key("n", "<leader>gl", function() picker.git_log() end, { desc = "Git Log" })
-  key("n", "<leader>gs", function() picker.git_status() end, { desc = "Git Status" })
+  key("n", "<leader><space>", function() picker().smart() end, { desc = "Smart Find Files" })
+  key("n", "<leader>ff", function() picker().files() end, { desc = "Find Files" })
+  key("n", "<leader>fg", function() picker().git_files() end, { desc = "Find Git Files" })
+  key("n", "<leader>fr", function() picker().recent() end, { desc = "Recent" })
+  key("n", "<leader>fp", function() picker().projects() end, { desc = "Open File from Projects" })
+  key("n", "<leader>fx", function() picker().files({ cwd = ".." }) end, { desc = "Find parent Files" })
+  key("n", "<leader>b", function() picker().buffers() end, { desc = "Search Buffers" })
+  key("n", "<leader>:", function() picker().command_history() end, { desc = "Command History" })
+  key("n", "z=", function() picker().spelling() end, { desc = "Spelling suggestions" })
 
-  key("n", "<leader>sB", function() picker.grep_buffers() end, { desc = "Grep Open Buffers" })
-  key("n", "<leader>sg", function() picker.grep() end, { desc = "Grep Project Files" })
-  key({ "n", "x" }, "<leader>sw", function() picker.grep_word() end, { desc = "Visual selection or word" })
+  key("n", "<leader>gb", function() picker().git_branches() end, { desc = "Git Branches" })
+  key("n", "<leader>gl", function() picker().git_log() end, { desc = "Git Log" })
+  key("n", "<leader>gs", function() picker().git_status() end, { desc = "Git Status" })
 
-  key("n", '<leader>s"', function() picker.registers() end, { desc = "Registers" })
-  key("n", "<leader>sb", function() picker.lines() end, { desc = "Buffer Lines" })
-  key("n", "<leader>sj", function() picker.jumps() end, { desc = "Jumps" })
-  key("n", "<leader>sl", function() picker.loclist() end, { desc = "Location List" })
-  key("n", "<leader>sm", function() picker.marks() end, { desc = "Marks" })
-  key("n", "<leader>sq", function() picker.qflist() end, { desc = "Quickfix List" })
+  key("n", "<leader>sB", function() picker().grep_buffers() end, { desc = "Grep Open Buffers" })
+  key("n", "<leader>sg", function() picker().grep() end, { desc = "Grep Project Files" })
+  key({ "n", "x" }, "<leader>sw", function() picker().grep_word() end, { desc = "Visual selection or word" })
 
-  key("n", "<leader>na", function() picker.autocmds() end, { desc = "Search Auto-commands" })
-  key("n", "<leader>nC", function() picker.commands() end, { desc = "Search Commands" })
-  key("n", "<leader>nc", function() picker.files({ cwd = vim.fn.stdpath("config") }) end, { desc = "Search Config Files" })
-  key("n", "<leader>nI", function() picker.icons() end, { desc = "Search Icons" })
-  key("n", "<leader>nk", function() picker.keymaps() end, { desc = "Search Keymaps" })
-  key("n", "<leader>nf", function() picker.files({ dirs = vim.api.nvim_get_runtime_file("lua/", true) }) end, { desc = "Plugin files" })
-  key("n", "<leader>uC", function() picker.colorschemes() end, { desc = "Search Colorschemes" })
+  key("n", '<leader>s"', function() picker().registers() end, { desc = "Registers" })
+  key("n", "<leader>sb", function() picker().lines() end, { desc = "Buffer Lines" })
+  key("n", "<leader>sj", function() picker().jumps() end, { desc = "Jumps" })
+  key("n", "<leader>sl", function() picker().loclist() end, { desc = "Location List" })
+  key("n", "<leader>sm", function() picker().marks() end, { desc = "Marks" })
+  key("n", "<leader>sq", function() picker().qflist() end, { desc = "Quickfix List" })
 
-  key("n", "<c-_>", function() snacks.terminal() end, { desc = "Terminal (cwd)" })
+  key("n", "<leader>na", function() picker().autocmds() end, { desc = "Search Auto-commands" })
+  key("n", "<leader>nC", function() picker().commands() end, { desc = "Search Commands" })
+  key("n", "<leader>nc", function() picker().files({ cwd = vim.fn.stdpath("config") }) end, { desc = "Search Config Files" })
+  key("n", "<leader>nI", function() picker().icons() end, { desc = "Search Icons" })
+  key("n", "<leader>nk", function() picker().keymaps() end, { desc = "Search Keymaps" })
+  key("n", "<leader>nf", function() picker().files({ dirs = vim.api.nvim_get_runtime_file("lua/", true) }) end, { desc = "Plugin files" })
+  key("n", "<leader>uC", function() picker().colorschemes() end, { desc = "Search Colorschemes" })
+
+  key("n", "<c-_>", function() snacks().terminal() end, { desc = "Terminal (cwd)" })
   key("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
   key("t", "<C-_>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 end
 
 function M.which_key(wk)
   key("n", "<leader>h", function() wk.show() end, { desc = "Show All Keys" })
-end
-
-function M.setup()
-  M.auto()
-  M.buffers()
-  M.edit()
-  M.editor()
 end
 
 return M

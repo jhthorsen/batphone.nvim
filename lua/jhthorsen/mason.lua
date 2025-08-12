@@ -2,19 +2,15 @@ local M = {
   opts = {},
 }
 
-function M.load()
-  local mason = require("mason")
-  mason.setup(M.opts)
-  M.load = function() return mason end
-  return mason
-end
+function M.lazy(mod)
+  return function()
+    if not M.loaded then
+      require("mason").setup(M.opts)
+      M.loaded = true
+    end
 
-function M.setup()
-  vim.keymap.set(
-    "n", "<leader>nM",
-    function() M.load(); require("mason.ui").open() end,
-    { desc = "Open Mason Package Manager" }
-  )
+    return require(mod or "mason")
+  end
 end
 
 return M

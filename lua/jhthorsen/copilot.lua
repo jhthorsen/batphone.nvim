@@ -26,35 +26,7 @@ local M = {
   },
 }
 
-function M.rewrite_copilot_chat_history(name)
-  local cc = require("copilotchat")
-  local history_file = vim.fs.normalize(cc.config.history_path or "") .. "/" .. name .. ".json"
-  local history_fh = io.open(history_file, "r")
-  if not history_fh then return end
-
-  local history = vim.json.decode(history_fh:read("*a"), { luanil = { array = true, object = true } })
-  if #history <= 1 then return end
-
-  history_fh:close()
-  for i = #history, 1, -1 do
-    if history[i].content == nil or history[i].content == "" then
-      table.remove(history, i)
-    end
-  end
-
-  history_fh = io.open(history_file, "w")
-  if not history_fh then return end
-  history_fh:write(vim.json.encode(history))
-  history_fh:close()
-end
-
-function M.setup()
-  require("plenary")
-  require("copilot").setup(M.copilot)
-  require("copilot.auth").signin()
-  require("copilotchat").setup(M.copilotchat)
-  require("jhthorsen.keys").copilot()
-
+function M.autocmd()
   vim.api.nvim_create_autocmd("BufEnter", {
     group = vim.api.nvim_create_augroup("jhthorsen__copilotchat_buf_enter_once", { clear = true }),
     pattern = "copilot-chat",
@@ -84,6 +56,43 @@ function M.setup()
     pattern = "copilot-*",
     callback = function() require("copilotchat").save("default") end
   })
+end
+
+function M.lazy(mod)
+  return function()
+    if not M.loaded then
+      require("plenary")
+      require("copilot").setup(M.copilot)
+      require("copilot.auth").signin()
+      require("copilotchat").setup(M.copilotchat)
+      M.autocmd()
+      M.loaded = true
+    end
+
+    return require(mod or "snacks")
+  end
+end
+
+function M.rewrite_copilot_chat_history(name)
+  local cc = require("copilotchat")
+  local history_file = vim.fs.normalize(cc.config.history_path or "") .. "/" .. name .. ".json"
+  local history_fh = io.open(history_file, "r")
+  if not history_fh then return end
+
+  local history = vim.json.decode(history_fh:read("*a"), { luanil = { array = true, object = true } })
+  if #history <= 1 then return end
+
+  history_fh:close()
+  for i = #history, 1, -1 do
+    if history[i].content == nil or history[i].content == "" then
+      table.remove(history, i)
+    end
+  end
+
+  history_fh = io.open(history_file, "w")
+  if not history_fh then return end
+  history_fh:write(vim.json.encode(history))
+  history_fh:close()
 end
 
 return M

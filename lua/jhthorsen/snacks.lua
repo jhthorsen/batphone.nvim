@@ -88,9 +88,15 @@ M.opts = {
   },
 }
 
-M.setup = function()
-  require("snacks").setup(M.opts)
-  require("jhthorsen.keys").snacks()
+function M.lazy(mod)
+  return function()
+    if not M.loaded then
+      require("snacks").setup(M.opts)
+      M.loaded = true
+    end
+
+    return require(mod or "snacks")
+  end
 end
 
 return M

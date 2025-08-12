@@ -30,9 +30,9 @@ function M.lsp_enable(lsp_name, o)
     end
 
     if vim.fn.executable(cmd) == 1 then
-      require("jhthorsen.mason").load() -- Need to require mason before installing the packages
       M.debug(cmd .. " is already installed for " .. lsp_name .. ".")
     else
+      require("jhthorsen.mason").lazy("mason")() -- Need to require mason before installing the packages
       vim.cmd("MasonInstall " .. mason_package)
     end
   end
@@ -49,7 +49,7 @@ function M.treesitter_install(parser)
   end
 
   if vim.fn.executable("tree-sitter") ~= 1 then
-    require("jhthorsen.mason").load()
+    require("jhthorsen.mason").lazy("mason")() -- Need to require mason before installing the packages
     vim.cmd("MasonInstall tree-sitter-cli")
   end
 

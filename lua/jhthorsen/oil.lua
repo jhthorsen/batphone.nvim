@@ -16,10 +16,15 @@ local M = {
   },
 }
 
-function M.setup()
-  local oil = require("oil")
-  oil.setup(M.opts)
-  require("jhthorsen.keys").oil(oil)
+function M.lazy(mod)
+  return function()
+    if not M.loaded then
+      require("oil").setup(M.opts)
+      M.loaded = true
+    end
+
+    return require(mod or "oil")
+  end
 end
 
 return M
