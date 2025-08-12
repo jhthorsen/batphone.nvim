@@ -11,7 +11,9 @@ vim.pack.add({
   { src = "https://github.com/copilotc-nvim/copilotchat.nvim", version = "main" },
   { src = "https://github.com/folke/lazydev.nvim", version = "main" },
   { src = "https://github.com/fang2hou/blink-copilot", version = "main" },
-  { src = "https://github.com/saghen/blink.cmp", version = "v1.6.0" },
+  { src = "https://github.com/saghen/blink.cmp", version = vim.version.range("1.6") },
+  { src = "https://github.com/mrcjkb/rustaceanvim", version = vim.version.range("6.7") },
+  { src = "https://github.com/stevearc/oil.nvim", version = "main" },
 })
 
 -- Either load jhthorsen.nvim from github...
@@ -38,6 +40,7 @@ require("jhthorsen.autocmd_lsp_attach_settings")
 require("jhthorsen.copilot").setup()
 require("jhthorsen.mason").setup()
 require("jhthorsen.multicursor").setup()
+require("jhthorsen.oil").setup()
 require("jhthorsen.which_key").setup()
 require("jhthorsen.snacks").setup()
 require("jhthorsen.which_key").setup()

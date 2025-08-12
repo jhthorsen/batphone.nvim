@@ -211,6 +211,11 @@ function M.lsp()
   key("n", "K", function() return vim.lsp.buf.hover() end, { desc = "Displays information about the symbol under the cursor in a floating window" })
 end
 
+function M.oil(oil)
+  key("n", "-", "<cmd>Oil<cr>", { desc = "Open File Explorer" })
+  key("n", "<leader>e", function() oil.open_float() end, { desc = "Open File Explorer" })
+end
+
 function M.snacks(snacks)
   local picker = require("snacks.picker")
   local toggle = require("snacks.toggle")
