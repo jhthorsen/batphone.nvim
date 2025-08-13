@@ -1,8 +1,0 @@
-require("jhthorsen.util").lsp_enable("html")
-require("jhthorsen.util").lsp_enable("emmet_language_server")
-require("jhthorsen.util").lsp_enable("htmx")
-require("jhthorsen.util").lsp_enable("cssls")
-require("jhthorsen.util").lsp_enable("denols")
-require("jhthorsen.util").treesitter_install("html")
-require("jhthorsen.util").treesitter_install("css")
-require("jhthorsen.util").treesitter_install("javascript")

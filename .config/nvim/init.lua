@@ -47,3 +47,47 @@ require("jhthorsen.keys").snacks()
 
 require("jhthorsen.multicursor").setup()
 require("jhthorsen.which_key").setup()
+
+require("jhthorsen.util").lsp_enable({
+  "ansiblels",
+  "bashls",
+  "cssls",
+  "cssmodules_ls",
+  "denols",
+  "dprint",
+  "emmet_language_server",
+  "gopls",
+  "html",
+  "htmx",
+  "jinja_lsp",
+  "jsonls",
+  "lua_ls",
+  "perlnavigator",
+  "postgres_lsp",
+  "prosemd_lsp",
+  "pylsp",
+  "quick_lint_js",
+  "remark_ls",
+  "sqlls",
+  "svelte",
+  "systemd_ls",
+  "textlsp",
+  "yamlls",
+})
+
+require("jhthorsen.util").treesitter_install({
+  "bash",
+  "css",
+  "gitcommit",
+  "golang",
+  "html",
+  "javascript",
+  "jinja",
+  "markdown",
+  "perl",
+  "python",
+  "rust",
+  "sql",
+  "svelte",
+  "yaml",
+})

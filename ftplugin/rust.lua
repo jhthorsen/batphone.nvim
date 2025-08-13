@@ -2,10 +2,6 @@ local function rust_lsp(action)
   return function() vim.cmd.RustLsp(action) end
 end
 
--- mrcjkb/rustaceanvim sets up a "rust-analyzer" lsp
--- vim.lsp.enable("rust_analyzer")
-require("jhthorsen.util").treesitter_install("rust")
-
 vim.keymap.set("n", "K", rust_lsp({"hover", "actions"}), { desc = "RustLsp hover actions", silent = true, buffer = true })
 vim.keymap.set("n", "<a-j>", rust_lsp({"moveItem",  "down"}), { desc = "RustLsp moveItem down", silent = true, buffer = true })
 vim.keymap.set("n", "<a-k>", rust_lsp({"moveItem",  "up"}), { desc = "RustLsp moveItem up", silent = true, buffer = true })
