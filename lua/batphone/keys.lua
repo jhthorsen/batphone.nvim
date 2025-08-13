@@ -1,6 +1,6 @@
 local dirname = vim.fs and vim.fs.dirname or function(p) return vim.fn.fnamemodify(p, ":h") end
 local key = vim.keymap.set
-local toggle = require("jhthorsen.toggle").toggle;
+local toggle = require("batphone.toggle").toggle;
 local M = {}
 
 function M.auto()
@@ -76,9 +76,9 @@ function M.buffers()
 end
 
 function M.copilot()
-  local copilot_client = require("jhthorsen.copilot").lazy("copilot.client")
-  local copilot_command = require("jhthorsen.copilot").lazy("copilot.command")
-  local copilotchat = require("jhthorsen.copilot").lazy("CopilotChat")
+  local copilot_client = require("batphone.copilot").lazy("copilot.client")
+  local copilot_command = require("batphone.copilot").lazy("copilot.command")
+  local copilotchat = require("batphone.copilot").lazy("CopilotChat")
 
   toggle({
     key = "<leader>ct",
@@ -251,19 +251,19 @@ function M.lsp()
 end
 
 function M.mason()
-  local ui = require("jhthorsen.mason").lazy("mason.ui")
+  local ui = require("batphone.mason").lazy("mason.ui")
   key("n", "<leader>nM", function() ui().open() end, { desc = "Open Mason Package Manager" })
 end
 
 function M.oil()
-  local oil = require("jhthorsen.oil").lazy("oil")
+  local oil = require("batphone.oil").lazy("oil")
   key("n", "-", function() oil().open() end, { desc = "Open File Explorer" })
   key("n", "<leader>e", function() oil().open_float() end, { desc = "Open File Explorer" })
 end
 
 function M.snacks()
-  local snacks = require("jhthorsen.snacks").lazy("snacks")
-  local picker = require("jhthorsen.snacks").lazy("snacks.picker")
+  local snacks = require("batphone.snacks").lazy("snacks")
+  local picker = require("batphone.snacks").lazy("snacks.picker")
 
   key("n", "<leader>bd", function() snacks().bufdelete() end, { desc = "Delete Buffer" })
   key("n", "<leader>bo", function() snacks().bufdelete.other() end, { desc = "Delete Other Buffers" })

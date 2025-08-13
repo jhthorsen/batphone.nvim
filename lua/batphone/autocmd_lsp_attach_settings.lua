@@ -64,7 +64,7 @@ function M.blink_sources()
   table.insert(default, "lsp")
   table.insert(default, "snippets")
 
-  local blink_copilot = require("jhthorsen.copilot").lazy("blink-copilot")
+  local blink_copilot = require("batphone.copilot").lazy("blink-copilot")
   if pcall(blink_copilot) then
     table.insert(default, "copilot")
   end
@@ -143,9 +143,9 @@ function M.config_diagnostics()
 end
 
 vim.api.nvim_create_autocmd("LspAttach", {
-  group = vim.api.nvim_create_augroup("jhthorsen__lsp_attach_settings", { clear = true }),
+  group = vim.api.nvim_create_augroup("batphone__lsp_attach_settings", { clear = true }),
   callback = function(ev)
-    vim.api.nvim_del_augroup_by_name("jhthorsen__lsp_attach_settings") -- Only need to run this once
+    vim.api.nvim_del_augroup_by_name("batphone__lsp_attach_settings") -- Only need to run this once
     local ok, blink, lazydev
 
     vim.lsp.inlay_hint.enable(false)
@@ -165,7 +165,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     if ok then
       blink.setup(vim.tbl_deep_extend("force",
         {
-          keymap = require("jhthorsen.keys").blink(),
+          keymap = require("batphone.keys").blink(),
           sources = M.blink_sources({ lazydev = lazydev }),
         },
         M.blink
@@ -177,6 +177,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
       client.server_capabilities = M.server_capabilities(client.server_capabilities)
     end
 
-    require("jhthorsen.keys").lsp()
+    require("batphone.keys").lsp()
   end,
 })

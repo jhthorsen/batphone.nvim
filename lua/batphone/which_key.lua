@@ -24,7 +24,7 @@ function M.setup()
   wk.setup(M.opts)
 
   require("which-key.plugins.presets").operators["v"] = nil
-  require("jhthorsen.keys").which_key(wk)
+  require("batphone.keys").which_key(wk)
 
   wk.add({
     { "<space>b", group = "Buffers...", },

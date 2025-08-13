@@ -16,10 +16,10 @@ vim.pack.add({
   { src = "https://github.com/stevearc/oil.nvim", version = vim.version.range("2") },
 })
 
--- Either load jhthorsen.nvim from github...
--- vim.pack.add({{ src = "https://github.com/jhthorsen/jhthorsen.nvim", version = "main" }})
---- ...or from $HOME/.local/share/nvim/site/pack/core/opt/jhthorsen.nvim
-vim.cmd("packadd jhthorsen.nvim")
+-- Either load batphone.nvim from github...
+-- vim.pack.add({{ src = "https://github.com/jhthorsen/batphone.nvim", version = "v2.x.x" }})
+--- ...or from $HOME/.local/share/nvim/site/pack/core/opt/batphone.nvim
+vim.cmd("packadd batphone.nvim")
 
 require("mini.align").setup({})
 require("mini.comment").setup({})
@@ -27,28 +27,28 @@ require("mini.move").setup({})
 require("mini.surround").setup({})
 require("nvim-treesitter").setup({})
 
-require("jhthorsen.options")
-require("jhthorsen.clipboard")
-require("jhthorsen.theme").kanagawa("kanagawa-wave")
-require("jhthorsen.statusline").setup()
+require("batphone.options")
+require("batphone.clipboard")
+require("batphone.theme").kanagawa("kanagawa-wave")
+require("batphone.statusline").setup()
 
-require("jhthorsen.autocmd_buf_enter_goto_last_loc")
-require("jhthorsen.autocmd_buf_write_pre_mkdir")
-require("jhthorsen.autocmd_lsp_attach_settings")
+require("batphone.autocmd_buf_enter_goto_last_loc")
+require("batphone.autocmd_buf_write_pre_mkdir")
+require("batphone.autocmd_lsp_attach_settings")
 
-require("jhthorsen.keys").auto()
-require("jhthorsen.keys").buffers()
-require("jhthorsen.keys").edit()
-require("jhthorsen.keys").editor()
-require("jhthorsen.keys").copilot()
-require("jhthorsen.keys").mason()
-require("jhthorsen.keys").oil()
-require("jhthorsen.keys").snacks()
+require("batphone.keys").auto()
+require("batphone.keys").buffers()
+require("batphone.keys").edit()
+require("batphone.keys").editor()
+require("batphone.keys").copilot()
+require("batphone.keys").mason()
+require("batphone.keys").oil()
+require("batphone.keys").snacks()
 
-require("jhthorsen.multicursor").setup()
-require("jhthorsen.which_key").setup()
+require("batphone.multicursor").setup()
+require("batphone.which_key").setup()
 
-require("jhthorsen.util").lsp_enable({
+require("batphone.util").lsp_enable({
   "ansiblels",
   "bashls",
   "cssls",
@@ -75,7 +75,7 @@ require("jhthorsen.util").lsp_enable({
   "yamlls",
 })
 
-require("jhthorsen.util").treesitter_install({
+require("batphone.util").treesitter_install({
   "bash",
   "css",
   "gitcommit",

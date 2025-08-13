@@ -49,7 +49,7 @@ function M.lsp_enable(lsp_names)
       if vim.fn.executable(cmd) == 1 then
         M.debug(cmd .. " is already installed for " .. lsp_name .. ".")
       else
-        require("jhthorsen.mason").lazy("mason")() -- Need to require mason before installing the packages
+        require("batphone.mason").lazy("mason")() -- Need to require mason before installing the packages
         vim.cmd("MasonInstall " .. mason_package)
       end
     end
@@ -68,7 +68,7 @@ function M.treesitter_install(parsers)
     end
 
     if vim.fn.executable("tree-sitter") ~= 1 then
-      require("jhthorsen.mason").lazy("mason")() -- Need to require mason before installing the packages
+      require("batphone.mason").lazy("mason")() -- Need to require mason before installing the packages
       vim.cmd("MasonInstall tree-sitter-cli")
     end
 
@@ -78,7 +78,7 @@ end
 
 function M.startup()
   local method = vim.fs.root(0, ".git") ~= nil and "smart" or "recent"
-  local picker = require("jhthorsen.snacks").lazy("snacks.picker")
+  local picker = require("batphone.snacks").lazy("snacks.picker")
   picker()[method]()
 end
 

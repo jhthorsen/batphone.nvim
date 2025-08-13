@@ -28,17 +28,17 @@ local M = {
 
 function M.autocmd()
   vim.api.nvim_create_autocmd("BufEnter", {
-    group = vim.api.nvim_create_augroup("jhthorsen__copilotchat_buf_enter_once", { clear = true }),
+    group = vim.api.nvim_create_augroup("batphone__copilotchat_buf_enter_once", { clear = true }),
     pattern = "copilot-chat",
     callback = function()
-      vim.api.nvim_del_augroup_by_name("jhthorsen__copilotchat_buf_enter_once") -- Only need to run this once
+      vim.api.nvim_del_augroup_by_name("batphone__copilotchat_buf_enter_once") -- Only need to run this once
       M.rewrite_copilot_chat_history("default")
       require("CopilotChat").load("default")
     end
   })
 
   vim.api.nvim_create_autocmd("BufEnter", {
-    group = vim.api.nvim_create_augroup("jhthorsen__copilotchat_buf_enter", { clear = true }),
+    group = vim.api.nvim_create_augroup("batphone__copilotchat_buf_enter", { clear = true }),
     pattern = "copilot-chat",
     callback = function()
       vim.opt_local.colorcolumn = {}
@@ -52,7 +52,7 @@ function M.autocmd()
   })
 
   vim.api.nvim_create_autocmd("BufLeave", {
-    group = vim.api.nvim_create_augroup("jhthorsen__copilotchat_buf_leave", { clear = true }),
+    group = vim.api.nvim_create_augroup("batphone__copilotchat_buf_leave", { clear = true }),
     pattern = "copilot-*",
     callback = function() require("CopilotChat").save("default") end
   })

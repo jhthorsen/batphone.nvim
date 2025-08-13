@@ -6,7 +6,7 @@ M.setup = function()
   local mc = require("multicursor-nvim")
   mc.setup(M.opts)
 
-  require("jhthorsen.keys").multicursor(mc)
+  require("batphone.keys").multicursor(mc)
 
   local hl = vim.api.nvim_set_hl
   hl(0, "MultiCursorCursor", { reverse = true })

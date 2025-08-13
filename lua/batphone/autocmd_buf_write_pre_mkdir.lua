@@ -1,5 +1,5 @@
 vim.api.nvim_create_autocmd("BufWritePre", {
-  group = vim.api.nvim_create_augroup("jhthorsen__autocmd_buf_write_pre_mkdir", { clear = true }),
+  group = vim.api.nvim_create_augroup("batphone__autocmd_buf_write_pre_mkdir", { clear = true }),
   callback = function(event)
     if event.match:match("^%w%w+:[\\/][\\/]") then
       return

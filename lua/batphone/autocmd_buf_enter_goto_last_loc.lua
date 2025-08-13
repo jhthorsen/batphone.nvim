@@ -1,5 +1,5 @@
 vim.api.nvim_create_autocmd("BufEnter", {
-  group = vim.api.nvim_create_augroup("jhthorsen__autocmd_buf_enter_goto_last_loc", { clear = true }),
+  group = vim.api.nvim_create_augroup("batphone__autocmd_buf_enter_goto_last_loc", { clear = true }),
   callback = function(event)
     local exclude = { "gitcommit" }
     local buf = event.buf

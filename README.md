@@ -55,7 +55,7 @@ arguments.
     vi() {
       if [ -n "$*" ]; then nvim "$@";
       elif [ -d ".git" ]; then nvim -c ":lua Snacks.picker.smart()";
-      else nvim -c ':lua require("jhthorsen.util").startup()';
+      else nvim -c ':lua require("batphone.util").startup()';
       fi
     }
 
