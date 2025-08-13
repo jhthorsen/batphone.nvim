@@ -6,19 +6,32 @@ local M = {
 
 function M.debug(msg)
   if M.verbose then
-    vim.api.nvim_echo({{msg}}, true, {err = false})
+    vim.notify(msg, vim.log.levels.DEBUG, {})
   end
 end
 
-function M.err(msg)
-  vim.api.nvim_echo({{msg}}, true, {err = true})
+function M.warn(msg)
+  vim.notify(msg, vim.log.levels.WARN, {})
+end
+
+function M.load_file_from_runtime_paths(rel_path)
+  for _, runtime_directory in ipairs(vim.api.nvim_list_runtime_paths()) do
+    local fullpath = runtime_directory .. "/" .. table.concat(rel_path, "/") .. ".lua"
+    if vim.fn.filereadable(fullpath) == 1 then
+      -- Avoid returning nil when file is found
+      local ret = dofile(fullpath)
+      if ret == nil then return 0 else return ret end
+    end
+  end
+
+  return nil
 end
 
 function M.lsp_enable(lsp_name, o)
   local opts = o or {}
-  local ok, lsp_config = pcall(require, "lsp." .. lsp_name)
-  if not ok then
-    return M.err("Unable to find lsp config for " .. lsp_name .. ".")
+  local lsp_config = M.load_file_from_runtime_paths({"lsp", lsp_name})
+  if not lsp_config then
+    return M.warn("Unable to find lsp config for " .. lsp_name .. ".")
   end
 
   if M.lsp_auto_install == true then
