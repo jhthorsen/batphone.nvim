@@ -49,29 +49,38 @@ require("batphone.multicursor").setup()
 require("batphone.which_key").setup()
 
 require("batphone.util").lsp_enable({
-  "ansiblels",
+  -- "ansiblels",
   "bashls",
+  "css_variables",
   "cssls",
   "cssmodules_ls",
   "denols",
-  "dprint",
+  -- "docker_language_server", -- Golang based
+  -- "dockerls", -- Node based
+  "dprint", -- Code formatter
   "emmet_language_server",
+  -- "emmet_ls", -- Deprecated?
+  "gh_actions_ls",
+  -- "gitlab_ci_ls",
   "gopls",
   "html",
   "htmx",
   "jinja_lsp",
   "jsonls",
   "lua_ls",
+  "marksman", -- Markdown LSP server
+  -- "nginx_language_server",
   "perlnavigator",
   "postgres_lsp",
-  "prosemd_lsp",
-  "pylsp",
+  -- "pylsp", -- Python 3.6+
   "quick_lint_js",
-  "remark_ls",
+  -- "remark_ls", -- Ecosystem of plugins that work with markdown as structured data
+  -- "rpmspec", -- pip install rpm-spec-language-server
   "sqlls",
   "svelte",
   "systemd_ls",
-  "textlsp",
+  -- "templ",
+  -- "textlsp", -- Text spell and grammar checking with various AI tools.
   "yamlls",
 })
 

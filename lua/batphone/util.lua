@@ -4,6 +4,7 @@ local M = {
   verbose = vim.env.VERBOSE == "1",
   mason_package_aliases = {
     cssls = "css-lsp",
+    dockerls = "dockerfile-language-server",
     pylsp = "python-lsp-server",
     sqlls = "sqlls",
     svelte = "svelte-language-server",
@@ -55,6 +56,26 @@ function M.lsp_enable(lsp_names)
     end
 
     vim.lsp.enable({ lsp_name })
+  end
+end
+
+function M.root_pattern(...)
+  local patterns = M.tbl_flatten { ... }
+  return function(startpath)
+    startpath = M.strip_archive_subpath(startpath)
+    for _, pattern in ipairs(patterns) do
+      local match = M.search_ancestors(startpath, function(path)
+        for _, p in ipairs(vim.fn.glob(table.concat({ escape_wildcards(path), pattern }, '/'), true, true)) do
+          if vim.uv.fs_stat(p) then
+            return path
+          end
+        end
+      end)
+
+      if match ~= nil then
+        return match
+      end
+    end
   end
 end
 

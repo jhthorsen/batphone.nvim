@@ -7,7 +7,7 @@
 --- `gitlab-ci-ls` can be installed via cargo:
 --- cargo install gitlab-ci-ls
 
-local util = require 'lspconfig.util'
+local util = require 'batphone.util'
 
 local cache_dir = vim.uv.os_homedir() .. '/.cache/gitlab-ci-ls/'
 
