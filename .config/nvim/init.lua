@@ -90,6 +90,7 @@ require("batphone.util").treesitter_install({
   "gitcommit",
   "golang",
   "html",
+  "htmldjango",
   "javascript",
   "jinja",
   "markdown",

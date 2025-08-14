@@ -16,6 +16,6 @@
 return {
   name = 'jinja_lsp',
   cmd = { 'jinja-lsp' },
-  filetypes = { 'jinja' },
+  filetypes = { 'jinja', 'html' },
   root_markers = { '.git' },
 }
