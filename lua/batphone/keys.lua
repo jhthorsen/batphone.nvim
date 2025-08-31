@@ -302,9 +302,9 @@ function M.snacks()
   key("n", "<leader>nf", function() picker().files({ dirs = vim.api.nvim_get_runtime_file("lua/", true) }) end, { desc = "Plugin files" })
   key("n", "<leader>uC", function() picker().colorschemes() end, { desc = "Search Colorschemes" })
 
-  key("n", "<c-_>", function() snacks().terminal() end, { desc = "Terminal (cwd)" })
-  key("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
-  key("t", "<C-_>", "<cmd>close<cr>", { desc = "Hide Terminal" })
+  key("n", "<c-_>", function() snacks().terminal() end, { desc = "Open Terminal" })
+  key("t", "<c-_>", "<cmd>close<cr>", { desc = "Hide Terminal" })
+  key("t", "<space><esc>", "<c-\\><c-n>", { desc = "Normal mode", silent = true })
 end
 
 function M.which_key(wk)
