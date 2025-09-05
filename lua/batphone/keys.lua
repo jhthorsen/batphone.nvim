@@ -14,8 +14,10 @@ function M.auto()
   key("c", "<c-a>", "<home>", { desc = "Cmdline Movement", silent = false })
   key("c", "<c-e>", "<end>", { desc = "Cmdline Movement", silent = false })
 
-  key({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Moving the cursor through long soft-wrapped lines", expr = true, silent = true })
-  key({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Moving the cursor through long soft-wrapped lines", expr = true, silent = true })
+  key({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'",
+    { desc = "Moving the cursor through long soft-wrapped lines", expr = true, silent = true })
+  key({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'",
+    { desc = "Moving the cursor through long soft-wrapped lines", expr = true, silent = true })
 
   key("i", ".", ".<c-g>u", { desc = "Auto undo" })
   key("i", ";", ";<c-g>u", { desc = "Auto undo" })
@@ -78,26 +80,57 @@ end
 function M.copilot()
   local copilot_client = require("batphone.copilot").lazy("copilot.client")
   local copilot_command = require("batphone.copilot").lazy("copilot.command")
-  local copilotchat = require("batphone.copilot").lazy("CopilotChat")
+
+  vim.keymap.set('n', '<leader>cc', function()
+    require("batphone.copilot").lazy("CopilotChat")().open()
+  end)
+
+  vim.keymap.set('n', '<leader>cp', function()
+    local _ = require("batphone.copilot").lazy("CopilotChat")()
+    local picker = require("snacks.picker")
+    local items = {}
+
+    if string.match(vim.api.nvim_buf_get_name(0), "copilot%-chat") == nil then
+      items = {
+        { name = "CopilotChatOpen",     text = "Open Chat" },
+        { name = "CopilotChatExplain",  text = "Explain Code" },
+        { name = "CopilotChatReview",   text = "Review Code" },
+        { name = "CopilotChatFix",      text = "Fix Code Issues" },
+        { name = "CopilotChatOptimize", text = "Optimize Code" },
+        { name = "CopilotChatTests",    text = "Generate Tests" },
+        { name = "CopilotChatDocs",     text = "Generate Docs" },
+        { name = "CopilotChatCommit",   text = "Generate Commit Message" },
+      }
+    else
+      items = {
+        { name = "CopilotChatClose",    text = "Close Chat" },
+        { name = "CopilotChatModels",   text = "Select Model" },
+        { name = "CopilotChatStop",     text = "Stop Current Output" },
+        { name = "CopilotChatPrompts",  text = "View/select Prompt Templates" },
+        { name = "CopilotChatLoad",     text = "Load History" },
+        { name = "CopilotChatSave",     text = "Save History" },
+        { name = "CopilotChatReset",    text = "Reset Chat" },
+      }
+    end
+
+    picker({
+      layout = require("batphone.snacks").layout.helix,
+      items = items,
+      format = function(item)
+        return { { item.text, 'SnacksPickerLabel' } }
+      end,
+      confirm = function(p, item)
+        p:close()
+        vim.cmd(item.name)
+      end,
+    })
+  end, { desc = "Open Copilot Picker" })
 
   toggle({
     key = "<leader>ct",
     desc = { enabled = "Disable Copilot", disabled = "Enable Copilot" },
     current = function() return copilot_client().buf_is_attached(0) and true or false end,
     set = function(_) copilot_command().toggle() end
-  })
-
-  toggle({
-    key = "<leader>cc",
-    desc = { enabled = "Close Copilot Chat", disabled = "Open Copilot Chat" },
-    current = function() return string.match(vim.api.nvim_buf_get_name(0), "copilot%-chat") ~= nil end,
-    set = function(enabled)
-      if enabled then
-        vim.api.nvim_buf_delete(0, { force = true })
-      else
-        copilotchat().toggle({window = {layout = "replace"}})
-      end
-    end
   })
 end
 
@@ -111,6 +144,7 @@ end
 
 function M.editor()
   key("n", "<leader>nt", "<cmd>InspectTree<cr>", { desc = "Inspect Tree" })
+  key("n", "<leader>nR", "<cmd>restart<cr>", { desc = "Restart neovim" })
   key("n", "<leader>nU", function() vim.pack.update() end, { desc = "Update Neovim Plugins" })
   key("n", "<leader>fn", ":echo expand('%')<cr>", { desc = "Show filename" })
   key("n", "<leader>nha", ":checkhealth<cr>", { desc = "Checkhealth" })
@@ -172,9 +206,13 @@ function M.multicursor(mc)
     desc = { enabled = "Clear Multicursors", disabled = "Enable Multicursors" },
     current = function() return mc.hasCursors() and mc.cursorsEnabled() end,
     set = function(enabled)
-      if enabled then mc.clearCursors()
-      elseif mc.hasCursors() then mc.enableCursors()
-      else mc.restoreCursors() end
+      if enabled then
+        mc.clearCursors()
+      elseif mc.hasCursors() then
+        mc.enableCursors()
+      else
+        mc.restoreCursors()
+      end
     end
   })
 
@@ -247,7 +285,8 @@ function M.lsp()
   key("n", "gK", function() return vim.lsp.buf.signature_help() end, { desc = "Signature Help" })
   key("n", "gr", function() picker.lsp_references() end, { desc = "References", nowait = true })
   key("n", "gy", function() picker.lsp_type_definitions() end, { desc = "Goto T[y]pe Definition" })
-  key("n", "K", function() return vim.lsp.buf.hover() end, { desc = "Displays information about the symbol under the cursor in a floating window" })
+  key("n", "K", function() return vim.lsp.buf.hover() end,
+    { desc = "Displays information about the symbol under the cursor in a floating window" })
 end
 
 function M.mason()
@@ -296,10 +335,12 @@ function M.snacks()
 
   key("n", "<leader>na", function() picker().autocmds() end, { desc = "Search Auto-commands" })
   key("n", "<leader>nC", function() picker().commands() end, { desc = "Search Commands" })
-  key("n", "<leader>nc", function() picker().files({ cwd = vim.fn.stdpath("config") }) end, { desc = "Search Config Files" })
+  key("n", "<leader>nc", function() picker().files({ cwd = vim.fn.stdpath("config") }) end,
+    { desc = "Search Config Files" })
   key("n", "<leader>nI", function() picker().icons() end, { desc = "Search Icons" })
   key("n", "<leader>nk", function() picker().keymaps() end, { desc = "Search Keymaps" })
-  key("n", "<leader>nf", function() picker().files({ dirs = vim.api.nvim_get_runtime_file("lua/", true) }) end, { desc = "Plugin files" })
+  key("n", "<leader>nf", function() picker().files({ dirs = vim.api.nvim_get_runtime_file("lua/", true) }) end,
+    { desc = "Plugin files" })
   key("n", "<leader>uC", function() picker().colorschemes() end, { desc = "Search Colorschemes" })
 
   key("n", "<c-_>", function() snacks().terminal() end, { desc = "Open Terminal" })

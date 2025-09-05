@@ -15,12 +15,15 @@ local M = {
     model = "o3-mini",
     auto_follow_cursor = true,
     auto_insert_mode = false,
-    answer_header = "# Copilot ",
-    question_header = "# Me ",
+    headers = {
+      user = "👤 You ",
+      assistant = "🤖 Copilot ",
+      tool = "🔧 Tool ",
+    },
     window = {
       layout = "horizontal",
       border = "single",
-      height = 0.8,
+      height = 0.7,
       width = 1,
     },
   },
@@ -88,6 +91,9 @@ function M.rewrite_copilot_chat_history(name)
       table.remove(history, i)
     end
   end
+
+  -- do not write empty history file
+  if next(history) == nil then return end
 
   history_fh = io.open(history_file, "w")
   if not history_fh then return end

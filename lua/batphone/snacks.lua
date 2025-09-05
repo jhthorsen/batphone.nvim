@@ -35,6 +35,25 @@ M.layout = {
       { win = "list", border = "none" },
     },
   },
+  helix = {
+    preview = false,
+    layout = {
+      box = "vertical",
+      backdrop = false,
+      col = -1,
+      row = -2,
+      width = function()
+        if vim.o.columns < 90 then return 0.9
+        else return 40 end
+      end,
+      height = 0.5,
+      border = "rounded",
+      title = "Copilot Chat",
+      title_pos = "center",
+      { win = "input", height = 1, border = "none" },
+      { win = "list", border = "none" },
+    },
+  },
   no_preview = {
     preview = false,
   },
