@@ -339,10 +339,45 @@ function M.snacks()
   key("n", "<leader>nf", function() picker().files({ dirs = vim.api.nvim_get_runtime_file("lua/", true) }) end,
     { desc = "Plugin files" })
   key("n", "<leader>uC", function() picker().colorschemes() end, { desc = "Search Colorschemes" })
+end
 
-  key("n", "<c-_>", function() snacks().terminal() end, { desc = "Open Terminal" })
-  key("t", "<c-_>", "<cmd>close<cr>", { desc = "Hide Terminal" })
-  key("t", "<space><esc>", "<c-\\><c-n>", { desc = "Normal mode", silent = true })
+function M.terminal()
+  local shell = vim.env.NVIM_TERMINAL_SHELL or vim.env.SHELL or "bash"
+
+  key("t", "<space><esc>", "<c-\\><c-n>", { desc = "Normal Mode" })
+  key("n", "<leader>t", function()
+
+    -- Focus previous edit window if inside the terminal
+    if string.match(vim.api.nvim_buf_get_name(0), "term://") ~= nil then
+      local wins = vim.api.nvim_list_wins()
+      if #wins >= 2 then vim.cmd("wincmd p")
+      else vim.cmd("close") end
+      return
+    end
+
+    -- Focus already opened terminal
+    for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+      local name = vim.api.nvim_buf_get_name(bufnr)
+      if string.match(name or "", "term://") ~= nil then
+        for _, win in ipairs(vim.api.nvim_list_wins()) do
+          if vim.api.nvim_win_get_buf(win) == bufnr then
+            vim.api.nvim_set_current_win(win)
+            return
+          end
+        end
+
+       vim.cmd("buffer " .. bufnr)
+       return
+      end
+    end
+
+    -- Open a new terminal
+    if vim.o.columns > 160 then
+      vim.cmd("vsplit term://" .. shell)
+    else
+      vim.cmd("split term://" .. shell)
+    end
+  end, { desc = "Terminal (" .. shell .. ")" })
 end
 
 function M.which_key(wk)

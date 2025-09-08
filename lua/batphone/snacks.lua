@@ -93,9 +93,6 @@ M.opts = {
       },
     },
   },
-  terminal = {
-    shell = { vim.env.NVIM_TERMINAL_SHELL or vim.env.SHELL or "bash" }
-  },
   zen = {
     toggles = {
       diagnostics = false,
