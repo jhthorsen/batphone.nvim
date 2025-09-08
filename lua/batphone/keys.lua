@@ -66,10 +66,24 @@ function M.buffers()
   key("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
   key("n", "<leader>q",
     function()
-      local modified = vim.api.nvim_get_option_value("modified", { buf = vim.api.nvim_get_current_buf() })
       local n_buffers = #vim.fn.getbufinfo({ buflisted = 1 })
+      if string.match(vim.api.nvim_buf_get_name(0), "term://") ~= nil then
+        vim.api.nvim_command("bd!");
+        if n_buffers <= 1 then vim.api.nvim_command("quit") end
+        return
+      end
+
+      local modified = vim.api.nvim_get_option_value("modified", { buf = vim.api.nvim_get_current_buf() })
       vim.api.nvim_command(modified and "w|bd" or "bd");
-      if n_buffers <= 1 then vim.api.nvim_command("quit") end
+
+      local layout = vim.fn.winlayout()
+      if layout[1] == "row" then
+        vim.cmd("split")
+      elseif layout[1] ~= nil then
+        vim.cmd("vsplit")
+      elseif n_buffers <= 1 then
+        vim.api.nvim_command("quit")
+      end
     end,
     { desc = "Save and Close Buffer" }
   )
@@ -332,27 +346,23 @@ function M.snacks()
 
   key("n", "<leader>na", function() picker().autocmds() end, { desc = "Search Auto-commands" })
   key("n", "<leader>nC", function() picker().commands() end, { desc = "Search Commands" })
-  key("n", "<leader>nc", function() picker().files({ cwd = vim.fn.stdpath("config") }) end,
-    { desc = "Search Config Files" })
+  key("n", "<leader>nc", function() picker().files({ cwd = vim.fn.stdpath("config") }) end, { desc = "Search Config Files" })
   key("n", "<leader>nI", function() picker().icons() end, { desc = "Search Icons" })
   key("n", "<leader>nk", function() picker().keymaps() end, { desc = "Search Keymaps" })
-  key("n", "<leader>nf", function() picker().files({ dirs = vim.api.nvim_get_runtime_file("lua/", true) }) end,
-    { desc = "Plugin files" })
+  key("n", "<leader>nf", function() picker().files({ dirs = vim.api.nvim_get_runtime_file("lua/", true) }) end, { desc = "Plugin files" })
   key("n", "<leader>uC", function() picker().colorschemes() end, { desc = "Search Colorschemes" })
 end
 
 function M.terminal()
   local shell = vim.env.NVIM_TERMINAL_SHELL or vim.env.SHELL or "bash"
 
-  key("t", "<space><esc>", "<c-\\><c-n>", { desc = "Normal Mode" })
+  key("t", "<leader><esc>", "<c-\\><c-n>", { desc = "Normal Mode" })
   key("n", "<leader>t", function()
+    local layout = vim.fn.winlayout()
 
     -- Focus previous edit window if inside the terminal
     if string.match(vim.api.nvim_buf_get_name(0), "term://") ~= nil then
-      local wins = vim.api.nvim_list_wins()
-      if #wins >= 2 then vim.cmd("wincmd p")
-      else vim.cmd("close") end
-      return
+      return vim.cmd(layout[1] ~= nil and "wincmd p" or "close")
     end
 
     -- Focus already opened terminal
