@@ -64,9 +64,7 @@ function M.buffers()
   key("n", "<tab>", "<cmd>bnext<cr>", { desc = "Prev Buffer" })
   key("n", "<s-tab>", "<cmd>bprevious<cr>", { desc = "Next Buffer" })
   key("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
-  key("n", "<leader>qa", "<cmd>wqa<cr>", { desc = "Save and Quit All" })
-
-  key("n", "<leader>qq",
+  key("n", "<leader>q",
     function()
       local modified = vim.api.nvim_get_option_value("modified", { buf = vim.api.nvim_get_current_buf() })
       local n_buffers = #vim.fn.getbufinfo({ buflisted = 1 })
@@ -296,7 +294,6 @@ end
 
 function M.oil()
   local oil = require("batphone.oil").lazy("oil")
-  key("n", "-", function() oil().open() end, { desc = "Open File Explorer" })
   key("n", "<leader>e", function() oil().open_float() end, { desc = "Open File Explorer" })
 end
 
