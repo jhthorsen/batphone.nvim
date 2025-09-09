@@ -374,6 +374,8 @@ function M.snacks()
   key("n", "<leader>nk", function() picker().keymaps() end, { desc = "Search Keymaps" })
   key("n", "<leader>nf", function() picker().files({ dirs = vim.api.nvim_get_runtime_file("lua/", true) }) end, { desc = "Plugin files" })
   key("n", "<leader>uC", function() picker().colorschemes() end, { desc = "Search Colorschemes" })
+
+  key("n", "<leader>wz", function() snacks().zen() end, { desc = "Toggle Zen Mode" })
 end
 
 function M.terminal()
