@@ -36,6 +36,7 @@ function M.setup()
     { "<space>n", group = "Neovim...", icon = "" },
     { "<space>s", group = "Search..." },
     { "<space>u", group = "User Interface...", icon = "󰂮" },
+    { "<space>w", group = "Window commands" },
   })
 end
 

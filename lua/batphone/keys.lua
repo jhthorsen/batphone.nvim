@@ -73,16 +73,24 @@ function M.buffers()
         return
       end
 
+      local layout = vim.fn.winlayout()
+      if #layout == 2 and layout[1] ~= "leaf" then
+        vim.api.nvim_command("wincmd c");
+        return
+      end
+
       local modified = vim.api.nvim_get_option_value("modified", { buf = vim.api.nvim_get_current_buf() })
       vim.api.nvim_command(modified and "w|bd" or "bd");
 
-      local layout = vim.fn.winlayout()
-      if layout[1] == "row" then
-        vim.cmd("split")
-      elseif layout[1] ~= nil then
-        vim.cmd("vsplit")
-      elseif n_buffers <= 1 then
+      if n_buffers <= 1 then
         vim.api.nvim_command("quit")
+        return
+      end
+
+      if layout[1] == "row" then
+        vim.cmd("vsplit")
+      elseif layout[1] == "col" then
+        vim.cmd("split")
       end
     end,
     { desc = "Save and Close Buffer" }
@@ -163,6 +171,21 @@ function M.editor()
   key("n", "<leader>nhl", ":checkhealth vim.lsp<cr>", { desc = "Checkhealth LSP" })
   key("n", "<leader>nht", ":checkhealth nvim-treesitter vim.treesitter<cr>", { desc = "Checkhealth treesitter" })
   key("n", "<leader>nhw", ":checkhealth which-key<cr>", { desc = "Checkhealth which-key" })
+
+  local function focus_window(dir, split_cmd)
+    return function()
+      local layout = vim.fn.winlayout()
+      if layout[1] == "leaf" then vim.cmd(split_cmd) end
+      local cmd = "wincmd " .. dir
+      local ok, _ = pcall(vim.cmd, cmd)
+      if not ok then vim.cmd("wincmd p") end
+    end
+  end
+
+  key("n", "<leader>wh", focus_window("h", "vsplit"), { desc = "Go To Left Pane" })
+  key("n", "<leader>wl", focus_window("l", "vsplit"), { desc = "Go To Right Pane" })
+  key("n", "<leader>wj", focus_window("j", "split"), { desc = "Go To Pane Below" })
+  key("n", "<leader>wk", focus_window("k", "split"), { desc = "Go To Pane Above" })
 
   key("n", ",e",
     function()
