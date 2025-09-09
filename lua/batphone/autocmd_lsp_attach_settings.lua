@@ -114,7 +114,7 @@ end
 
 function M.config_diagnostics()
   local signs = {
-    Hint = "👀",
+    Hint = ">",
     Info = " ",
     Warn = "⚠️",
     Error = "‼️",

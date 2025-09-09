@@ -64,6 +64,7 @@ require("batphone.util").lsp_enable({
   "gh_actions_ls",
   -- "gitlab_ci_ls",
   "gopls",
+  "harper_ls",
   "html",
   "htmx",
   "jinja_lsp",

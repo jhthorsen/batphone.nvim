@@ -7,6 +7,7 @@
 --- See our [documentation](https://writewithharper.com/docs/integrations/neovim) for more information on settings.
 ---
 --- In short, they should look something like this:
+--- This is very c
 --- ```lua
 --- vim.lsp.config('harper_ls', {
 ---   settings = {
@@ -45,4 +46,14 @@ return {
     'clojure',
   },
   root_markers = { '.git' },
+  settings = {
+    ['harper-ls'] = {
+      userDictPath = "~/.local/share/harper/dict.txt",
+      linters = {
+        SentenceCapitalization = false,
+        SpellCheck = false,
+        SpelledNumbers = true,
+      },
+    },
+  }
 }
