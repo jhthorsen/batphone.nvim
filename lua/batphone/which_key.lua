@@ -31,7 +31,6 @@ function M.setup()
   require("batphone.keys").which_key(wk)
 
   wk.add({
-    { "<space>b", group = "Buffers...", },
     { "<space>c", group = "Code..." },
     { "<space>d", group = "Diagnostics..." },
     { "<space>f", group = "Files..." },
