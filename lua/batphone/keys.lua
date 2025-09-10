@@ -64,7 +64,8 @@ function M.buffers()
   key("n", "<tab>", "<cmd>bnext<cr>", { desc = "Prev Buffer" })
   key("n", "<s-tab>", "<cmd>bprevious<cr>", { desc = "Next Buffer" })
   key("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
-  key("n", "<leader>q",
+  key("n", "<leader>qa", "<cmd>wqa<cr>", { desc = "Save and Quit All" })
+  key("n", "<leader>qq",
     function()
       local n_buffers = #vim.fn.getbufinfo({ buflisted = 1 })
       if string.match(vim.api.nvim_buf_get_name(0), "term://") ~= nil then
@@ -276,7 +277,7 @@ function M.lsp()
   end
 
   toggle({
-    key = "<leader>ud",
+    key = "<leader>dx",
     desc = { enabled = "Disable Diagnostics", disabled = "Enable Diagnostics" },
     current = function() return vim.diagnostic.is_enabled() end,
     set = function(enabled) vim.diagnostic.enable(not enabled) end,
@@ -290,7 +291,7 @@ function M.lsp()
   })
 
   toggle({
-    key = "<leader>uv",
+    key = "<leader>dv",
     desc = { enabled = "Hide Virtual Lines", disabled = "Show Virtual Lines" },
     current = function() return vim.diagnostic.config().virtual_lines and true or false end,
     set = function(enabled) vim.diagnostic.config({ virtual_lines = not enabled }) end
@@ -331,7 +332,7 @@ end
 
 function M.oil()
   local oil = require("batphone.oil").lazy("oil")
-  key("n", "<leader>e", function() oil().open_float() end, { desc = "Open File Explorer" })
+  key("n", "<leader>fe", function() oil().open_float() end, { desc = "Open File Explorer" })
 end
 
 function M.snacks()
@@ -349,7 +350,7 @@ function M.snacks()
   key("n", "<leader>fp", function() picker().projects() end, { desc = "Open File from Projects" })
   key("n", "<leader>fx", function() picker().files({ cwd = ".." }) end, { desc = "Find parent Files" })
   key("n", "<leader>b", function() picker().buffers() end, { desc = "Search Buffers" })
-  key("n", "<leader>:", function() picker().command_history() end, { desc = "Command History" })
+  key("n", "<leader>n:", function() picker().command_history() end, { desc = "Command History" })
   key("n", "z=", function() picker().spelling() end, { desc = "Spelling suggestions" })
 
   key("n", "<leader>gb", function() picker().git_branches() end, { desc = "Git Branches" })
@@ -412,11 +413,11 @@ function M.terminal()
     else
       vim.cmd("split term://" .. shell)
     end
-  end, { desc = "Terminal (" .. shell .. ")" })
+  end, { desc = "Toggle Terminal" })
 end
 
 function M.which_key(wk)
-  key("n", "<leader>h", function() wk.show() end, { desc = "Show All Keys" })
+  wk.add({ "<leader>h", function() wk.show() end, icon = "🎹", desc = "Show All Keys" })
 end
 
 return M

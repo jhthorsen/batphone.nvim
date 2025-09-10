@@ -1,7 +1,11 @@
 local M = {
   opts = {
     preset = "helix",
-    expand = 2,
+    expand = function(node)
+      local children = node:count()
+      return node:can_expand() == false and children > 0 and children <= 2
+    end,
+    sort = { "group", "alphanum" },
     plugins = {
       marks = true,
       registers = false,
@@ -37,6 +41,7 @@ function M.setup()
     { "<space>s", group = "Search..." },
     { "<space>u", group = "User Interface...", icon = "󰂮" },
     { "<space>w", group = "Window commands" },
+    { "<space>q", group = "Quit..." },
   })
 end
 
