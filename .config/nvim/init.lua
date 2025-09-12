@@ -47,6 +47,7 @@ require("batphone.keys").oil()
 require("batphone.keys").snacks()
 
 require("batphone.multicursor").setup()
+require("batphone.rust").setup()
 require("batphone.which_key").setup()
 
 require("batphone.util").lsp_enable({
