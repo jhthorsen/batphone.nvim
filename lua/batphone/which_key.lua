@@ -37,6 +37,7 @@ function M.setup()
     { "<space>g", group = "Git..." },
     { "<space>m", group = "Multicursors...", icon = "󰎂" },
     { "<space>n", group = "Neovim...", icon = "" },
+    { "<space>r", group = "Rust...", icon = "" },
     { "<space>s", group = "Search..." },
     { "<space>u", group = "User Interface...", icon = "󰂮" },
     { "<space>w", group = "Window commands" },

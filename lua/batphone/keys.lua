@@ -104,33 +104,38 @@ function M.copilot()
 
   vim.keymap.set('n', '<leader>cc', function()
     require("batphone.copilot").lazy("CopilotChat")().open()
-  end)
+  end, { desc = "Open Copilot Chat" })
 
   vim.keymap.set('n', '<leader>cp', function()
     local _ = require("batphone.copilot").lazy("CopilotChat")()
     local picker = require("snacks.picker")
     local items = {}
 
+    local toggle_copilot = copilot_client().buf_is_attached(0)
+      and { cmd = "Copilot disable", text = "Disable Copilot" }
+      or { cmd = "Copilot enable", text = "Enable Copilot" }
+
     if string.match(vim.api.nvim_buf_get_name(0), "copilot%-chat") == nil then
       items = {
-        { name = "CopilotChatOpen",     text = "Open Chat" },
-        { name = "CopilotChatExplain",  text = "Explain Code" },
-        { name = "CopilotChatReview",   text = "Review Code" },
-        { name = "CopilotChatFix",      text = "Fix Code Issues" },
-        { name = "CopilotChatOptimize", text = "Optimize Code" },
-        { name = "CopilotChatTests",    text = "Generate Tests" },
-        { name = "CopilotChatDocs",     text = "Generate Docs" },
-        { name = "CopilotChatCommit",   text = "Generate Commit Message" },
+        { cmd = "CopilotChatOpen",     text = "Open Chat" },
+        { cmd = "CopilotChatExplain",  text = "Explain Code" },
+        { cmd = "CopilotChatReview",   text = "Review Code" },
+        { cmd = "CopilotChatFix",      text = "Fix Code Issues" },
+        { cmd = "CopilotChatOptimize", text = "Optimize Code" },
+        { cmd = "CopilotChatTests",    text = "Generate Tests" },
+        { cmd = "CopilotChatDocs",     text = "Generate Docs" },
+        { cmd = "CopilotChatCommit",   text = "Generate Commit Message" },
+        toggle_copilot,
       }
     else
       items = {
-        { name = "CopilotChatClose",    text = "Close Chat" },
-        { name = "CopilotChatModels",   text = "Select Model" },
-        { name = "CopilotChatStop",     text = "Stop Current Output" },
-        { name = "CopilotChatPrompts",  text = "View/select Prompt Templates" },
-        { name = "CopilotChatLoad",     text = "Load History" },
-        { name = "CopilotChatSave",     text = "Save History" },
-        { name = "CopilotChatReset",    text = "Reset Chat" },
+        { cmd = "CopilotChatClose",    text = "Close Chat" },
+        { cmd = "CopilotChatModels",   text = "Select Model" },
+        { cmd = "CopilotChatStop",     text = "Stop Current Output" },
+        { cmd = "CopilotChatPrompts",  text = "View/select Prompt Templates" },
+        { cmd = "CopilotChatLoad",     text = "Load History" },
+        { cmd = "CopilotChatSave",     text = "Save History" },
+        { cmd = "CopilotChatReset",    text = "Reset Chat" },
       }
     end
 
@@ -142,17 +147,10 @@ function M.copilot()
       end,
       confirm = function(p, item)
         p:close()
-        vim.cmd(item.name)
+        vim.cmd(item.cmd)
       end,
     })
   end, { desc = "Open Copilot Picker" })
-
-  toggle({
-    key = "<leader>ct",
-    desc = { enabled = "Disable Copilot", disabled = "Enable Copilot" },
-    current = function() return copilot_client().buf_is_attached(0) and true or false end,
-    set = function(_) copilot_command().toggle() end
-  })
 end
 
 function M.edit()
