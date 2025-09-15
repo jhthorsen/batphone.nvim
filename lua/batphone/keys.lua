@@ -106,7 +106,7 @@ function M.copilot()
     require("batphone.copilot").lazy("CopilotChat")().open()
   end, { desc = "Open Copilot Chat" })
 
-  vim.keymap.set('n', '<leader>cp', function()
+  vim.keymap.set({ 'n', 'v' }, '<leader>cp', function()
     local _ = require("batphone.copilot").lazy("CopilotChat")()
     local picker = require("snacks.picker")
     local items = {}
