@@ -98,59 +98,26 @@ function M.buffers()
   )
 end
 
-function M.copilot()
-  local copilot_client = require("batphone.copilot").lazy("copilot.client")
-  local copilot_command = require("batphone.copilot").lazy("copilot.command")
+function M.codecompanion()
+  local cc = require("batphone.codecompanion")
 
-  vim.keymap.set('n', '<leader>cc', function()
-    require("batphone.copilot").lazy("CopilotChat")().open()
-  end, { desc = "Open Copilot Chat" })
+  toggle({
+    key = "<leader>cE",
+    desc = { enabled = "Disable Copilot", disabled = "Enable Copilot" },
+    current = function() return cc.copilot_is_enabled() end,
+    set = function(enabled) cc.copilot_enable(not enabled) end,
+  })
 
-  vim.keymap.set({ 'n', 'v' }, '<leader>cp', function()
-    local _ = require("batphone.copilot").lazy("CopilotChat")()
-    local picker = require("snacks.picker")
-    local items = {}
+  key("n", "<leader>cc", cc.cmd("CodeCompanionChat Toggle"), { desc = "CodeCompanion Chat" })
+  key("n", "<leader>cA", cc.cmd("CodeCompanionActions"), { desc = "CodeCompanion Actions" })
+  key("n", "<leader>cH", cc.cmd("CodeCompanionHistory"), { desc = "CodeCompanion History" })
+  key("n", "<leader>cl", cc.cmd("CodeCompanion /lsp"), { desc = "Explain The LSP Diagnostics" })
+  key("n", "<leader>cs", cc.cmd("CodeCompanionSummaries"), { desc = "CodeCompanion Summaries" })
 
-    local toggle_copilot = copilot_client().buf_is_attached(0)
-      and { cmd = "Copilot disable", text = "Disable Copilot" }
-      or { cmd = "Copilot enable", text = "Enable Copilot" }
-
-    if string.match(vim.api.nvim_buf_get_name(0), "copilot%-chat") == nil then
-      items = {
-        { cmd = "CopilotChatOpen",     text = "Open Chat" },
-        { cmd = "CopilotChatExplain",  text = "Explain Code" },
-        { cmd = "CopilotChatReview",   text = "Review Code" },
-        { cmd = "CopilotChatFix",      text = "Fix Code Issues" },
-        { cmd = "CopilotChatOptimize", text = "Optimize Code" },
-        { cmd = "CopilotChatTests",    text = "Generate Tests" },
-        { cmd = "CopilotChatDocs",     text = "Generate Docs" },
-        { cmd = "CopilotChatCommit",   text = "Generate Commit Message" },
-        toggle_copilot,
-      }
-    else
-      items = {
-        { cmd = "CopilotChatClose",    text = "Close Chat" },
-        { cmd = "CopilotChatModels",   text = "Select Model" },
-        { cmd = "CopilotChatStop",     text = "Stop Current Output" },
-        { cmd = "CopilotChatPrompts",  text = "View/select Prompt Templates" },
-        { cmd = "CopilotChatLoad",     text = "Load History" },
-        { cmd = "CopilotChatSave",     text = "Save History" },
-        { cmd = "CopilotChatReset",    text = "Reset Chat" },
-      }
-    end
-
-    picker({
-      layout = require("batphone.snacks").layout.helix,
-      items = items,
-      format = function(item)
-        return { { item.text, 'SnacksPickerLabel' } }
-      end,
-      confirm = function(p, item)
-        p:close()
-        vim.cmd(item.cmd)
-      end,
-    })
-  end, { desc = "Open Copilot Picker" })
+  key("v", "<leader>cA", cc.cmd("CodeCompanionChat Add"), { desc = "Add Code To Chat" })
+  key("v", "<leader>ce", cc.cmd("CodeCompanion /explain"), { desc = "Explain Code" })
+  key("v", "<leader>cf", cc.cmd("CodeCompanion /fix"), { desc = "Fix Code" })
+  key("v", "<leader>ct", cc.cmd("CodeCompanion /tests"), { desc = "Generte Tests" })
 end
 
 function M.edit()
@@ -383,6 +350,7 @@ function M.snacks()
   key("n", "<leader>uC", function() picker().colorschemes() end, { desc = "Search Colorschemes" })
 
   key("n", "<leader>wz", function() snacks().zen() end, { desc = "Toggle Zen Mode" })
+  key("n", "<leader>wf", "<cmd>only<cr>", { desc = "Fullscreen" })
 end
 
 function M.terminal()
