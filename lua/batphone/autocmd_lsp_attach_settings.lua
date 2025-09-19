@@ -39,6 +39,12 @@ local M = {
             end,
           },
         },
+        codecompanion = {
+          name = "CodeCompanion",
+          module = "codecompanion.providers.completion.blink",
+          score_offset = 1,
+          enabled = true,
+        },
         copilot = {
           name = "copilot",
           module = "blink-copilot",
@@ -61,16 +67,18 @@ function M.blink_sources()
     table.insert(default, "lazydev")
   end
 
+  table.insert(default, "buffer")
   table.insert(default, "lsp")
   table.insert(default, "snippets")
+  table.insert(default, "path")
 
-  local blink_copilot = require("batphone.copilot").lazy("blink-copilot")
-  if pcall(blink_copilot) then
+  if pcall(require, "blink-copilot") then
     table.insert(default, "copilot")
   end
 
-  table.insert(default, "buffer")
-  table.insert(default, "path")
+  if pcall(require, "codecompanion") then
+    table.insert(default, "codecompanion")
+  end
 
   return { default = default }
 end

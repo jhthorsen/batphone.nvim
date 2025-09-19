@@ -98,16 +98,15 @@ function M.buffers()
   )
 end
 
-function M.copilot()
-  local copilot_client = require("batphone.copilot").lazy("copilot.client")
-  local copilot_command = require("batphone.copilot").lazy("copilot.command")
+function M.codecompanion()
+  local copilot_client = require("batphone.codecompanion").lazy("copilot.client")
 
   vim.keymap.set('n', '<leader>cc', function()
-    require("batphone.copilot").lazy("CopilotChat")().open()
+    require("batphone.codecompanion").lazy("codecompanion")().toggle()
   end, { desc = "Open Copilot Chat" })
 
   vim.keymap.set({ 'n', 'v' }, '<leader>cp', function()
-    local _ = require("batphone.copilot").lazy("CopilotChat")()
+    local _ = require("batphone.codecompanion").lazy("codecompanion")()
     local picker = require("snacks.picker")
     local items = {}
 
@@ -115,27 +114,29 @@ function M.copilot()
       and { cmd = "Copilot disable", text = "Disable Copilot" }
       or { cmd = "Copilot enable", text = "Enable Copilot" }
 
-    if string.match(vim.api.nvim_buf_get_name(0), "copilot%-chat") == nil then
+    local mode = vim.api.nvim_get_mode().mode
+
+    if string.match(vim.api.nvim_buf_get_name(0), "CodeCompanion") ~= nil then
       items = {
-        { cmd = "CopilotChatOpen",     text = "Open Chat" },
-        { cmd = "CopilotChatExplain",  text = "Explain Code" },
-        { cmd = "CopilotChatReview",   text = "Review Code" },
-        { cmd = "CopilotChatFix",      text = "Fix Code Issues" },
-        { cmd = "CopilotChatOptimize", text = "Optimize Code" },
-        { cmd = "CopilotChatTests",    text = "Generate Tests" },
-        { cmd = "CopilotChatDocs",     text = "Generate Docs" },
-        { cmd = "CopilotChatCommit",   text = "Generate Commit Message" },
-        toggle_copilot,
+        { cmd = "CodeCompanionChat Toggle", text = "Close Chat" },
+        { cmd = "CodeCompanionHistory",     text = "Browse Chat History" },
+        { cmd = "CodeCompanionSummaries",   text = "Summaries" },
+      }
+    elseif mode == "v" or mode == "V" or mode == "\22" then
+      items = {
+        { cmd = "'<,'>CodeCompanionChat Add",  text = "Add Code To Chat" },
+        { cmd = "'<,'>CodeCompanion /explain", text = "Explain Code" },
+        { cmd = "'<,'>CodeCompanion /fix",     text = "Fix Code" },
+        { cmd = "'<,'>CodeCompanion /lsp",     text = "Explain The LSP Diagnostics" },
+        { cmd = "'<,'>CodeCompanion /tests",   text = "Generte Tests" },
       }
     else
       items = {
-        { cmd = "CopilotChatClose",    text = "Close Chat" },
-        { cmd = "CopilotChatModels",   text = "Select Model" },
-        { cmd = "CopilotChatStop",     text = "Stop Current Output" },
-        { cmd = "CopilotChatPrompts",  text = "View/select Prompt Templates" },
-        { cmd = "CopilotChatLoad",     text = "Load History" },
-        { cmd = "CopilotChatSave",     text = "Save History" },
-        { cmd = "CopilotChatReset",    text = "Reset Chat" },
+        { cmd = "CodeCompanionChat Toggle", text = "Open Chat" },
+        { cmd = "CodeCompanionHistory",     text = "Browse Chat History" },
+        { cmd = "CodeCompanionActions",     text = "Actions" },
+        { cmd = "CodeCompanionSummaries",   text = "Summaries" },
+        toggle_copilot,
       }
     end
 
