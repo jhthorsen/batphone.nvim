@@ -36,7 +36,7 @@ M.layout = {
     },
   },
   helix = {
-    preview = false,
+    preview = "none",
     layout = {
       box = "vertical",
       backdrop = false,
@@ -74,6 +74,7 @@ M.opts = {
       command_history = { layout = M.layout.no_preview },
       lines = { layout = M.layout.no_preview },
       notifications = { layout = M.layout.no_preview },
+      registers = { layout = M.layout.no_preview },
       search_history = { layout = M.layout.no_preview },
       spelling = { layout = M.layout.dropdown },
     },

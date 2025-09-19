@@ -358,7 +358,16 @@ function M.snacks()
   key("n", "<leader>sg", function() picker().grep() end, { desc = "Grep Project Files" })
   key({ "n", "x" }, "<leader>sw", function() picker().grep_word() end, { desc = "Visual selection or word" })
 
-  key("n", '<leader>s"', function() picker().registers() end, { desc = "Registers" })
+  key("n", '<leader>s"', function()
+    picker().registers({
+      preview = "none",
+      confirm = function(p, item)
+        p:close()
+        require("batphone.scratch_window").edit_register(item)
+      end,
+    })
+  end, { desc = "Edit Register" })
+
   key("n", "<leader>sb", function() picker().lines() end, { desc = "Buffer Lines" })
   key("n", "<leader>sj", function() picker().jumps() end, { desc = "Jumps" })
   key("n", "<leader>sl", function() picker().loclist() end, { desc = "Location List" })
