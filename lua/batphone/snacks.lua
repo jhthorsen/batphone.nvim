@@ -55,7 +55,7 @@ M.layout = {
     },
   },
   no_preview = {
-    preview = false,
+    preview = "none",
   },
 }
 
@@ -76,6 +76,7 @@ M.opts = {
       notifications = { layout = M.layout.no_preview },
       registers = { layout = M.layout.no_preview },
       search_history = { layout = M.layout.no_preview },
+      select = { layout = M.layout.dropdown },
       spelling = { layout = M.layout.dropdown },
     },
   },

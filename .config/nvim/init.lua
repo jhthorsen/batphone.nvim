@@ -22,6 +22,7 @@ vim.pack.add({
 --- ...or from $HOME/.local/share/nvim/site/pack/core/opt/batphone.nvim
 vim.cmd("packadd batphone.nvim")
 
+require("batphone.snacks").lazy("snacks")()
 require("mini.align").setup({})
 require("mini.comment").setup({})
 require("mini.move").setup({})
