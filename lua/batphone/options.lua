@@ -44,6 +44,7 @@ vim.opt.splitright = true
 vim.opt.termguicolors = true
 vim.opt.wildmenu = true
 vim.opt.wildmode = { "longest:list", "full" }
+vim.opt.winborder = "rounded"
 
 vim.diagnostic.config({
   severity_sort = false,

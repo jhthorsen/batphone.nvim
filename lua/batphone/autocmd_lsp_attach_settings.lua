@@ -136,7 +136,7 @@ function M.config_diagnostics()
 
   vim.diagnostic.config({
     severity_sort = true,
-    underline = true,
+    underline = false,
     update_in_insert = false,
     virtual_text = false,
     virtual_lines = false,
