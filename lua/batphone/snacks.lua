@@ -55,7 +55,7 @@ M.layout = {
     },
   },
   no_preview = {
-    preview = "none",
+    preview = false,
   },
 }
 
