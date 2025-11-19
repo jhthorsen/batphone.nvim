@@ -274,7 +274,7 @@ function M.lsp()
   key("n", "<leader>cS", function() return vim.lsp.buf.signature_help() end, { desc = "Signature Help" })
   key("n", "<leader>da", function() picker.diagnostics() end, { desc = "Workspace Diagnostics" })
   key("n", "<leader>db", function() picker.diagnostics_buffer() end, { desc = "Buffer Diagnostics" })
-  key("n", "<leader>de", function() picker.diagnostics({ severity = "ERROR" }) end, { desc = "Workspace Errors" })
+  key("n", "<leader>de", function() picker.diagnostics({ severity = vim.diagnostic.severity.ERROR }) end, { desc = "Workspace Errors" })
   key("n", "<leader>dd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
   key("n", "<leader>dn", function() goto_diag(true) end, { desc = "Next Diagnostic" })
   key("n", "<leader>dp", function() goto_diag(false) end, { desc = "Prev Diagnostic" })
@@ -298,6 +298,25 @@ end
 function M.oil()
   local oil = require("batphone.oil").lazy("oil")
   key("n", "<leader>fe", function() oil().open_float() end, { desc = "Open File Explorer" })
+end
+
+function M.quicker()
+  local quicker = require("batphone.quicker").lazy("quicker")
+
+  local function qlist(qlist_action, fallback_action)
+    return function()
+      if quicker().is_open() then
+        pcall(function() vim.cmd(qlist_action) end)
+      else
+        vim.api.nvim_feedkeys(fallback_action, "n", false)
+      end
+    end
+  end
+
+  key("n", "<c-j>", qlist("cnext", "10jzz"), { desc = "Jump Down" })
+  key("n", "<c-k>", qlist("cprevious", "10kzz"), { desc = "Jump Up" })
+  key("n", "<leader>q", function() quicker().toggle() end, { desc = "Toggle Quickfix" })
+  key("n", "<leader>l", function() quicker().toggle({ loclist = true }) end, { desc = "Toggle Loclist" })
 end
 
 function M.snacks()

@@ -15,6 +15,7 @@ vim.pack.add({
   { src = "https://github.com/saghen/blink.cmp", version = vim.version.range("1") },
   { src = "https://github.com/mrcjkb/rustaceanvim", version = vim.version.range("6") },
   { src = "https://github.com/stevearc/oil.nvim", version = vim.version.range("2") },
+  { src = "https://github.com/stevearc/quicker.nvim", version = "master" },
 })
 
 -- Either load batphone.nvim from github...
@@ -23,6 +24,7 @@ vim.pack.add({
 vim.cmd("packadd batphone.nvim")
 
 require("batphone.snacks").lazy("snacks")()
+require("batphone.quicker").lazy("quicker")()
 require("mini.align").setup({})
 require("mini.comment").setup({})
 require("mini.move").setup({})
@@ -46,6 +48,7 @@ require("batphone.keys").terminal()
 require("batphone.keys").codecompanion()
 require("batphone.keys").mason()
 require("batphone.keys").oil()
+require("batphone.keys").quicker()
 require("batphone.keys").snacks()
 
 require("batphone.multicursor").setup()
