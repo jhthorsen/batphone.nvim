@@ -63,6 +63,7 @@ end
 function M.buffers()
   key("n", "<tab>", "<cmd>bnext<cr>", { desc = "Prev Buffer" })
   key("n", "<s-tab>", "<cmd>bprevious<cr>", { desc = "Next Buffer" })
+  key("n", "<c-q>", "<cmd>bp|bd#<cr>", { desc = "Delete Buffer" })
   key("n", "<leader>qa", "<cmd>wqa<cr>", { desc = "Save and Quit All" })
   key("n", "<leader>qs", "<cmd>wa!<cr>", { desc = "Save all open buffers" })
   key("n", "<leader>qq",
@@ -315,8 +316,8 @@ function M.quicker()
 
   key("n", "<c-j>", qlist("cnext", "10jzz"), { desc = "Jump Down" })
   key("n", "<c-k>", qlist("cprevious", "10kzz"), { desc = "Jump Up" })
-  key("n", "<leader>q", function() quicker().toggle() end, { desc = "Toggle Quickfix" })
-  key("n", "<leader>l", function() quicker().toggle({ loclist = true }) end, { desc = "Toggle Loclist" })
+  key("n", "<leader>sq", function() quicker().toggle({ focus = true, }) end, { desc = "Toggle Quickfix" })
+  key("n", "<leader>sl", function() quicker().toggle({ focus = true, loclist = true }) end, { desc = "Toggle Loclist" })
 end
 
 function M.snacks()
@@ -324,8 +325,6 @@ function M.snacks()
   local picker = require("batphone.snacks").lazy("snacks.picker")
 
   key("n", "<leader>b", function() picker().buffers() end, { desc = "Switch Buffer" })
-  key("n", "<leader>qd", function() snacks().bufdelete() end, { desc = "Delete Buffer" })
-  key("n", "<leader>qo", function() snacks().bufdelete.other() end, { desc = "Delete Other Buffers" })
 
   key("n", "<leader><space>", function() picker().smart() end, { desc = "Smart Find Files" })
   key("n", "<leader>ff", function() picker().files() end, { desc = "Find Files" })
@@ -356,9 +355,7 @@ function M.snacks()
 
   key("n", "<leader>sb", function() picker().lines() end, { desc = "Buffer Lines" })
   key("n", "<leader>sj", function() picker().jumps() end, { desc = "Jumps" })
-  key("n", "<leader>sl", function() picker().loclist() end, { desc = "Location List" })
   key("n", "<leader>sm", function() picker().marks() end, { desc = "Marks" })
-  key("n", "<leader>sq", function() picker().qflist() end, { desc = "Quickfix List" })
 
   key("n", "<leader>na", function() picker().autocmds() end, { desc = "Search Auto-commands" })
   key("n", "<leader>nC", function() picker().commands() end, { desc = "Search Commands" })
