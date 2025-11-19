@@ -6,6 +6,7 @@ vim.pack.add({
   { src = "https://github.com/jake-stewart/multicursor.nvim", version = "main" },
   { src = "https://github.com/folke/snacks.nvim", version = "main" },
   { src = "https://github.com/folke/which-key.nvim", version = "main" },
+  { src = "https://github.com/j-hui/fidget.nvim", verson = "main" },
   { src = "https://github.com/mason-org/mason.nvim", version = "main" },
   { src = "https://github.com/zbirenbaum/copilot.lua", version = "master" },
   { src = "https://github.com/folke/lazydev.nvim", version = "main" },
@@ -25,6 +26,7 @@ vim.cmd("packadd batphone.nvim")
 
 require("batphone.snacks").lazy("snacks")()
 require("batphone.quicker").lazy("quicker")()
+require("batphone.fidget").setup()
 require("mini.align").setup({})
 require("mini.comment").setup({})
 require("mini.move").setup({})
