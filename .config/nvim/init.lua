@@ -15,7 +15,6 @@ vim.pack.add({
   { src = "https://github.com/olimorris/codecompanion.nvim", version = vim.version.range("17") },
   { src = "https://github.com/saghen/blink.cmp", version = vim.version.range("1") },
   { src = "https://github.com/mrcjkb/rustaceanvim", version = vim.version.range("6") },
-  { src = "https://github.com/stevearc/oil.nvim", version = vim.version.range("2") },
   { src = "https://github.com/stevearc/quicker.nvim", version = "master" },
 })
 
@@ -49,7 +48,6 @@ require("batphone.keys").editor()
 require("batphone.keys").terminal()
 require("batphone.keys").codecompanion()
 require("batphone.keys").mason()
-require("batphone.keys").oil()
 require("batphone.keys").quicker()
 require("batphone.keys").snacks()
 

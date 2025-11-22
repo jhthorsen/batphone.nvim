@@ -296,11 +296,6 @@ function M.mason()
   key("n", "<leader>nM", function() ui().open() end, { desc = "Open Mason Package Manager" })
 end
 
-function M.oil()
-  local oil = require("batphone.oil").lazy("oil")
-  key("n", "<leader>fe", function() oil().open_float() end, { desc = "Open File Explorer" })
-end
-
 function M.quicker()
   local quicker = require("quicker")
 
@@ -327,6 +322,7 @@ function M.snacks()
   key("n", "<leader>b", function() picker.buffers() end, { desc = "Switch Buffer" })
 
   key("n", "<leader><space>", function() picker.smart() end, { desc = "Smart Find Files" })
+  key("n", "<leader>fe", function() snacks.explorer() end, { desc = "Open File Explorer" })
   key("n", "<leader>ff", function() picker.files() end, { desc = "Find Files" })
   key("n", "<leader>fg", function() picker.git_files() end, { desc = "Find Git Files" })
   key("n", "<leader>fr", function() picker.recent() end, { desc = "Recent" })

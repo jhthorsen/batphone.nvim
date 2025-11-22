@@ -38,17 +38,36 @@ local no_preview_layout = {
   preview = false,
 }
 
+local sidebar_layout = {
+  preview = "main",
+  layout = {
+    width = 40,
+    min_width = 30,
+    height = 0,
+    position = "right",
+    border = "none",
+    box = "vertical",
+    { win = "input", height = 1, border = true, title = "{title} {live} {flags}", title_pos = "center" },
+    { win = "list", border = "none" },
+    { win = "preview", title = "{preview}", height = 0.4, border = "top" },
+  },
+}
+
 return {
   opts = {
+    explorer = {
+      replace_netrw = true,
+    },
     picker = {
-      layout = default_layout,
       formatters = {
         file = {
           truncate = 90,
         },
       },
+      layout = default_layout,
       sources = {
         autocmds = { layout = no_preview_layout },
+        explorer = { layout = sidebar_layout },
         buffers = { layout = no_preview_layout },
         command_history = { layout = no_preview_layout },
         lines = { layout = no_preview_layout },
