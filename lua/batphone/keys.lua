@@ -302,11 +302,11 @@ function M.oil()
 end
 
 function M.quicker()
-  local quicker = require("batphone.quicker").lazy("quicker")
+  local quicker = require("quicker")
 
   local function qlist(qlist_action, fallback_action)
     return function()
-      if quicker().is_open() then
+      if quicker.is_open() then
         pcall(function() vim.cmd(qlist_action) end)
       else
         vim.api.nvim_feedkeys(fallback_action, "n", false)
@@ -316,35 +316,35 @@ function M.quicker()
 
   key("n", "<c-j>", qlist("cnext", "10jzz"), { desc = "Jump Down" })
   key("n", "<c-k>", qlist("cprevious", "10kzz"), { desc = "Jump Up" })
-  key("n", "<leader>sq", function() quicker().toggle({ focus = true, }) end, { desc = "Toggle Quickfix" })
-  key("n", "<leader>sl", function() quicker().toggle({ focus = true, loclist = true }) end, { desc = "Toggle Loclist" })
+  key("n", "<leader>sq", function() quicker.toggle({ focus = true, }) end, { desc = "Toggle Quickfix" })
+  key("n", "<leader>sl", function() quicker.toggle({ focus = true, loclist = true }) end, { desc = "Toggle Loclist" })
 end
 
 function M.snacks()
-  local snacks = require("batphone.snacks").lazy("snacks")
-  local picker = require("batphone.snacks").lazy("snacks.picker")
+  local snacks = require("snacks")
+  local picker = require("snacks.picker")
 
-  key("n", "<leader>b", function() picker().buffers() end, { desc = "Switch Buffer" })
+  key("n", "<leader>b", function() picker.buffers() end, { desc = "Switch Buffer" })
 
-  key("n", "<leader><space>", function() picker().smart() end, { desc = "Smart Find Files" })
-  key("n", "<leader>ff", function() picker().files() end, { desc = "Find Files" })
-  key("n", "<leader>fg", function() picker().git_files() end, { desc = "Find Git Files" })
-  key("n", "<leader>fr", function() picker().recent() end, { desc = "Recent" })
-  key("n", "<leader>fp", function() picker().projects() end, { desc = "Open File from Projects" })
-  key("n", "<leader>fx", function() picker().files({ cwd = ".." }) end, { desc = "Find parent Files" })
-  key("n", "<leader>n:", function() picker().command_history() end, { desc = "Command History" })
-  key("n", "z=", function() picker().spelling() end, { desc = "Spelling suggestions" })
+  key("n", "<leader><space>", function() picker.smart() end, { desc = "Smart Find Files" })
+  key("n", "<leader>ff", function() picker.files() end, { desc = "Find Files" })
+  key("n", "<leader>fg", function() picker.git_files() end, { desc = "Find Git Files" })
+  key("n", "<leader>fr", function() picker.recent() end, { desc = "Recent" })
+  key("n", "<leader>fp", function() picker.projects() end, { desc = "Open File from Projects" })
+  key("n", "<leader>fx", function() picker.files({ cwd = ".." }) end, { desc = "Find parent Files" })
+  key("n", "<leader>n:", function() picker.command_history() end, { desc = "Command History" })
+  key("n", "z=", function() picker.spelling() end, { desc = "Spelling suggestions" })
 
-  key("n", "<leader>gb", function() picker().git_branches() end, { desc = "Git Branches" })
-  key("n", "<leader>gl", function() picker().git_log() end, { desc = "Git Log" })
-  key("n", "<leader>gs", function() picker().git_status() end, { desc = "Git Status" })
+  key("n", "<leader>gb", function() picker.git_branches() end, { desc = "Git Branches" })
+  key("n", "<leader>gl", function() picker.git_log() end, { desc = "Git Log" })
+  key("n", "<leader>gs", function() picker.git_status() end, { desc = "Git Status" })
 
-  key("n", "<leader>sB", function() picker().grep_buffers() end, { desc = "Grep Open Buffers" })
-  key("n", "<leader>sg", function() picker().grep() end, { desc = "Grep Project Files" })
-  key({ "n", "x" }, "<leader>sw", function() picker().grep_word() end, { desc = "Visual selection or word" })
+  key("n", "<leader>sB", function() picker.grep_buffers() end, { desc = "Grep Open Buffers" })
+  key("n", "<leader>sg", function() picker.grep() end, { desc = "Grep Project Files" })
+  key({ "n", "x" }, "<leader>sw", function() picker.grep_word() end, { desc = "Visual selection or word" })
 
   key("n", '<leader>s"', function()
-    picker().registers({
+    picker.registers({
       preview = "none",
       confirm = function(p, item)
         p:close()
@@ -353,19 +353,19 @@ function M.snacks()
     })
   end, { desc = "Edit Register" })
 
-  key("n", "<leader>sb", function() picker().lines() end, { desc = "Buffer Lines" })
-  key("n", "<leader>sj", function() picker().jumps() end, { desc = "Jumps" })
-  key("n", "<leader>sm", function() picker().marks() end, { desc = "Marks" })
+  key("n", "<leader>sb", function() picker.lines() end, { desc = "Buffer Lines" })
+  key("n", "<leader>sj", function() picker.jumps() end, { desc = "Jumps" })
+  key("n", "<leader>sm", function() picker.marks() end, { desc = "Marks" })
 
-  key("n", "<leader>na", function() picker().autocmds() end, { desc = "Search Auto-commands" })
-  key("n", "<leader>nC", function() picker().commands() end, { desc = "Search Commands" })
-  key("n", "<leader>nc", function() picker().files({ cwd = vim.fn.stdpath("config") }) end, { desc = "Search Config Files" })
-  key("n", "<leader>nI", function() picker().icons() end, { desc = "Search Icons" })
-  key("n", "<leader>nk", function() picker().keymaps() end, { desc = "Search Keymaps" })
-  key("n", "<leader>nf", function() picker().files({ dirs = vim.api.nvim_get_runtime_file("lua/", true) }) end, { desc = "Plugin files" })
-  key("n", "<leader>uC", function() picker().colorschemes() end, { desc = "Search Colorschemes" })
+  key("n", "<leader>na", function() picker.autocmds() end, { desc = "Search Auto-commands" })
+  key("n", "<leader>nC", function() picker.commands() end, { desc = "Search Commands" })
+  key("n", "<leader>nc", function() picker.files({ cwd = vim.fn.stdpath("config") }) end, { desc = "Search Config Files" })
+  key("n", "<leader>nI", function() picker.icons() end, { desc = "Search Icons" })
+  key("n", "<leader>nk", function() picker.keymaps() end, { desc = "Search Keymaps" })
+  key("n", "<leader>nf", function() picker.files({ dirs = vim.api.nvim_get_runtime_file("lua/", true) }) end, { desc = "Plugin files" })
+  key("n", "<leader>uC", function() picker.colorschemes() end, { desc = "Search Colorschemes" })
 
-  key("n", "<leader>wz", function() snacks().zen() end, { desc = "Toggle Zen Mode" })
+  key("n", "<leader>wz", function() snacks.zen() end, { desc = "Toggle Zen Mode" })
   key("n", "<leader>wf", "<cmd>only<cr>", { desc = "Fullscreen" })
 end
 

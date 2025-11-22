@@ -99,8 +99,7 @@ end
 
 function M.startup()
   local method = vim.fs.root(0, ".git") ~= nil and "smart" or "recent"
-  local picker = require("batphone.snacks").lazy("snacks.picker")
-  picker()[method]()
+  require("snacks.picker")[method]()
 end
 
 return M

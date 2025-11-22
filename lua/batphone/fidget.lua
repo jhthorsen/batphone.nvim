@@ -1,4 +1,4 @@
-local M = {
+return {
   opts = {
     progress = {
       poll_rate = 1,
@@ -10,9 +10,3 @@ local M = {
     }
   },
 }
-
-function M.setup()
-  require("fidget").setup(M.opts)
-end
-
-return M

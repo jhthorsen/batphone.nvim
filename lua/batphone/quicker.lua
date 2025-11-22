@@ -1,4 +1,4 @@
-local M = {
+return {
   opts = {
     keys = {
       { ">",
@@ -12,16 +12,3 @@ local M = {
     },
   },
 }
-
-function M.lazy(mod)
-  return function()
-    if not M.loaded then
-      require("quicker").setup(M.opts)
-      M.loaded = true
-    end
-
-    return require(mod or "quicker")
-  end
-end
-
-return M
