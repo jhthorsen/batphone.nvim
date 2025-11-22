@@ -6,7 +6,6 @@ vim.pack.add({
   { src = "https://github.com/jake-stewart/multicursor.nvim", version = "main" },
   { src = "https://github.com/folke/snacks.nvim", version = "main" },
   { src = "https://github.com/folke/which-key.nvim", version = "main" },
-  { src = "https://github.com/j-hui/fidget.nvim", verson = "main" },
   { src = "https://github.com/mason-org/mason.nvim", version = "main" },
   { src = "https://github.com/zbirenbaum/copilot.lua", version = "master" },
   { src = "https://github.com/folke/lazydev.nvim", version = "main" },
@@ -25,7 +24,6 @@ vim.cmd("packadd batphone.nvim")
 
 require("snacks").setup(require("batphone.snacks").opts)
 require("quicker").setup(require("batphone.quicker").opts)
-require("fidget").setup(require("batphone.fidget").opts)
 require("mini.align").setup({})
 require("mini.comment").setup({})
 require("mini.move").setup({})
@@ -37,6 +35,7 @@ require("batphone.clipboard")
 require("batphone.theme").kanagawa("kanagawa-wave")
 require("batphone.statusline").setup()
 
+require("batphone.lsp_progress")
 require("batphone.autocmd_buf_enter_goto_last_loc")
 require("batphone.autocmd_buf_write_pre_mkdir")
 require("batphone.autocmd_lsp_attach_settings")

@@ -58,6 +58,10 @@ return {
     explorer = {
       replace_netrw = true,
     },
+    notifier = {
+      level = vim.log.levels.DEBUG,
+      sort = { "added" },
+    },
     picker = {
       formatters = {
         file = {

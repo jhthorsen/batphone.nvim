@@ -349,7 +349,6 @@ function M.snacks()
     })
   end, { desc = "Edit Register" })
 
-  key("n", "<leader>sb", function() picker.lines() end, { desc = "Buffer Lines" })
   key("n", "<leader>sj", function() picker.jumps() end, { desc = "Jumps" })
   key("n", "<leader>sm", function() picker.marks() end, { desc = "Marks" })
 
@@ -361,6 +360,7 @@ function M.snacks()
   key("n", "<leader>nf", function() picker.files({ dirs = vim.api.nvim_get_runtime_file("lua/", true) }) end, { desc = "Plugin files" })
   key("n", "<leader>uC", function() picker.colorschemes() end, { desc = "Search Colorschemes" })
 
+  key("n", "<leader>nn", function() snacks.notifier.show_history() end, { desc = "Show notifications" })
   key("n", "<leader>wz", function() snacks.zen() end, { desc = "Toggle Zen Mode" })
   key("n", "<leader>wf", "<cmd>only<cr>", { desc = "Fullscreen" })
 end
