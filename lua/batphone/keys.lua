@@ -1,4 +1,3 @@
-local dirname = vim.fs and vim.fs.dirname or function(p) return vim.fn.fnamemodify(p, ":h") end
 local key = vim.keymap.set
 local toggle = require("batphone.toggle").toggle;
 local M = {}
@@ -6,8 +5,6 @@ local M = {}
 function M.auto()
   key("v", "<", "<gv", { desc = "Indent and stay in indent mode" })
   key("v", ">", ">gv", { desc = "Indent and stay in indent mode" })
-
-  key("n", "G", "Gzz", { desc = "Move to end and stay in center" })
 
   key("c", "<c-h>", "<left>", { desc = "Cmdline Movement", silent = false })
   key("c", "<c-l>", "<right>", { desc = "Cmdline Movement", silent = false })
@@ -19,16 +16,8 @@ function M.auto()
   key({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'",
     { desc = "Moving the cursor through long soft-wrapped lines", expr = true, silent = true })
 
-  key("i", ".", ".<c-g>u", { desc = "Auto undo" })
-  key("i", ";", ";<c-g>u", { desc = "Auto undo" })
-
-  -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
-  key("n", "n", "'Nn'[v:searchforward].'zv'", { expr = true, desc = "Next Search Result" })
-  key("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next Search Result" })
-  key("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next Search Result" })
-  key("n", "N", "'nN'[v:searchforward].'zv'", { expr = true, desc = "Prev Search Result" })
-  key("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
-  key("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
+  key("i", ".", ".<c-g>u", { desc = "Set Undo break" })
+  key("i", ";", ";<c-g>u", { desc = "Set Undo break" })
 end
 
 function M.blink()
@@ -61,42 +50,12 @@ function M.blink()
 end
 
 function M.buffers()
-  key("n", "<tab>", "<cmd>bnext<cr>", { desc = "Prev Buffer" })
-  key("n", "<s-tab>", "<cmd>bprevious<cr>", { desc = "Next Buffer" })
-  key("n", "<c-q>", "<cmd>bp|bd#<cr>", { desc = "Delete Buffer" })
+  key("n", "<tab>", "<cmd>bnext|echo expand('%')<cr>", { desc = "Prev Buffer" })
+  key("n", "<s-tab>", "<cmd>bprevious|echo expand('%')<cr>", { desc = "Next Buffer" })
+  key("n", "<c-q>", "<cmd>bp|bd#|echo expand('%')<cr>", { desc = "Delete Buffer" })
   key("n", "<leader>qa", "<cmd>wqa<cr>", { desc = "Save and Quit All" })
-  key("n", "<leader>qs", "<cmd>wa!<cr>", { desc = "Save all open buffers" })
-  key("n", "<leader>qq",
-    function()
-      local n_buffers = #vim.fn.getbufinfo({ buflisted = 1 })
-      if string.match(vim.api.nvim_buf_get_name(0), "term://") ~= nil then
-        vim.api.nvim_command("bd!");
-        if n_buffers <= 1 then vim.api.nvim_command("quit") end
-        return
-      end
-
-      local layout = vim.fn.winlayout()
-      if #layout == 2 and layout[1] ~= "leaf" then
-        vim.api.nvim_command("wincmd c");
-        return
-      end
-
-      local modified = vim.api.nvim_get_option_value("modified", { buf = vim.api.nvim_get_current_buf() })
-      vim.api.nvim_command(modified and "w|bd" or "bd");
-
-      if n_buffers <= 1 then
-        vim.api.nvim_command("quit")
-        return
-      end
-
-      if layout[1] == "row" then
-        vim.cmd("vsplit")
-      elseif layout[1] == "col" then
-        vim.cmd("split")
-      end
-    end,
-    { desc = "Save and Close Buffer" }
-  )
+  key("n", "<leader>qq", "<cmd>silent w!|bp|bd#|echo expand('%')<cr>", { desc = "Delete Buffer" })
+  key("n", "<leader>qs", "<cmd>wa!|echo expand('%')<cr>", { desc = "Save all open buffers" })
 end
 
 function M.codecompanion()
@@ -122,61 +81,19 @@ function M.codecompanion()
 end
 
 function M.edit()
-  key("n", "<a-j>", "<cmd>execute 'move .+' . v:count1<cr>==", { desc = "Move line down" })
-  key("n", "<a-k>", "<cmd>execute 'move .-' . (v:count1 + 1)<cr>==", { desc = "Move line up" })
-  key("n", "<c-j>", "10jzz", { desc = "Jump ten lines down" })
-  key("n", "<c-k>", "10kzz", { desc = "Jump ten lines up" })
   key({ "n", "v" }, "0d", '"_d', { desc = "Delete" })
 end
 
 function M.editor()
-  key("n", "<leader>nt", "<cmd>InspectTree<cr>", { desc = "Inspect Tree" })
   key("n", "<leader>nR", "<cmd>restart<cr>", { desc = "Restart neovim" })
   key("n", "<leader>nU", function() vim.pack.update() end, { desc = "Update Neovim Plugins" })
-  key("n", "<leader>fn", ":echo expand('%')<cr>", { desc = "Show filename" })
-  key("n", "<leader>nha", ":checkhealth<cr>", { desc = "Checkhealth" })
+  key("n", "<leader>nha", ":checkhealth<cr>", { desc = "Check Neovim Health" })
   key("n", "<leader>nhl", ":checkhealth vim.lsp<cr>", { desc = "Checkhealth LSP" })
   key("n", "<leader>nht", ":checkhealth nvim-treesitter vim.treesitter<cr>", { desc = "Checkhealth treesitter" })
   key("n", "<leader>nhw", ":checkhealth which-key<cr>", { desc = "Checkhealth which-key" })
 
-  local function focus_window(dir, split_cmd)
-    return function()
-      local layout = vim.fn.winlayout()
-      if layout[1] == "leaf" then vim.cmd(split_cmd) end
-      local cmd = "wincmd " .. dir
-      local ok, _ = pcall(vim.cmd, cmd)
-      if not ok then vim.cmd("wincmd p") end
-    end
-  end
-
-  key("n", "<leader>wh", focus_window("h", "vsplit"), { desc = "Go To Left Pane" })
-  key("n", "<leader>wl", focus_window("l", "vsplit"), { desc = "Go To Right Pane" })
-  key("n", "<leader>wj", focus_window("j", "split"), { desc = "Go To Pane Below" })
-  key("n", "<leader>wk", focus_window("k", "split"), { desc = "Go To Pane Above" })
-
-  key("n", ",e",
-    function()
-      local dir = dirname(vim.fn.bufname())
-      print(vim.api.nvim_buf_get_name(0));
-      vim.api.nvim_feedkeys(":edit " .. dir:gsub("[[]", "\\[") .. "/", "n", false)
-      vim.api.nvim_input("<tab>")
-    end,
-    { desc = "Find and Edit" }
-  )
-
   toggle({
-    key = "<leader>uS",
-    desc = { enabled = "Hide Sign Column", disabled = "Show Sign Column" },
-    current = function() return vim.wo.signcolumn == "yes" end,
-    set = function(enabled)
-      vim.wo.signcolumn = enabled and "no" or "yes"
-      vim.wo.number = not enabled
-      vim.wo.relativenumber = not enabled
-    end
-  })
-
-  toggle({
-    key = "<leader>uL",
+    key = "<leader>ul",
     desc = { enabled = "Show Absolute Line Numbers", disabled = "Show Relative Line Numbers" },
     option = "relativenumber",
   })
@@ -188,10 +105,14 @@ function M.editor()
   })
 
   toggle({
-    key = "<leader>uT",
-    desc = { enabled = "Disable Treesitter", disabled = "Enable Treesitter" },
-    current = function() return vim.b.ts_highlight end,
-    set = function(enabled) vim.treesitter[enabled and "stop" or "start"]() end,
+    key = "<leader>uS",
+    desc = { enabled = "Hide Sign Column", disabled = "Show Sign Column" },
+    current = function() return vim.wo.signcolumn == "yes" end,
+    set = function(enabled)
+      vim.wo.signcolumn = enabled and "no" or "yes"
+      vim.wo.number = not enabled
+      vim.wo.relativenumber = not enabled
+    end
   })
 
   toggle({
@@ -236,12 +157,6 @@ function M.multicursor(mc)
 end
 
 function M.lsp()
-  local function goto_diag(next, severity)
-    severity = severity and vim.diagnostic.severity[severity] or nil
-    local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
-    go({ severity = severity })
-  end
-
   toggle({
     key = "<leader>dx",
     desc = { enabled = "Disable Diagnostics", disabled = "Enable Diagnostics" },
@@ -264,31 +179,24 @@ function M.lsp()
   })
 
   local picker = require("snacks.picker")
-  key("n", "[e", function() goto_diag(false, "ERROR") end, { desc = "Prev Error" })
-  key("n", "[w", function() goto_diag(false, "WARN") end, { desc = "Prev Warning" })
-  key("n", "]e", function() goto_diag(true, "ERROR") end, { desc = "Next Error" })
-  key("n", "]w", function() goto_diag(true, "WARN") end, { desc = "Next Warning" })
-  key("n", "<leader>cf", function() return vim.lsp.buf.format() end, { desc = "Format code" })
+  key("n", "<leader>cf", function() vim.lsp.buf.format() end, { desc = "Format code" })
   key("n", "<leader>ca", function() vim.lsp.buf.code_action() end, { desc = "Code Action" })
-  key("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename symbol" })
+  key("n", "<leader>cr", function() vim.lsp.buf.rename() end, { desc = "Rename symbol" })
   key("n", "<leader>cR", function() require("snacks.rename").rename_file() end, { desc = "Rename File" })
-  key("n", "<leader>cS", function() return vim.lsp.buf.signature_help() end, { desc = "Signature Help" })
-  key("n", "<leader>da", function() picker.diagnostics() end, { desc = "Workspace Diagnostics" })
-  key("n", "<leader>db", function() picker.diagnostics_buffer() end, { desc = "Buffer Diagnostics" })
-  key("n", "<leader>de", function() picker.diagnostics({ severity = vim.diagnostic.severity.ERROR }) end, { desc = "Workspace Errors" })
-  key("n", "<leader>dd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
-  key("n", "<leader>dn", function() goto_diag(true) end, { desc = "Next Diagnostic" })
-  key("n", "<leader>dp", function() goto_diag(false) end, { desc = "Prev Diagnostic" })
+  key("n", "<leader>cS", function() vim.lsp.buf.signature_help() end, { desc = "Signature Help" })
+  key("n", "<leader>da", function() vim.diagnostic.setqflist() end, { desc = "Workspace Diagnostics" })
+  key("n", "<leader>db", function() vim.diagnostic.setqflist({ bufnr = 0, severity = vim.diagnostic.severity.ERROR }) end, { desc = "Buffer Diagnostics" })
+  key("n", "<leader>de", function() vim.diagnostic.setqflist({ severity = vim.diagnostic.severity.ERROR }) end, { desc = "Workspace Errors" })
+  key("n", "<leader>dd", function() vim.diagnostic.open_float() end, { desc = "Line Diagnostics" })
   key("n", "<leader>ss", function() picker.lsp_symbols() end, { desc = "LSP Symbols" })
   key("n", "<leader>sS", function() picker.lsp_workspace_symbols() end, { desc = "LSP Workspace Symbols" })
   key("n", "gD", function() picker.lsp_declarations() end, { desc = "Goto Declaration" })
   key("n", "gd", function() picker.lsp_definitions() end, { desc = "Goto Definition" })
   key("n", "gI", function() picker.lsp_implementations() end, { desc = "Goto Implementation" })
-  key("n", "gK", function() return vim.lsp.buf.signature_help() end, { desc = "Signature Help" })
+  key("n", "gK", function() vim.lsp.buf.signature_help() end, { desc = "Signature Help" })
   key("n", "gr", function() picker.lsp_references() end, { desc = "References", nowait = true })
   key("n", "gy", function() picker.lsp_type_definitions() end, { desc = "Goto T[y]pe Definition" })
-  key("n", "K", function() return vim.lsp.buf.hover() end,
-    { desc = "Displays information about the symbol under the cursor in a floating window" })
+  key("n", "K", function() vim.lsp.buf.hover() end, { desc = "Displays information about the symbol under the cursor in a floating window" })
 end
 
 function M.mason()
@@ -297,47 +205,34 @@ function M.mason()
 end
 
 function M.quicker()
-  local quicker = require("quicker")
+  local quicker = require("quicker").toggle
 
-  local function qlist(qlist_action, fallback_action)
-    return function()
-      if quicker.is_open() then
-        pcall(function() vim.cmd(qlist_action) end)
-      else
-        vim.api.nvim_feedkeys(fallback_action, "n", false)
-      end
-    end
+  local function ifquickfixlist(a, b)
+    vim.api.nvim_feedkeys(#vim.fn.getqflist() > 0 and a or b, "n", false)
   end
 
-  key("n", "<c-j>", qlist("cnext", "10jzz"), { desc = "Jump Down" })
-  key("n", "<c-k>", qlist("cprevious", "10kzz"), { desc = "Jump Up" })
-  key("n", "<leader>sq", function() quicker.toggle({ focus = true, }) end, { desc = "Toggle Quickfix" })
-  key("n", "<leader>sl", function() quicker.toggle({ focus = true, loclist = true }) end, { desc = "Toggle Loclist" })
+  key("n", "<c-j>", function() ifquickfixlist(":cnext", "10jzz") end, { desc = "Jump Down" })
+  key("n", "<c-k>", function() ifquickfixlist(":cprevious", "10kzz") end, { desc = "Jump Up" })
+  key("n", "<leader>dq", function() return #vim.fn.getqflist() > 0 and quicker({ focus = true, }) or vim.diagnostic.setqflist() end, { desc = "Toggle Quickfix" })
+  key("n", "<leader>dl", function() quicker({ focus = true, loclist = true }) end, { desc = "Toggle Loclist" })
 end
 
 function M.snacks()
   local snacks = require("snacks")
   local picker = require("snacks.picker")
 
-  key("n", "<leader>b", function() picker.buffers() end, { desc = "Switch Buffer" })
+  key("n", "z=", function() picker.spelling() end, { desc = "Spelling suggestions" })
+  key("n", ",e", function() snacks.explorer() end, { desc = "Open File Explorer" })
 
   key("n", "<leader><space>", function() picker.smart() end, { desc = "Smart Find Files" })
+  key("n", "<leader>b", function() picker.buffers() end, { desc = "Switch Buffer" })
   key("n", "<leader>fe", function() snacks.explorer() end, { desc = "Open File Explorer" })
-  key("n", "<leader>ff", function() picker.files() end, { desc = "Find Files" })
-  key("n", "<leader>fg", function() picker.git_files() end, { desc = "Find Git Files" })
-  key("n", "<leader>fr", function() picker.recent() end, { desc = "Recent" })
+  key("n", "<leader>ff", function() picker.git_files() end, { desc = "Find Git Files" })
   key("n", "<leader>fp", function() picker.projects() end, { desc = "Open File from Projects" })
   key("n", "<leader>fx", function() picker.files({ cwd = ".." }) end, { desc = "Find parent Files" })
   key("n", "<leader>n:", function() picker.command_history() end, { desc = "Command History" })
-  key("n", "z=", function() picker.spelling() end, { desc = "Spelling suggestions" })
-
-  key("n", "<leader>gb", function() picker.git_branches() end, { desc = "Git Branches" })
-  key("n", "<leader>gl", function() picker.git_log() end, { desc = "Git Log" })
-  key("n", "<leader>gs", function() picker.git_status() end, { desc = "Git Status" })
-
-  key("n", "<leader>sB", function() picker.grep_buffers() end, { desc = "Grep Open Buffers" })
+  key("n", "<leader>sb", function() picker.grep_buffers() end, { desc = "Grep Open Buffers" })
   key("n", "<leader>sg", function() picker.grep() end, { desc = "Grep Project Files" })
-  key({ "n", "x" }, "<leader>sw", function() picker.grep_word() end, { desc = "Visual selection or word" })
 
   key("n", '<leader>s"', function()
     picker.registers({
@@ -363,43 +258,6 @@ function M.snacks()
   key("n", "<leader>nn", function() snacks.notifier.show_history() end, { desc = "Show notifications" })
   key("n", "<leader>wz", function() snacks.zen() end, { desc = "Toggle Zen Mode" })
   key("n", "<leader>wf", "<cmd>only<cr>", { desc = "Fullscreen" })
-end
-
-function M.terminal()
-  local shell = vim.env.NVIM_TERMINAL_SHELL or vim.env.SHELL or "bash"
-
-  key("t", "<leader><esc>", "<c-\\><c-n>", { desc = "Normal Mode" })
-  key("n", "<leader>t", function()
-    local layout = vim.fn.winlayout()
-
-    -- Focus previous edit window if inside the terminal
-    if string.match(vim.api.nvim_buf_get_name(0), "term://") ~= nil then
-      return vim.cmd(layout[1] ~= nil and "wincmd p" or "close")
-    end
-
-    -- Focus already opened terminal
-    for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-      local name = vim.api.nvim_buf_get_name(bufnr)
-      if string.match(name or "", "term://") ~= nil then
-        for _, win in ipairs(vim.api.nvim_list_wins()) do
-          if vim.api.nvim_win_get_buf(win) == bufnr then
-            vim.api.nvim_set_current_win(win)
-            return
-          end
-        end
-
-       vim.cmd("buffer " .. bufnr)
-       return
-      end
-    end
-
-    -- Open a new terminal
-    if vim.o.columns > 160 then
-      vim.cmd("vsplit term://" .. shell)
-    else
-      vim.cmd("split term://" .. shell)
-    end
-  end, { desc = "Toggle Terminal" })
 end
 
 function M.which_key(wk)
