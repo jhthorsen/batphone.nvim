@@ -8,11 +8,12 @@ vim.pack.add({
   { src = "https://github.com/folke/which-key.nvim", version = "main" },
   { src = "https://github.com/mason-org/mason.nvim", version = "main" },
   { src = "https://github.com/zbirenbaum/copilot.lua", version = "master" },
+  { src = "https://github.com/rafamadriz/friendly-snippets", version = "main" },
+  { src = "https://github.com/saghen/blink.cmp", version = vim.version.range("1") },
   { src = "https://github.com/folke/lazydev.nvim", version = "main" },
   { src = "https://github.com/fang2hou/blink-copilot", version = "main" },
   { src = "https://github.com/ravitemer/codecompanion-history.nvim", version = "main" },
   { src = "https://github.com/olimorris/codecompanion.nvim", version = vim.version.range("17") },
-  { src = "https://github.com/saghen/blink.cmp", version = vim.version.range("1") },
   { src = "https://github.com/mrcjkb/rustaceanvim", version = vim.version.range("6") },
   { src = "https://github.com/stevearc/quicker.nvim", version = "master" },
 })
