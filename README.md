@@ -33,13 +33,11 @@ The example init.lua file has some plugins, but most of them are optional.
 * [echasnovski/mini.nvim](https://github.com/echasnovski/mini.nvim)
 * [copilotc-nvim/copilotchat.nvim](https://github.com/copilotc-nvim/copilotchat.nvim))
 * [fang2hou/blink-copilot](https://github.com/fang2hou/blink-copilot)
-* [folke/lazydev.nvim](https://github.com/folke/lazydev.nvim)
 * [folke/snacks.nvim](https://github.com/folke/snacks.nvim)
 * [folke/which-key.nvim](https://github.com/folke/which-key.nvim)
 * [jake-stewart/multicursor.nvim](https://github.com/mg979/jake-stewart/multicursor.nvim)
 * [nvim-treesitter/nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
 * [saghen/blink.cmp](https://github.com/saghen/blink.cmp)
-* [stevearc/oil.nvim](https://github.com/stevearc/oil.nvim)
 * [williamboman/mason.nvim](https://github.com/williamboman/mason.nvim)
 * [zbirenbaum/copilot.lua](https://github.com/zbirenbaum/copilot.lua)
 

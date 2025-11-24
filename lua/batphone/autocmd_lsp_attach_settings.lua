@@ -22,10 +22,6 @@ local M = {
           min_keyword_length = 3,
           async = true,
         },
-        lazydev = {
-          name = "LazyDev",
-          module = "lazydev.integrations.blink",
-        },
       },
     },
   },
@@ -34,14 +30,6 @@ local M = {
 function M.blink_sources()
   local default = {}
 
-  require("lazydev").setup({
-    library = {
-      "folke/snacks.nvim",
-      { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-    },
-  })
-
-  table.insert(default, "lazydev")
   table.insert(default, "buffer")
   table.insert(default, "lsp")
   table.insert(default, "snippets")

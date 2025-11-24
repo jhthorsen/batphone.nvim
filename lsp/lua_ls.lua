@@ -67,6 +67,16 @@
 --- * [Lua.runtime.path](https://luals.github.io/wiki/settings/#runtimepath)
 --- * [Lua.workspace.library](https://luals.github.io/wiki/settings/#workspacelibrary)
 ---
+local libraries = { vim.env.VIMRUNTIME }
+
+for _, path in ipairs(vim.api.nvim_list_runtime_paths()) do
+  local lua_dir = path .. "/lua"
+  local stat = vim.loop.fs_stat(lua_dir)
+  if stat and stat.type == "directory" then
+    table.insert(libraries, lua_dir)
+  end
+end
+
 return {
   cmd = { 'lua-language-server' },
   filetypes = { 'lua' },
@@ -79,5 +89,16 @@ return {
     'selene.toml',
     'selene.yml',
     '.git',
+  },
+  settings = {
+    Lua = {
+      workspace = {
+        checkThirdParty = false,
+        library = libraries,
+      },
+      diagnostics = {
+        globals = { 'vim' },
+      },
+    },
   },
 }
