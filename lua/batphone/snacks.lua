@@ -34,10 +34,6 @@ local dropdown_layout = {
   },
 }
 
-local no_preview_layout = {
-  preview = false,
-}
-
 local sidebar_layout = {
   preview = "main",
   layout = {
@@ -47,7 +43,7 @@ local sidebar_layout = {
     width = 40,
     height = function() return vim.o.lines - 4 end,
     border = "rounded",
-    zindex = 101,
+    zindex = 90,
     { win = "input", height = 1, border = "bottom" },
     { win = "list", border = "none" },
     { win = "preview", title = "{preview}" },
@@ -71,19 +67,21 @@ return {
       },
       layout = default_layout,
       sources = {
-        autocmds = { layout = no_preview_layout },
+        autocmds = { layout = { preview = false } },
         explorer = { layout = sidebar_layout, jump = { close = true } },
-        buffers = { layout = no_preview_layout },
-        command_history = { layout = no_preview_layout },
-        lines = { layout = no_preview_layout },
-        notifications = { layout = no_preview_layout },
-        registers = { layout = no_preview_layout },
-        search_history = { layout = no_preview_layout },
+        buffers = { layout = { preview = false } },
+        command_history = { layout = { preview = false } },
+        lines = { layout = { preview = false } },
+        registers = { layout = { preview = false } },
+        search_history = { layout = { preview = false } },
         select = { layout = dropdown_layout },
         spelling = { layout = dropdown_layout },
       },
     },
     styles = {
+      notification = {
+        zindex = 90,
+      },
       zen = {
         height = 0.95,
         width = function()
