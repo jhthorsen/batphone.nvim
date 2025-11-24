@@ -41,15 +41,16 @@ local no_preview_layout = {
 local sidebar_layout = {
   preview = "main",
   layout = {
-    width = 40,
-    min_width = 30,
-    height = 0,
-    position = "right",
-    border = "none",
     box = "vertical",
-    { win = "input", height = 1, border = true, title = "{title} {live} {flags}", title_pos = "center" },
+    col = function() return vim.o.columns - 40 end,
+    row = 0,
+    width = 40,
+    height = function() return vim.o.lines - 4 end,
+    border = "rounded",
+    zindex = 101,
+    { win = "input", height = 1, border = "bottom" },
     { win = "list", border = "none" },
-    { win = "preview", title = "{preview}", height = 0.4, border = "top" },
+    { win = "preview", title = "{preview}" },
   },
 }
 
@@ -71,7 +72,7 @@ return {
       layout = default_layout,
       sources = {
         autocmds = { layout = no_preview_layout },
-        explorer = { layout = sidebar_layout },
+        explorer = { layout = sidebar_layout, jump = { close = true } },
         buffers = { layout = no_preview_layout },
         command_history = { layout = no_preview_layout },
         lines = { layout = no_preview_layout },

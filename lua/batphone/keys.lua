@@ -222,7 +222,7 @@ function M.snacks()
   local picker = require("snacks.picker")
 
   key("n", "z=", function() picker.spelling() end, { desc = "Spelling suggestions" })
-  key("n", ",e", function() snacks.explorer() end, { desc = "Open File Explorer" })
+  key("n", ",e", function() snacks.explorer({ focus = "input", hidden = true, tree = false }) end, { desc = "Open File Explorer" })
 
   key("n", "<leader><space>", function() picker.smart() end, { desc = "Smart Find Files" })
   key("n", "<leader>b", function() picker.buffers() end, { desc = "Switch Buffer" })
