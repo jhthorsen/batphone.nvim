@@ -32,7 +32,6 @@ function M.toggle(opts)
     wk.add({{
       opts.key,
       mode = opts.mode or "n",
-      real = true,
       icon = function()
         local k = opts.current() and "enabled" or "disabled"
         return {
