@@ -68,7 +68,7 @@ function M.codecompanion()
     set = function(enabled) cc.copilot_enable(not enabled) end,
   })
 
-  key("n", "<leader>cc", cc.cmd("CodeCompanionChat Toggle"), { desc = "CodeCompanion Chat" })
+  key("n", "<leader>cx", cc.cmd("CodeCompanionChat Toggle"), { desc = "CodeCompanion Chat" })
   key("n", "<leader>cA", cc.cmd("CodeCompanionActions"), { desc = "CodeCompanion Actions" })
   key("n", "<leader>cH", cc.cmd("CodeCompanionHistory"), { desc = "CodeCompanion History" })
   key("n", "<leader>cl", cc.cmd("CodeCompanion /lsp"), { desc = "Explain The LSP Diagnostics" })
@@ -82,11 +82,14 @@ end
 
 function M.edit()
   key({ "n", "v" }, "0d", '"_d', { desc = "Delete" })
+  key({ "n", "i" }, "<leader>cc", '<cmd>CccPick<cr>', { desc = "Open Color Picker" })
+  key({ "n", "i" }, "<leader>cC", '<cmd>CccConvert<cr>', { desc = "Convert Color" })
 end
 
 function M.editor()
   key("n", "<leader>nR", "<cmd>restart<cr>", { desc = "Restart neovim" })
   key("n", "<leader>nU", function() vim.pack.update() end, { desc = "Update Neovim Plugins" })
+  key("n", "<leader>uc", "<cmd>CccHighlighterToggle<cr>", { desc = "Toggle Color Highlighter" })
   key("n", "<leader>nha", ":checkhealth<cr>", { desc = "Check Neovim Health" })
   key("n", "<leader>nhl", ":checkhealth vim.lsp<cr>", { desc = "Checkhealth LSP" })
   key("n", "<leader>nht", ":checkhealth nvim-treesitter vim.treesitter<cr>", { desc = "Checkhealth treesitter" })

@@ -15,6 +15,7 @@ vim.pack.add({
   { src = "https://github.com/olimorris/codecompanion.nvim", version = vim.version.range("17") },
   { src = "https://github.com/mrcjkb/rustaceanvim", version = vim.version.range("6") },
   { src = "https://github.com/stevearc/quicker.nvim", version = "master" },
+  { src = "https://github.com/uga-rosa/ccc.nvim", version = "main" },
 })
 
 -- Either load batphone.nvim from github...
@@ -37,6 +38,7 @@ require("batphone.statusline").setup()
 
 require("batphone.lsp_progress")
 require("batphone.autocmd_buf_enter_goto_last_loc")
+require("batphone.autocmd_buf_read_post_activate_ccc")
 require("batphone.autocmd_buf_write_pre_mkdir")
 require("batphone.autocmd_lsp_attach_settings")
 
