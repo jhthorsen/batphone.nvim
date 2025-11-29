@@ -2,14 +2,13 @@
 
 This Neovim plugin is my whole setup for Neovim.
 
-The previous [iteration](https://github.com/jhthorsen/batphone.nvim/tree/v1.x.x) was inspired by [LazyVim](https://www.lazyvim.org), while "v2.x.x" is now an entirely rewrite based on the new [vim.pack](https://neovim.io/doc/user/pack.html) feature that will land in Neovim 0.12.x. The new package manager enables neovim configurations to be much simpler, and with very little indirect complexity.
+The previous [iteration](https://github.com/jhthorsen/batphone.nvim/tree/v1.x.x) was inspired by [LazyVim](https://www.lazyvim.org), while "v2.x.x" is now an entirely rewrite based on the new [vim.pack](https://neovim.io/doc/user/pack.html) feature that will land in Neovim 0.12. The new package manager enables Neovim configurations to be much simpler, and with very little indirect complexity.
 
 ## Prerequisites
 
 You need [Neovim](https://github.com/neovim/neovim/releases) 0.12.x or later.
 
-If you already have neovim set up, then you want to (back up) and clear out the
-following directories first:
+If you already have Neovim set up, then you want to (back up) and clear out the following directories first:
 
     $ rm -rf ~/.config/nvim ~/.cache/nvim ~/.local/share/nvim;
 
@@ -47,8 +46,7 @@ The example init.lua file has some plugins, but most of them are optional.
 
 ## Useful bash function
 
-This function will invoke "nvim" with a file picker, when called without any
-arguments.
+This function will invoke `nvim` with a file picker, when called without any arguments.
 
     vi() {
       if [ -n "$*" ]; then nvim "$@";

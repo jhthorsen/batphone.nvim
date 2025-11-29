@@ -49,10 +49,16 @@ return {
   settings = {
     ['harper-ls'] = {
       userDictPath = "~/.local/share/harper/dict.txt",
+      isolateEnglish = false, -- Does not seem to work as well as I hoped
+      isLikelyEnglish = false, -- Does not seem to work as well as I hoped
       linters = {
-        SentenceCapitalization = false,
-        SpellCheck = false,
-        SpelledNumbers = true,
+        SpellCheck = true,
+        SentenceCapitalization = true,
+        SpelledNumbers = false,
+        ToDoHyphen = false,
+      },
+      markdown = {
+        IgnoreLinkTitle = true,
       },
     },
   }

@@ -102,12 +102,6 @@ function M.editor()
   })
 
   toggle({
-    key = "<leader>us",
-    desc = { enabled = "Disable Spellcheck", disabled = "Enable Spellcheck" },
-    option = "spell",
-  })
-
-  toggle({
     key = "<leader>uS",
     desc = { enabled = "Hide Sign Column", disabled = "Show Sign Column" },
     current = function() return vim.wo.signcolumn == "yes" end,
@@ -247,6 +241,13 @@ function M.snacks()
     })
   end, { desc = "Edit Register" })
 
+  toggle({
+    key = "<leader>uM",
+    desc = { enabled = "Disable Markdown Render", disabled = "Enable Markdown Render" },
+    current = function() return require("render-markdown").get() end,
+    set = function(enabled) require("render-markdown").set(not enabled) end
+  })
+
   key("n", "<leader>sj", function() picker.jumps() end, { desc = "Jumps" })
   key("n", "<leader>sm", function() picker.marks() end, { desc = "Marks" })
 
@@ -259,8 +260,8 @@ function M.snacks()
   key("n", "<leader>uC", function() picker.colorschemes() end, { desc = "Search Colorschemes" })
 
   key("n", "<leader>nn", function() snacks.notifier.show_history() end, { desc = "Show notifications" })
-  key("n", "<leader>wz", function() snacks.zen() end, { desc = "Toggle Zen Mode" })
-  key("n", "<leader>wf", "<cmd>only<cr>", { desc = "Fullscreen" })
+  key("n", "<leader>uz", function() snacks.zen() end, { desc = "Toggle Zen Mode" })
+  key("n", "<leader>uf", "<cmd>only<cr>", { desc = "Fullscreen" })
 end
 
 function M.which_key(wk)

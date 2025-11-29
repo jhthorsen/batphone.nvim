@@ -40,7 +40,6 @@ function M.setup()
     { "<space>r", group = "Rust...", icon = "" },
     { "<space>s", group = "Search..." },
     { "<space>u", group = "User Interface...", icon = "󰂮" },
-    { "<space>w", group = "Window commands" },
     { "<space>q", group = "Quit..." },
   })
 end

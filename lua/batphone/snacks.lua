@@ -83,16 +83,20 @@ return {
         zindex = 90,
       },
       zen = {
-        height = 0.95,
+        minimal = true,
+        border = "hpad",
+        height = 0.9,
         width = function()
           local cols = vim.o.columns
-          if cols > 122 then return 120 end
-          return cols - 6
+          return cols > (100 + 4) and 100 or cols - 4
         end,
-        minimal = true,
         backdrop = {
-          transparent = true,
-          blend = 10,
+          transparent = false,
+        },
+        wo = {
+          number = false,
+          signcolumn = "no",
+          wrap = true,
         },
       },
     },
