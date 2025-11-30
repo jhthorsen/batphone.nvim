@@ -100,6 +100,9 @@ return {
         },
       },
     },
+    terminal = {
+      shell = { vim.env.SHELL, "--login" },
+    },
     zen = {
       toggles = {
         diagnostics = false,

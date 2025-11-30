@@ -54,7 +54,6 @@ function M.buffers()
   key("n", "<s-tab>", "<cmd>bprevious|echo expand('%')<cr>", { desc = "Next Buffer" })
   key("n", "<c-q>", "<cmd>bp|bd#|echo expand('%')<cr>", { desc = "Delete Buffer" })
   key("n", "<leader>qa", "<cmd>wqa<cr>", { desc = "Save and Quit All" })
-  key("n", "<leader>qq", "<cmd>silent w!|bp|bd#|echo expand('%')<cr>", { desc = "Delete Buffer" })
   key("n", "<leader>qs", "<cmd>wa!|echo expand('%')<cr>", { desc = "Save all open buffers" })
 end
 
@@ -262,6 +261,33 @@ function M.snacks()
   key("n", "<leader>nn", function() snacks.notifier.show_history() end, { desc = "Show notifications" })
   key("n", "<leader>uz", function() snacks.zen() end, { desc = "Toggle Zen Mode" })
   key("n", "<leader>uf", "<cmd>only<cr>", { desc = "Fullscreen" })
+
+  key({ "n", "t" }, "<leader>ut", function()
+    snacks.terminal.toggle()
+  end, { desc = "Toggle terminal" })
+
+  key({ "n", "t" }, "<leader>qq", function()
+    local is_terminal = string.match(vim.api.nvim_buf_get_name(0), "term://") ~= nil
+    if is_terminal then return snacks.terminal.toggle() end
+
+    local is_modified = vim.api.nvim_get_option_value("modified", { buf = vim.api.nvim_get_current_buf() })
+    if is_modified then vim.api.nvim_command("silent w!") end
+
+    local n_buffers = #vim.fn.getbufinfo({ buflisted = 1 })
+    if n_buffers <= 1 and #snacks.terminal.list() >= 1 then
+      vim.ui.select({ "Close neovim", "Show the terminal", "Do nothing" }, { }, function(choice)
+        if choice == "Close neovim" then
+          vim.api.nvim_command("quit")
+        elseif choice == "Show the terminal" then
+          snacks.terminal.toggle()
+        end
+      end)
+    elseif n_buffers <= 1 then
+      vim.api.nvim_command("quit")
+    else
+      vim.api.nvim_command("bp|bd#");
+    end
+  end, { desc = "Close Buffer" })
 end
 
 function M.which_key(wk)
