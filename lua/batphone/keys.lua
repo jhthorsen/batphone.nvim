@@ -204,11 +204,11 @@ function M.quicker()
   local quicker = require("quicker").toggle
 
   local function ifquickfixlist(a, b)
-    vim.api.nvim_feedkeys(#vim.fn.getqflist() > 0 and a or b, "n", false)
+    return #vim.fn.getqflist() <= 0 and vim.api.nvim_feedkeys(b, "n", false) or pcall(vim.cmd, a)
   end
 
-  key("n", "<c-j>", function() ifquickfixlist(":cnext", "10jzz") end, { desc = "Jump Down" })
-  key("n", "<c-k>", function() ifquickfixlist(":cprevious", "10kzz") end, { desc = "Jump Up" })
+  key("n", "<c-j>", function() ifquickfixlist("cnext", "10jzz") end, { desc = "Jump Down" })
+  key("n", "<c-k>", function() ifquickfixlist("cprevious", "10kzz") end, { desc = "Jump Up" })
   key("n", "<leader>dq", function() return #vim.fn.getqflist() > 0 and quicker({ focus = true, }) or vim.diagnostic.setqflist() end, { desc = "Toggle Quickfix" })
   key("n", "<leader>dl", function() quicker({ focus = true, loclist = true }) end, { desc = "Toggle Loclist" })
 end
