@@ -24,6 +24,7 @@ vim.pack.add({
 --- ...or from $HOME/.local/share/nvim/site/pack/core/opt/batphone.nvim
 vim.cmd("packadd batphone.nvim")
 
+require("vim._extui").enable({})
 require("snacks").setup(require("batphone.snacks").opts)
 require("quicker").setup(require("batphone.quicker").opts)
 require("mini.align").setup({})
