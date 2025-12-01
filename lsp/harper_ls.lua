@@ -53,7 +53,7 @@ return {
       isLikelyEnglish = false, -- Does not seem to work as well as I hoped
       linters = {
         SpellCheck = true,
-        SentenceCapitalization = true,
+        SentenceCapitalization = false,
         SpelledNumbers = false,
         ToDoHyphen = false,
       },
