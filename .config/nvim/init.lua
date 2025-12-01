@@ -82,7 +82,7 @@ require("batphone.util").lsp_enable({
   "marksman", -- Markdown LSP server
   -- "nginx_language_server",
   "perlnavigator",
-  "postgres_lsp",
+  -- "postgres_lsp",
   -- "pylsp", -- Python 3.6+
   "quick_lint_js",
   -- "remark_ls", -- Ecosystem of plugins that work with markdown as structured data
