@@ -93,11 +93,6 @@ return {
         backdrop = {
           transparent = false,
         },
-        wo = {
-          number = false,
-          signcolumn = "no",
-          wrap = true,
-        },
       },
     },
     terminal = {
@@ -110,6 +105,26 @@ return {
         git_signs = false,
         inlay_hints = false,
         mini_diff_signs = false,
+      },
+      win = {
+        wo = {
+          number = false,
+          signcolumn = "no",
+          wrap = true,
+        },
+      },
+      zoom = {
+        win = {
+          border = false,
+          minimal = false,
+          height = 0,
+          width = 0,
+          wo = {
+            number = true,
+            signcolumn = "yes",
+            wrap = false,
+          },
+        },
       },
     },
   },

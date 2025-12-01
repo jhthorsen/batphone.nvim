@@ -261,7 +261,8 @@ function M.snacks()
 
   key("n", "<leader>nn", function() snacks.notifier.show_history() end, { desc = "Show notifications" })
   key("n", "<leader>uz", function() snacks.zen() end, { desc = "Toggle Zen Mode" })
-  key("n", "<leader>uf", "<cmd>only<cr>", { desc = "Fullscreen" })
+  key("n", "<leader>uf", function() snacks.zen.zoom() end, { desc = "Fullscreen Window" })
+  key("n", "<leader>us", "<cmd>vsplit<cr>", { desc = "Split Window" })
 
   key({ "n", "t" }, "<leader>ut", function()
     snacks.terminal.toggle()
