@@ -24,23 +24,24 @@ local M = {
 }
 
 function M.setup()
+  if M.loaded then return end
+
   local wk = require("which-key")
   wk.setup(M.opts)
-
   require("which-key.plugins.presets").operators["v"] = nil
-  require("batphone.keys").which_key(wk)
 
   wk.add({
-    { "<space>c", group = "Code..." },
-    { "<space>d", group = "Diagnostics..." },
-    { "<space>f", group = "Files..." },
-    { "<space>g", group = "Git..." },
-    { "<space>m", group = "Multicursors...", icon = "󰎂" },
-    { "<space>n", group = "Neovim...", icon = "" },
-    { "<space>r", group = "Rust...", icon = "" },
-    { "<space>s", group = "Search..." },
-    { "<space>u", group = "User Interface...", icon = "󰂮" },
-    { "<space>q", group = "Quit..." },
+    { "<leader>h", function() wk.show() end, icon = "🎹", desc = "Show All Keys" },
+    { "<leader>c", group = "Code..." },
+    { "<leader>d", group = "Diagnostics..." },
+    { "<leader>f", group = "Files..." },
+    { "<leader>g", group = "Git..." },
+    { "<leader>m", group = "Multicursors...", icon = "󰎂" },
+    { "<leader>n", group = "Neovim...", icon = "" },
+    { "<leader>r", group = "Rust...", icon = "" },
+    { "<leader>s", group = "Search..." },
+    { "<leader>u", group = "User Interface...", icon = "󰂮" },
+    { "<leader>q", group = "Quit..." },
   })
 end
 

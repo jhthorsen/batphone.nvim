@@ -5,7 +5,6 @@ local M = {
 M.setup = function()
   local mc = require("multicursor-nvim")
   mc.setup(M.opts)
-
   require("batphone.keys").multicursor(mc)
 
   local hl = vim.api.nvim_set_hl

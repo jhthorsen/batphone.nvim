@@ -20,10 +20,6 @@ function M.debug(msg)
   end
 end
 
-function M.warn(msg)
-  vim.notify(msg, vim.log.levels.WARN, {})
-end
-
 function M.load_file_from_runtime_paths(rel_path)
   for _, runtime_directory in ipairs(vim.api.nvim_list_runtime_paths()) do
     local fullpath = runtime_directory .. "/" .. table.concat(rel_path, "/") .. ".lua"
@@ -41,7 +37,7 @@ function M.lsp_enable(lsp_names)
   for _, lsp_name in ipairs(lsp_names) do
     local lsp_config = M.load_file_from_runtime_paths({"lsp", lsp_name})
     if not lsp_config then
-      M.warn("Unable to find lsp config for " .. lsp_name .. ".")
+      vim.notify("Unable to find lsp config for " .. lsp_name, vim.log.levels.WARN, {})
     elseif M.lsp_auto_install == true then
       local cmd = lsp_config.cmd[1] or lsp_name
       local mason_package = M.mason_package_aliases[lsp_name] or cmd
@@ -53,7 +49,6 @@ function M.lsp_enable(lsp_names)
       if vim.fn.executable(cmd) == 1 then
         M.debug(cmd .. " is already installed for " .. lsp_name .. ".")
       else
-        require("batphone.mason").lazy("mason")() -- Need to require mason before installing the packages
         vim.cmd("MasonInstall " .. mason_package)
       end
     end
@@ -82,6 +77,19 @@ function M.root_pattern(...)
   end
 end
 
+function M.lazy_user_command(cmds, setup)
+  for cmd, nargs in pairs(cmds) do
+    vim.api.nvim_create_user_command(cmd, function()
+      setup()
+      vim.cmd(cmd)
+    end, { nargs = nargs })
+  end
+end
+
+function M.once(event_name, callback)
+  vim.api.nvim_create_autocmd("User", { once = true, pattern = event_name, callback = callback })
+end
+
 function M.treesitter_install(parsers)
   for _, parser in ipairs(parsers) do
     if vim.list_contains(M.treesitter_install_skip, parser) then return end
@@ -92,7 +100,6 @@ function M.treesitter_install(parsers)
     end
 
     if vim.fn.executable("tree-sitter") ~= 1 then
-      require("batphone.mason").lazy("mason")() -- Need to require mason before installing the packages
       vim.cmd("MasonInstall tree-sitter-cli")
     end
 

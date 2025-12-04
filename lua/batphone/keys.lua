@@ -10,10 +10,8 @@ function M.auto()
   vim.keymap.set("c", "<c-a>", "<home>", { desc = "Cmdline Movement", silent = false })
   vim.keymap.set("c", "<c-e>", "<end>", { desc = "Cmdline Movement", silent = false })
 
-  vim.keymap.set({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'",
-    { desc = "Moving the cursor through long soft-wrapped lines", expr = true, silent = true })
-  vim.keymap.set({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'",
-    { desc = "Moving the cursor through long soft-wrapped lines", expr = true, silent = true })
+  vim.keymap.set({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Moving the cursor through long soft-wrapped lines", expr = true, silent = true })
+  vim.keymap.set({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Moving the cursor through long soft-wrapped lines", expr = true, silent = true })
 
   vim.keymap.set("i", ".", ".<c-g>u", { desc = "Set Undo break" })
   vim.keymap.set("i", ";", ";<c-g>u", { desc = "Set Undo break" })
@@ -57,31 +55,37 @@ function M.buffers()
 end
 
 function M.codecompanion()
-  local cc = require("batphone.codecompanion")
+  require("batphone.util").once("CopilotLoaded", function()
+    toggle({
+      key = "<leader>cE",
+      desc = { enabled = "Disable Copilot", disabled = "Enable Copilot" },
+      current = function() return require("copilot.client").buf_is_attached() end,
+      set = function(enabled) vim.cmd(enabled and "Copilot disable" or "Copilot enable") end
+    })
+  end)
 
-  toggle({
-    key = "<leader>cE",
-    desc = { enabled = "Disable Copilot", disabled = "Enable Copilot" },
-    current = function() return cc.copilot_is_enabled() end,
-    set = function(enabled) cc.copilot_enable(not enabled) end,
-  })
+  require("batphone.util").once("CodeCompanionLoaded", function()
+    local cmd = function(command)
+      return function()
+        require("codecompanion.config").config.display.chat.window.layout = vim.o.columns > 200 and "vertical" or "horizontal"
+        vim.cmd(command)
+      end
+    end
 
-  vim.keymap.set("n", "<leader>cx", cc.cmd("CodeCompanionChat Toggle"), { desc = "CodeCompanion Chat" })
-  vim.keymap.set("n", "<leader>cA", cc.cmd("CodeCompanionActions"), { desc = "CodeCompanion Actions" })
-  vim.keymap.set("n", "<leader>cH", cc.cmd("CodeCompanionHistory"), { desc = "CodeCompanion History" })
-  vim.keymap.set("n", "<leader>cl", cc.cmd("CodeCompanion /lsp"), { desc = "Explain The LSP Diagnostics" })
-  vim.keymap.set("n", "<leader>cs", cc.cmd("CodeCompanionSummaries"), { desc = "CodeCompanion Summaries" })
-
-  vim.keymap.set("v", "<leader>cA", cc.cmd("CodeCompanionChat Add"), { desc = "Add Code To Chat" })
-  vim.keymap.set("v", "<leader>ce", cc.cmd("CodeCompanion /explain"), { desc = "Explain Code" })
-  vim.keymap.set("v", "<leader>cf", cc.cmd("CodeCompanion /fix"), { desc = "Fix Code" })
-  vim.keymap.set("v", "<leader>ct", cc.cmd("CodeCompanion /tests"), { desc = "Generte Tests" })
+    vim.keymap.set("n", "<leader>cc", cmd("CodeCompanionChat Toggle"), { desc = "CodeCompanion Chat" })
+    vim.keymap.set("n", "<leader>cH", cmd("CodeCompanionHistory"), { desc = "CodeCompanion History" })
+    vim.keymap.set("n", "<leader>cs", cmd("CodeCompanionSummaries"), { desc = "CodeCompanion Summaries" })
+    vim.keymap.set("v", "<leader>ce", cmd("CodeCompanion /explain"), { desc = "Explain Code" })
+    vim.keymap.set("v", "<leader>cf", cmd("CodeCompanion /fix"), { desc = "Fix Code" })
+    vim.keymap.set("n", "<leader>cl", cmd("CodeCompanion /lsp"), { desc = "Explain The LSP Diagnostics" })
+    vim.keymap.set("v", "<leader>ct", cmd("CodeCompanion /tests"), { desc = "Generte Tests" })
+  end)
 end
 
 function M.edit()
   vim.keymap.set({ "n", "v" }, "0d", '"_d', { desc = "Delete" })
-  vim.keymap.set({ "n", "i" }, "<leader>cc", '<cmd>CccPick<cr>', { desc = "Open Color Picker" })
-  vim.keymap.set({ "n", "i" }, "<leader>cC", '<cmd>CccConvert<cr>', { desc = "Convert Color" })
+  vim.keymap.set("n", "<leader>cp", '<cmd>CccPick<cr>', { desc = "Open Color Picker" })
+  vim.keymap.set("n", "<leader>cP", '<cmd>CccConvert<cr>', { desc = "Convert Color" })
 end
 
 function M.editor()
@@ -173,7 +177,6 @@ function M.lsp()
     set = function(enabled) vim.diagnostic.config({ virtual_lines = not enabled }) end
   })
 
-  local picker = require("snacks.picker")
   vim.keymap.set("n", "<leader>cf", function() vim.lsp.buf.format() end, { desc = "Format code" })
   vim.keymap.set("n", "<leader>ca", function() vim.lsp.buf.code_action() end, { desc = "Code Action" })
   vim.keymap.set("n", "<leader>cr", function() vim.lsp.buf.rename() end, { desc = "Rename symbol" })
@@ -183,20 +186,24 @@ function M.lsp()
   vim.keymap.set("n", "<leader>db", function() vim.diagnostic.setqflist({ bufnr = 0, severity = vim.diagnostic.severity.ERROR }) end, { desc = "Buffer Diagnostics" })
   vim.keymap.set("n", "<leader>de", function() vim.diagnostic.setqflist({ severity = vim.diagnostic.severity.ERROR }) end, { desc = "Workspace Errors" })
   vim.keymap.set("n", "<leader>dd", function() vim.diagnostic.open_float() end, { desc = "Line Diagnostics" })
-  vim.keymap.set("n", "<leader>ss", function() picker.lsp_symbols() end, { desc = "LSP Symbols" })
-  vim.keymap.set("n", "<leader>sS", function() picker.lsp_workspace_symbols() end, { desc = "LSP Workspace Symbols" })
-  vim.keymap.set("n", "gD", function() picker.lsp_declarations() end, { desc = "Goto Declaration" })
-  vim.keymap.set("n", "gd", function() picker.lsp_definitions() end, { desc = "Goto Definition" })
-  vim.keymap.set("n", "gI", function() picker.lsp_implementations() end, { desc = "Goto Implementation" })
+  vim.keymap.set("n", "<leader>ss", function() require("snacks.picker").lsp_symbols() end, { desc = "LSP Symbols" })
+  vim.keymap.set("n", "<leader>sS", function() require("snacks.picker").lsp_workspace_symbols() end, { desc = "LSP Workspace Symbols" })
+  vim.keymap.set("n", "gD", function() require("snacks.picker").lsp_declarations() end, { desc = "Goto Declaration" })
+  vim.keymap.set("n", "gd", function() require("snacks.picker").lsp_definitions() end, { desc = "Goto Definition" })
+  vim.keymap.set("n", "gI", function() require("snacks.picker").lsp_implementations() end, { desc = "Goto Implementation" })
   vim.keymap.set("n", "gK", function() vim.lsp.buf.signature_help() end, { desc = "Signature Help" })
-  vim.keymap.set("n", "gr", function() picker.lsp_references() end, { desc = "References", nowait = true })
-  vim.keymap.set("n", "gy", function() picker.lsp_type_definitions() end, { desc = "Goto T[y]pe Definition" })
+  vim.keymap.set("n", "gr", function() require("snacks.picker").lsp_references() end, { desc = "References", nowait = true })
+  vim.keymap.set("n", "gy", function() require("snacks.picker").lsp_type_definitions() end, { desc = "Goto T[y]pe Definition" })
   vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, { desc = "Displays information about the symbol under the cursor in a floating window" })
 end
 
 function M.mason()
-  local ui = require("batphone.mason").lazy("mason.ui")
-  vim.keymap.set("n", "<leader>nM", function() ui().open() end, { desc = "Open Mason Package Manager" })
+  require("batphone.util").lazy_user_command(
+    { Mason = 0, MasonInstall = 1, MasonUpdate = 0 },
+    function() require("mason").setup({}) end
+  )
+
+  vim.keymap.set("n", "<leader>nM", "<cmd>Mason<cr>", { desc = "Open Mason Package Manager" })
 end
 
 function M.quicker()
@@ -256,9 +263,7 @@ function M.snacks()
   vim.keymap.set("n", "<leader>uf", function() snacks.zen.zoom() end, { desc = "Fullscreen Window" })
   vim.keymap.set("n", "<leader>us", "<cmd>vsplit<cr>", { desc = "Split Window" })
 
-  vim.keymap.set({ "n", "t" }, "<leader>ut", function()
-    snacks.terminal.toggle()
-  end, { desc = "Toggle terminal" })
+  vim.keymap.set({ "n", "t" }, "<leader>ut", function() snacks.terminal.toggle() end, { desc = "Toggle terminal" })
 
   vim.keymap.set({ "n", "t" }, "<leader>qq", function()
     local is_terminal = string.match(vim.api.nvim_buf_get_name(0), "term://") ~= nil
@@ -269,7 +274,7 @@ function M.snacks()
 
     local n_buffers = #vim.fn.getbufinfo({ buflisted = 1 })
     if n_buffers <= 1 and #snacks.terminal.list() >= 1 then
-      vim.ui.select({ "Close neovim", "Show the terminal", "Do nothing" }, { }, function(choice)
+      vim.ui.select({ "Close neovim", "Show the terminal", "Do nothing" }, {}, function(choice)
         if choice == "Close neovim" then
           vim.api.nvim_command("quit")
         elseif choice == "Show the terminal" then
@@ -282,10 +287,6 @@ function M.snacks()
       vim.api.nvim_command("bp|bd#");
     end
   end, { desc = "Close Buffer" })
-end
-
-function M.which_key(wk)
-  wk.add({ "<leader>h", function() wk.show() end, icon = "🎹", desc = "Show All Keys" })
 end
 
 return M
