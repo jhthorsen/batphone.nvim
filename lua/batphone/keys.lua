@@ -1,23 +1,22 @@
-local key = vim.keymap.set
 local toggle = require("batphone.toggle").toggle;
 local M = {}
 
 function M.auto()
-  key("v", "<", "<gv", { desc = "Indent and stay in indent mode" })
-  key("v", ">", ">gv", { desc = "Indent and stay in indent mode" })
+  vim.keymap.set("v", "<", "<gv", { desc = "Indent and stay in indent mode" })
+  vim.keymap.set("v", ">", ">gv", { desc = "Indent and stay in indent mode" })
 
-  key("c", "<c-h>", "<left>", { desc = "Cmdline Movement", silent = false })
-  key("c", "<c-l>", "<right>", { desc = "Cmdline Movement", silent = false })
-  key("c", "<c-a>", "<home>", { desc = "Cmdline Movement", silent = false })
-  key("c", "<c-e>", "<end>", { desc = "Cmdline Movement", silent = false })
+  vim.keymap.set("c", "<c-h>", "<left>", { desc = "Cmdline Movement", silent = false })
+  vim.keymap.set("c", "<c-l>", "<right>", { desc = "Cmdline Movement", silent = false })
+  vim.keymap.set("c", "<c-a>", "<home>", { desc = "Cmdline Movement", silent = false })
+  vim.keymap.set("c", "<c-e>", "<end>", { desc = "Cmdline Movement", silent = false })
 
-  key({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'",
+  vim.keymap.set({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'",
     { desc = "Moving the cursor through long soft-wrapped lines", expr = true, silent = true })
-  key({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'",
+  vim.keymap.set({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'",
     { desc = "Moving the cursor through long soft-wrapped lines", expr = true, silent = true })
 
-  key("i", ".", ".<c-g>u", { desc = "Set Undo break" })
-  key("i", ";", ";<c-g>u", { desc = "Set Undo break" })
+  vim.keymap.set("i", ".", ".<c-g>u", { desc = "Set Undo break" })
+  vim.keymap.set("i", ";", ";<c-g>u", { desc = "Set Undo break" })
 end
 
 function M.blink()
@@ -50,11 +49,11 @@ function M.blink()
 end
 
 function M.buffers()
-  key("n", "<tab>", "<cmd>bnext|echo expand('%')<cr>", { desc = "Prev Buffer" })
-  key("n", "<s-tab>", "<cmd>bprevious|echo expand('%')<cr>", { desc = "Next Buffer" })
-  key("n", "<c-q>", "<cmd>bp|bd#|echo expand('%')<cr>", { desc = "Delete Buffer" })
-  key("n", "<leader>qa", "<cmd>wqa<cr>", { desc = "Save and Quit All" })
-  key("n", "<leader>qs", "<cmd>wa!|echo expand('%')<cr>", { desc = "Save all open buffers" })
+  vim.keymap.set("n", "<tab>", "<cmd>bnext|echo expand('%')<cr>", { desc = "Prev Buffer" })
+  vim.keymap.set("n", "<s-tab>", "<cmd>bprevious|echo expand('%')<cr>", { desc = "Next Buffer" })
+  vim.keymap.set("n", "<c-q>", "<cmd>bp|bd#|echo expand('%')<cr>", { desc = "Delete Buffer" })
+  vim.keymap.set("n", "<leader>qa", "<cmd>wqa<cr>", { desc = "Save and Quit All" })
+  vim.keymap.set("n", "<leader>qs", "<cmd>wa!|echo expand('%')<cr>", { desc = "Save all open buffers" })
 end
 
 function M.codecompanion()
@@ -67,32 +66,32 @@ function M.codecompanion()
     set = function(enabled) cc.copilot_enable(not enabled) end,
   })
 
-  key("n", "<leader>cx", cc.cmd("CodeCompanionChat Toggle"), { desc = "CodeCompanion Chat" })
-  key("n", "<leader>cA", cc.cmd("CodeCompanionActions"), { desc = "CodeCompanion Actions" })
-  key("n", "<leader>cH", cc.cmd("CodeCompanionHistory"), { desc = "CodeCompanion History" })
-  key("n", "<leader>cl", cc.cmd("CodeCompanion /lsp"), { desc = "Explain The LSP Diagnostics" })
-  key("n", "<leader>cs", cc.cmd("CodeCompanionSummaries"), { desc = "CodeCompanion Summaries" })
+  vim.keymap.set("n", "<leader>cx", cc.cmd("CodeCompanionChat Toggle"), { desc = "CodeCompanion Chat" })
+  vim.keymap.set("n", "<leader>cA", cc.cmd("CodeCompanionActions"), { desc = "CodeCompanion Actions" })
+  vim.keymap.set("n", "<leader>cH", cc.cmd("CodeCompanionHistory"), { desc = "CodeCompanion History" })
+  vim.keymap.set("n", "<leader>cl", cc.cmd("CodeCompanion /lsp"), { desc = "Explain The LSP Diagnostics" })
+  vim.keymap.set("n", "<leader>cs", cc.cmd("CodeCompanionSummaries"), { desc = "CodeCompanion Summaries" })
 
-  key("v", "<leader>cA", cc.cmd("CodeCompanionChat Add"), { desc = "Add Code To Chat" })
-  key("v", "<leader>ce", cc.cmd("CodeCompanion /explain"), { desc = "Explain Code" })
-  key("v", "<leader>cf", cc.cmd("CodeCompanion /fix"), { desc = "Fix Code" })
-  key("v", "<leader>ct", cc.cmd("CodeCompanion /tests"), { desc = "Generte Tests" })
+  vim.keymap.set("v", "<leader>cA", cc.cmd("CodeCompanionChat Add"), { desc = "Add Code To Chat" })
+  vim.keymap.set("v", "<leader>ce", cc.cmd("CodeCompanion /explain"), { desc = "Explain Code" })
+  vim.keymap.set("v", "<leader>cf", cc.cmd("CodeCompanion /fix"), { desc = "Fix Code" })
+  vim.keymap.set("v", "<leader>ct", cc.cmd("CodeCompanion /tests"), { desc = "Generte Tests" })
 end
 
 function M.edit()
-  key({ "n", "v" }, "0d", '"_d', { desc = "Delete" })
-  key({ "n", "i" }, "<leader>cc", '<cmd>CccPick<cr>', { desc = "Open Color Picker" })
-  key({ "n", "i" }, "<leader>cC", '<cmd>CccConvert<cr>', { desc = "Convert Color" })
+  vim.keymap.set({ "n", "v" }, "0d", '"_d', { desc = "Delete" })
+  vim.keymap.set({ "n", "i" }, "<leader>cc", '<cmd>CccPick<cr>', { desc = "Open Color Picker" })
+  vim.keymap.set({ "n", "i" }, "<leader>cC", '<cmd>CccConvert<cr>', { desc = "Convert Color" })
 end
 
 function M.editor()
-  key("n", "<leader>nR", "<cmd>restart<cr>", { desc = "Restart neovim" })
-  key("n", "<leader>nU", function() vim.pack.update() end, { desc = "Update Neovim Plugins" })
-  key("n", "<leader>uc", "<cmd>CccHighlighterToggle<cr>", { desc = "Toggle Color Highlighter" })
-  key("n", "<leader>nha", ":checkhealth<cr>", { desc = "Check Neovim Health" })
-  key("n", "<leader>nhl", ":checkhealth vim.lsp<cr>", { desc = "Checkhealth LSP" })
-  key("n", "<leader>nht", ":checkhealth nvim-treesitter vim.treesitter<cr>", { desc = "Checkhealth treesitter" })
-  key("n", "<leader>nhw", ":checkhealth which-key<cr>", { desc = "Checkhealth which-key" })
+  vim.keymap.set("n", "<leader>nR", "<cmd>restart<cr>", { desc = "Restart neovim" })
+  vim.keymap.set("n", "<leader>nU", function() vim.pack.update() end, { desc = "Update Neovim Plugins" })
+  vim.keymap.set("n", "<leader>uc", "<cmd>CccHighlighterToggle<cr>", { desc = "Toggle Color Highlighter" })
+  vim.keymap.set("n", "<leader>nha", ":checkhealth<cr>", { desc = "Check Neovim Health" })
+  vim.keymap.set("n", "<leader>nhl", ":checkhealth vim.lsp<cr>", { desc = "Checkhealth LSP" })
+  vim.keymap.set("n", "<leader>nht", ":checkhealth nvim-treesitter vim.treesitter<cr>", { desc = "Checkhealth treesitter" })
+  vim.keymap.set("n", "<leader>nhw", ":checkhealth which-key<cr>", { desc = "Checkhealth which-key" })
 
   toggle({
     key = "<leader>ul",
@@ -135,13 +134,13 @@ function M.multicursor(mc)
     end
   })
 
-  key({ "n", "x" }, "<c-d>", function() mc.matchAddCursor(1) end, { desc = "Add Next Cursor" })
-  key({ "n", "x" }, "<c-s-d>", function() mc.matchAddCursor(-1) end, { desc = "Add Prev Cursor" })
-  key({ "n" }, "<leader>md", mc.disableCursors, { desc = "Multicursor Disable" })
-  key({ "n" }, "<leader>mt", mc.toggleCursor, { desc = "Add and Remove Cursors" })
-  key({ "n", "v", "x" }, "<leader>ma", mc.alignCursors, { desc = "Align Cursors" })
-  key({ "v" }, "<space>i", "<s-i>", { desc = "Insert Before Selection" })
-  key({ "v" }, "<space>a", "<s-a>", { desc = "Insert After Selection" })
+  vim.keymap.set({ "n", "x" }, "<c-d>", function() mc.matchAddCursor(1) end, { desc = "Add Next Cursor" })
+  vim.keymap.set({ "n", "x" }, "<c-s-d>", function() mc.matchAddCursor(-1) end, { desc = "Add Prev Cursor" })
+  vim.keymap.set({ "n" }, "<leader>md", mc.disableCursors, { desc = "Multicursor Disable" })
+  vim.keymap.set({ "n" }, "<leader>mt", mc.toggleCursor, { desc = "Add and Remove Cursors" })
+  vim.keymap.set({ "n", "v", "x" }, "<leader>ma", mc.alignCursors, { desc = "Align Cursors" })
+  vim.keymap.set({ "v" }, "<space>i", "<s-i>", { desc = "Insert Before Selection" })
+  vim.keymap.set({ "v" }, "<space>a", "<s-a>", { desc = "Insert After Selection" })
 
   mc.addKeymapLayer(function(mk)
     mk({ "n" }, "<esc>", mc.clearCursors)
@@ -175,29 +174,29 @@ function M.lsp()
   })
 
   local picker = require("snacks.picker")
-  key("n", "<leader>cf", function() vim.lsp.buf.format() end, { desc = "Format code" })
-  key("n", "<leader>ca", function() vim.lsp.buf.code_action() end, { desc = "Code Action" })
-  key("n", "<leader>cr", function() vim.lsp.buf.rename() end, { desc = "Rename symbol" })
-  key("n", "<leader>cR", function() require("snacks.rename").rename_file() end, { desc = "Rename File" })
-  key("n", "<leader>cS", function() vim.lsp.buf.signature_help() end, { desc = "Signature Help" })
-  key("n", "<leader>da", function() vim.diagnostic.setqflist() end, { desc = "Workspace Diagnostics" })
-  key("n", "<leader>db", function() vim.diagnostic.setqflist({ bufnr = 0, severity = vim.diagnostic.severity.ERROR }) end, { desc = "Buffer Diagnostics" })
-  key("n", "<leader>de", function() vim.diagnostic.setqflist({ severity = vim.diagnostic.severity.ERROR }) end, { desc = "Workspace Errors" })
-  key("n", "<leader>dd", function() vim.diagnostic.open_float() end, { desc = "Line Diagnostics" })
-  key("n", "<leader>ss", function() picker.lsp_symbols() end, { desc = "LSP Symbols" })
-  key("n", "<leader>sS", function() picker.lsp_workspace_symbols() end, { desc = "LSP Workspace Symbols" })
-  key("n", "gD", function() picker.lsp_declarations() end, { desc = "Goto Declaration" })
-  key("n", "gd", function() picker.lsp_definitions() end, { desc = "Goto Definition" })
-  key("n", "gI", function() picker.lsp_implementations() end, { desc = "Goto Implementation" })
-  key("n", "gK", function() vim.lsp.buf.signature_help() end, { desc = "Signature Help" })
-  key("n", "gr", function() picker.lsp_references() end, { desc = "References", nowait = true })
-  key("n", "gy", function() picker.lsp_type_definitions() end, { desc = "Goto T[y]pe Definition" })
-  key("n", "K", function() vim.lsp.buf.hover() end, { desc = "Displays information about the symbol under the cursor in a floating window" })
+  vim.keymap.set("n", "<leader>cf", function() vim.lsp.buf.format() end, { desc = "Format code" })
+  vim.keymap.set("n", "<leader>ca", function() vim.lsp.buf.code_action() end, { desc = "Code Action" })
+  vim.keymap.set("n", "<leader>cr", function() vim.lsp.buf.rename() end, { desc = "Rename symbol" })
+  vim.keymap.set("n", "<leader>cR", function() require("snacks.rename").rename_file() end, { desc = "Rename File" })
+  vim.keymap.set("n", "<leader>cS", function() vim.lsp.buf.signature_help() end, { desc = "Signature Help" })
+  vim.keymap.set("n", "<leader>da", function() vim.diagnostic.setqflist() end, { desc = "Workspace Diagnostics" })
+  vim.keymap.set("n", "<leader>db", function() vim.diagnostic.setqflist({ bufnr = 0, severity = vim.diagnostic.severity.ERROR }) end, { desc = "Buffer Diagnostics" })
+  vim.keymap.set("n", "<leader>de", function() vim.diagnostic.setqflist({ severity = vim.diagnostic.severity.ERROR }) end, { desc = "Workspace Errors" })
+  vim.keymap.set("n", "<leader>dd", function() vim.diagnostic.open_float() end, { desc = "Line Diagnostics" })
+  vim.keymap.set("n", "<leader>ss", function() picker.lsp_symbols() end, { desc = "LSP Symbols" })
+  vim.keymap.set("n", "<leader>sS", function() picker.lsp_workspace_symbols() end, { desc = "LSP Workspace Symbols" })
+  vim.keymap.set("n", "gD", function() picker.lsp_declarations() end, { desc = "Goto Declaration" })
+  vim.keymap.set("n", "gd", function() picker.lsp_definitions() end, { desc = "Goto Definition" })
+  vim.keymap.set("n", "gI", function() picker.lsp_implementations() end, { desc = "Goto Implementation" })
+  vim.keymap.set("n", "gK", function() vim.lsp.buf.signature_help() end, { desc = "Signature Help" })
+  vim.keymap.set("n", "gr", function() picker.lsp_references() end, { desc = "References", nowait = true })
+  vim.keymap.set("n", "gy", function() picker.lsp_type_definitions() end, { desc = "Goto T[y]pe Definition" })
+  vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, { desc = "Displays information about the symbol under the cursor in a floating window" })
 end
 
 function M.mason()
   local ui = require("batphone.mason").lazy("mason.ui")
-  key("n", "<leader>nM", function() ui().open() end, { desc = "Open Mason Package Manager" })
+  vim.keymap.set("n", "<leader>nM", function() ui().open() end, { desc = "Open Mason Package Manager" })
 end
 
 function M.quicker()
@@ -207,31 +206,31 @@ function M.quicker()
     return #vim.fn.getqflist() <= 0 and vim.api.nvim_feedkeys(b, "n", false) or pcall(vim.cmd, a)
   end
 
-  key("n", "<c-j>", function() ifquickfixlist("cnext", "10jzz") end, { desc = "Jump Down" })
-  key("n", "<c-k>", function() ifquickfixlist("cprevious", "10kzz") end, { desc = "Jump Up" })
-  key("n", "<leader>dq", function() return #vim.fn.getqflist() > 0 and quicker({ focus = true, }) or vim.diagnostic.setqflist() end, { desc = "Toggle Quickfix" })
-  key("n", "<leader>dl", function() quicker({ focus = true, loclist = true }) end, { desc = "Toggle Loclist" })
+  vim.keymap.set("n", "<c-j>", function() ifquickfixlist("cnext", "10jzz") end, { desc = "Jump Down" })
+  vim.keymap.set("n", "<c-k>", function() ifquickfixlist("cprevious", "10kzz") end, { desc = "Jump Up" })
+  vim.keymap.set("n", "<leader>dq", function() return #vim.fn.getqflist() > 0 and quicker({ focus = true, }) or vim.diagnostic.setqflist() end, { desc = "Toggle Quickfix" })
+  vim.keymap.set("n", "<leader>dl", function() quicker({ focus = true, loclist = true }) end, { desc = "Toggle Loclist" })
 end
 
 function M.snacks()
   local snacks = require("snacks")
   local picker = require("snacks.picker")
 
-  key("n", "z=", function() picker.spelling() end, { desc = "Spelling suggestions" })
-  key("n", ",e", function() snacks.explorer({ focus = "input", hidden = true, tree = false }) end, { desc = "Open File Explorer" })
+  vim.keymap.set("n", "z=", function() picker.spelling() end, { desc = "Spelling suggestions" })
+  vim.keymap.set("n", ",e", function() snacks.explorer({ focus = "input", hidden = true, tree = false }) end, { desc = "Open File Explorer" })
 
-  key("n", "<leader><space>", function() picker.smart() end, { desc = "Smart Find Files" })
-  key("n", "<leader>b", function() picker.buffers() end, { desc = "Switch Buffer" })
-  key("n", "<leader>fe", function() snacks.explorer() end, { desc = "Open File Explorer" })
-  key("n", "<leader>ff", function() picker.files({ hidden = true }) end, { desc = "Find Files" })
-  key("n", "<leader>fg", function() picker.git_files() end, { desc = "Find Git Files" })
-  key("n", "<leader>fp", function() picker.projects() end, { desc = "Open File from Projects" })
-  key("n", "<leader>fx", function() picker.files({ cwd = ".." }) end, { desc = "Find parent Files" })
-  key("n", "<leader>n:", function() picker.command_history() end, { desc = "Command History" })
-  key("n", "<leader>sb", function() picker.grep_buffers() end, { desc = "Grep Open Buffers" })
-  key("n", "<leader>sg", function() picker.grep() end, { desc = "Grep Project Files" })
+  vim.keymap.set("n", "<leader><space>", function() picker.smart() end, { desc = "Smart Find Files" })
+  vim.keymap.set("n", "<leader>b", function() picker.buffers() end, { desc = "Switch Buffer" })
+  vim.keymap.set("n", "<leader>fe", function() snacks.explorer() end, { desc = "Open File Explorer" })
+  vim.keymap.set("n", "<leader>ff", function() picker.files({ hidden = true }) end, { desc = "Find Files" })
+  vim.keymap.set("n", "<leader>fg", function() picker.git_files() end, { desc = "Find Git Files" })
+  vim.keymap.set("n", "<leader>fp", function() picker.projects() end, { desc = "Open File from Projects" })
+  vim.keymap.set("n", "<leader>fx", function() picker.files({ cwd = ".." }) end, { desc = "Find parent Files" })
+  vim.keymap.set("n", "<leader>n:", function() picker.command_history() end, { desc = "Command History" })
+  vim.keymap.set("n", "<leader>sb", function() picker.grep_buffers() end, { desc = "Grep Open Buffers" })
+  vim.keymap.set("n", "<leader>sg", function() picker.grep() end, { desc = "Grep Project Files" })
 
-  key("n", '<leader>s"', function()
+  vim.keymap.set("n", '<leader>s"', function()
     picker.registers({
       preview = "none",
       confirm = function(p, item)
@@ -241,27 +240,27 @@ function M.snacks()
     })
   end, { desc = "Edit Register" })
 
-  key("n", "<leader>sj", function() picker.jumps() end, { desc = "Jumps" })
-  key("n", "<leader>sm", function() picker.marks() end, { desc = "Marks" })
+  vim.keymap.set("n", "<leader>sj", function() picker.jumps() end, { desc = "Jumps" })
+  vim.keymap.set("n", "<leader>sm", function() picker.marks() end, { desc = "Marks" })
 
-  key("n", "<leader>na", function() picker.autocmds() end, { desc = "Search Auto-commands" })
-  key("n", "<leader>nC", function() picker.commands() end, { desc = "Search Commands" })
-  key("n", "<leader>nc", function() picker.files({ cwd = vim.fn.stdpath("config") }) end, { desc = "Search Config Files" })
-  key("n", "<leader>nI", function() picker.icons() end, { desc = "Search Icons" })
-  key("n", "<leader>nk", function() picker.keymaps() end, { desc = "Search Keymaps" })
-  key("n", "<leader>nf", function() picker.files({ dirs = vim.api.nvim_get_runtime_file("lua/", true) }) end, { desc = "Plugin files" })
-  key("n", "<leader>uC", function() picker.colorschemes() end, { desc = "Search Colorschemes" })
+  vim.keymap.set("n", "<leader>na", function() picker.autocmds() end, { desc = "Search Auto-commands" })
+  vim.keymap.set("n", "<leader>nC", function() picker.commands() end, { desc = "Search Commands" })
+  vim.keymap.set("n", "<leader>nc", function() picker.files({ cwd = vim.fn.stdpath("config") }) end, { desc = "Search Config Files" })
+  vim.keymap.set("n", "<leader>nI", function() picker.icons() end, { desc = "Search Icons" })
+  vim.keymap.set("n", "<leader>nk", function() picker.keymaps() end, { desc = "Search Keymaps" })
+  vim.keymap.set("n", "<leader>nf", function() picker.files({ dirs = vim.api.nvim_get_runtime_file("lua/", true) }) end, { desc = "Plugin files" })
+  vim.keymap.set("n", "<leader>uC", function() picker.colorschemes() end, { desc = "Search Colorschemes" })
 
-  key("n", "<leader>nn", function() snacks.notifier.show_history() end, { desc = "Show notifications" })
-  key("n", "<leader>uz", function() snacks.zen() end, { desc = "Toggle Zen Mode" })
-  key("n", "<leader>uf", function() snacks.zen.zoom() end, { desc = "Fullscreen Window" })
-  key("n", "<leader>us", "<cmd>vsplit<cr>", { desc = "Split Window" })
+  vim.keymap.set("n", "<leader>nn", function() snacks.notifier.show_history() end, { desc = "Show notifications" })
+  vim.keymap.set("n", "<leader>uz", function() snacks.zen() end, { desc = "Toggle Zen Mode" })
+  vim.keymap.set("n", "<leader>uf", function() snacks.zen.zoom() end, { desc = "Fullscreen Window" })
+  vim.keymap.set("n", "<leader>us", "<cmd>vsplit<cr>", { desc = "Split Window" })
 
-  key({ "n", "t" }, "<leader>ut", function()
+  vim.keymap.set({ "n", "t" }, "<leader>ut", function()
     snacks.terminal.toggle()
   end, { desc = "Toggle terminal" })
 
-  key({ "n", "t" }, "<leader>qq", function()
+  vim.keymap.set({ "n", "t" }, "<leader>qq", function()
     local is_terminal = string.match(vim.api.nvim_buf_get_name(0), "term://") ~= nil
     if is_terminal then return snacks.terminal.toggle() end
 
