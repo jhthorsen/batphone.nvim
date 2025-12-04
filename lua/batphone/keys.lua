@@ -241,13 +241,6 @@ function M.snacks()
     })
   end, { desc = "Edit Register" })
 
-  toggle({
-    key = "<leader>uM",
-    desc = { enabled = "Disable Markdown Render", disabled = "Enable Markdown Render" },
-    current = function() return require("render-markdown").get() end,
-    set = function(enabled) require("render-markdown").set(not enabled) end
-  })
-
   key("n", "<leader>sj", function() picker.jumps() end, { desc = "Jumps" })
   key("n", "<leader>sm", function() picker.marks() end, { desc = "Marks" })
 
