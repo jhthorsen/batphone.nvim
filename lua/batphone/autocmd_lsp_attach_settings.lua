@@ -116,33 +116,51 @@ function M.blink_sources()
   return default
 end
 
+function M.setup()
+  vim.diagnostic.config(M.diagnostic)
+  vim.lsp.inlay_hint.enable(false)
+
+  pcall(function()
+    require("copilot").setup(M.copilot)
+    require("copilot.auth").signin()
+    vim.cmd("doautocmd User CopilotLoaded")
+  end)
+
+  if pcall(require, "codecompanion._extensions.history") then
+    M.codecompanion.extensions.history = M.codecompanion_history
+  end
+
+  pcall(function()
+    require("plenary") -- required by codecompanion
+    require("codecompanion").setup(M.codecompanion)
+    vim.cmd("doautocmd User CodeCompanionLoaded")
+  end)
+
+  require("blink.cmp").setup(vim.tbl_deep_extend("force", {
+    keymap = require("batphone.keys").blink(),
+    sources = { default = M.blink_sources() },
+  }, M.blink))
+end
+
+-- Ex "nvim copilot.ai" will open codecompanion in full screen
+vim.api.nvim_create_autocmd("BufEnter", {
+  group = vim.api.nvim_create_augroup("batphone__autocmd_lsp_attach_settings_buf_enter", { clear = true }),
+  once = true,
+  pattern = { "*.ai", "ai" },
+  callback = function(event)
+    if vim.loop.fs_stat(event.file) then return end
+    local adapter = string.match(event.match, "([^/]+)%.ai$")
+    M.codecompanion.display.chat.window.layout = "buffer"
+    M.setup()
+    vim.cmd("CodeCompanionChat " .. (adapter or M.codecompanion.strategies.chat.adapter))
+  end
+})
+
 vim.api.nvim_create_autocmd("LspAttach", {
   once = true,
   callback = function(ev)
-    vim.diagnostic.config(M.diagnostic)
-    vim.lsp.inlay_hint.enable(false)
-
-    pcall(function()
-      require("copilot").setup(M.copilot)
-      require("copilot.auth").signin()
-      vim.cmd("doautocmd User CopilotLoaded")
-    end)
-
-    if pcall(require, "codecompanion._extensions.history") then
-      M.codecompanion.extensions.history = M.codecompanion_history
-    end
-
-    pcall(function()
-      require("plenary") -- required by codecompanion
-      require("codecompanion").setup(M.codecompanion)
-      vim.cmd("doautocmd User CodeCompanionLoaded")
-    end)
-
-    require("blink.cmp").setup(vim.tbl_deep_extend("force", {
-      keymap = require("batphone.keys").blink(),
-      sources = { default = M.blink_sources() },
-    }, M.blink))
-
+    vim.api.nvim_del_augroup_by_name("batphone__autocmd_lsp_attach_settings_buf_enter")
+    M.setup()
     require("batphone.keys").lsp()
   end,
 })
