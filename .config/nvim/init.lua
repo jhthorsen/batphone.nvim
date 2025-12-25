@@ -73,7 +73,6 @@ require("batphone.util").lsp_enable({
   "gopls",
   "harper_ls",
   "html",
-  "htmx",
   "jinja_lsp",
   "jsonls",
   "lua_ls",
@@ -90,6 +89,7 @@ require("batphone.util").lsp_enable({
   "systemd_ls",
   -- "templ",
   -- "textlsp", -- Text spell and grammar checking with various AI tools.
+  -- "ts_ls",
   "yamlls",
 })
 
