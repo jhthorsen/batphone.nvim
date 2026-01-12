@@ -107,7 +107,7 @@ function M.treesitter_install(parsers)
       vim.cmd("MasonInstall tree-sitter-cli")
     end
 
-    vim.cmd("TSInstall " .. parser)
+    require('nvim-treesitter').install({ parser })
   end
 end
 
