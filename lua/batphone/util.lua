@@ -79,9 +79,13 @@ end
 
 function M.lazy_user_command(cmds, setup)
   for cmd, nargs in pairs(cmds) do
-    vim.api.nvim_create_user_command(cmd, function()
+    vim.api.nvim_create_user_command(cmd, function(params)
       setup()
-      vim.cmd(cmd)
+      if #params.args > 0 then
+        return vim.cmd(cmd .. " " .. params.args)
+      else
+        return vim.cmd(cmd)
+      end
     end, { nargs = nargs })
   end
 end
