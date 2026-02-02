@@ -30,7 +30,7 @@ function M.blink()
         if col == 0 then return nil end
 
         local line = vim.api.nvim_get_current_line()
-        local word_before = line:sub(col, col):match("%w")
+        local word_before = line:sub(col, col):match("[%w_.]")
         if word_before ~= nil then return ctx.select_and_accept() end
       end,
       "fallback",

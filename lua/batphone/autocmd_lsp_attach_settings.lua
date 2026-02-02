@@ -21,6 +21,12 @@ local M = {
           module = "blink-copilot",
           min_keyword_length = 3,
           async = true,
+          score_offset = 50,
+          opts = {
+            debounce = 500,
+            max_completions = 2,
+            max_attempts = 2,
+          },
         },
       },
     },
