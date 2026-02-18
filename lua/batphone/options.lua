@@ -53,3 +53,16 @@ vim.diagnostic.config({
   update_in_insert = true,
   virtual_text = false,
 })
+
+vim.api.nvim_create_autocmd("User", {
+  pattern = "LspAttached",
+  callback = function(args)
+    local ft = vim.opt_local.filetype:get()
+
+    -- Avoid indenting attributes in html files
+    -- It did not work adding this to ftplugin/. nor after/ftplugin
+    if ft == "html" or ft == "htmldjango" then
+      vim.opt_local.indentexpr = ""
+    end
+  end,
+})

@@ -146,6 +146,8 @@ function M.setup()
     keymap = require("batphone.keys").blink(),
     sources = { default = M.blink_sources() },
   }, M.blink))
+
+  vim.cmd("doautocmd User LspAttached")
 end
 
 -- Ex "nvim copilot.ai" will open codecompanion in full screen
@@ -166,7 +168,6 @@ vim.api.nvim_create_autocmd("BufEnter", {
 vim.api.nvim_create_autocmd("LspAttach", {
   once = true,
   callback = function(ev)
-    vim.api.nvim_del_augroup_by_name("batphone__autocmd_lsp_attach_settings_buf_enter")
     M.setup()
     require("batphone.keys").lsp()
   end,
