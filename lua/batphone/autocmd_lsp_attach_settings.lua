@@ -33,7 +33,7 @@ local M = {
   },
   codecompanion = {
     extensions = {},
-    strategies = {
+    interactions = {
       chat = {
         adapter = vim.env.CODECOMPANION_ADAPTER or "copilot",
         model = vim.env.CODECOMPANION_MODEL or "o4-mini",
@@ -158,7 +158,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
   callback = function(event)
     if vim.loop.fs_stat(event.file) then return end
     local adapter = string.match(event.match, "([^/]+)%.ai$")
-    if adapter then M.codecompanion.strategies.chat.adapter = adapter end
+    if adapter then M.codecompanion.interactions.chat.adapter = adapter end
     M.codecompanion.display.chat.window.layout = "buffer"
     M.setup()
     vim.cmd("CodeCompanionChat")
