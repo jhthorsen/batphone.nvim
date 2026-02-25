@@ -166,9 +166,12 @@ vim.api.nvim_create_autocmd("BufEnter", {
 })
 
 vim.api.nvim_create_autocmd("LspAttach", {
+  group = vim.api.nvim_create_augroup("batphone__autocmd_lsp_attach_keys", { clear = true }),
   once = true,
   callback = function(ev)
     M.setup()
     require("batphone.keys").lsp()
   end,
 })
+
+return M
