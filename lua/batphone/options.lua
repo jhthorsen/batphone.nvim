@@ -10,7 +10,7 @@ vim.opt.linebreak = true
 vim.opt.smartindent = true
 vim.opt.wrap = false
 
-vim.opt.mouse = "nv"
+vim.opt.mouse = ""
 vim.opt.background = "dark"
 vim.opt.cmdheight = 1
 vim.opt.cursorline = true
@@ -52,18 +52,6 @@ vim.diagnostic.config({
   underline = false,
   update_in_insert = true,
   virtual_text = false,
-})
-
-local scrolloff = vim.o.scrolloff
-vim.api.nvim_create_autocmd("ModeChanged", {
-  callback = function(opts)
-    if opts.match:match("*:[nv]") then
-      scrolloff = vim.o.scrolloff
-      vim.o.scrolloff = 0
-    else
-      vim.o.scrolloff = scrolloff
-    end
-  end,
 })
 
 vim.api.nvim_create_autocmd("User", {
