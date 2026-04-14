@@ -224,29 +224,10 @@ function M.snacks()
   local picker = require("snacks.picker")
 
   vim.keymap.set("n", "z=", function() picker.spelling() end, { desc = "Spelling suggestions" })
-  vim.keymap.set("n", ",e", function()
-    local cwd = vim.fs.dirname(vim.fn.bufname())
-    snacks.explorer({
-      cwd = cwd,
-      focus = "input",
-      hidden = true,
-      jump = { close = true },
-      matcher = { cwd_bonus = true, filename_bonus = true, fuzzy = true },
-      sort = { fields = { "#text", "score:desc" } },
-      tree = false,
-      win = {
-        input = {
-          keys = {
-            ["<Esc>"] = { "toggle_focus", mode = { "n", "i" } },
-          },
-        },
-      },
-    })
-  end, { desc = "Find and Edit" })
-
+  vim.keymap.set("n", ",e", function() MiniFiles.open(vim.api.nvim_buf_get_name(0)) end, { desc = "Find and Edit" })
   vim.keymap.set("n", "<leader><space>", function() picker.smart() end, { desc = "Smart Find Files" })
   vim.keymap.set("n", "<leader>b", function() picker.buffers() end, { desc = "Switch Buffer" })
-  vim.keymap.set("n", "<leader>fe", function() snacks.explorer() end, { desc = "Open File Explorer" })
+  vim.keymap.set("n", "<leader>fe", function() MiniFiles.open() end, { desc = "Open File Explorer" })
   vim.keymap.set("n", "<leader>ff", function() picker.files({ hidden = true }) end, { desc = "Find Files" })
   vim.keymap.set("n", "<leader>fg", function() picker.git_files() end, { desc = "Find Git Files" })
   vim.keymap.set("n", "<leader>fp", function() picker.projects() end, { desc = "Open File from Projects" })
