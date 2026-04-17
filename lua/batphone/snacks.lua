@@ -52,9 +52,6 @@ local sidebar_layout = {
 
 return {
   opts = {
-    explorer = {
-      replace_netrw = true,
-    },
     notifier = {
       level = vim.log.levels.DEBUG,
       sort = { "added" },
@@ -68,7 +65,6 @@ return {
       layout = default_layout,
       sources = {
         autocmds = { layout = { preview = false } },
-        explorer = { layout = sidebar_layout, jump = { close = true } },
         buffers = { layout = { preview = false } },
         command_history = { layout = { preview = false } },
         lines = { layout = { preview = false } },
