@@ -4,7 +4,7 @@ local default_layout = {
     box = "vertical",
     backdrop = false,
     col = -1,
-    row = -2,
+    row = -1,
     width = function()
       if vim.o.columns < 90 then return 0.9
       else return 90 end
@@ -31,22 +31,6 @@ local dropdown_layout = {
     height = 7,
     border = "rounded",
     { win = "list", border = "none" },
-  },
-}
-
-local sidebar_layout = {
-  preview = "main",
-  layout = {
-    box = "vertical",
-    col = function() return vim.o.columns - 40 end,
-    row = 0,
-    width = 40,
-    height = function() return vim.o.lines - 4 end,
-    border = "rounded",
-    zindex = 90,
-    { win = "input", height = 1, border = "bottom" },
-    { win = "list", border = "none" },
-    { win = "preview", title = "{preview}" },
   },
 }
 
