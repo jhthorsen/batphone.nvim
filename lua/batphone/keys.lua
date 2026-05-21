@@ -49,7 +49,6 @@ end
 function M.buffers()
   vim.keymap.set("n", "<tab>", "<cmd>bnext<cr>", { desc = "Prev Buffer" })
   vim.keymap.set("n", "<s-tab>", "<cmd>bprevious<cr>", { desc = "Next Buffer" })
-  vim.keymap.set("n", "<c-q>", "<cmd>bp|bd#<cr>", { desc = "Delete Buffer" })
   vim.keymap.set("n", "<leader>qa", "<cmd>wqa<cr>", { desc = "Save and Quit All" })
   vim.keymap.set("n", "<leader>qs", "<cmd>wa!<cr>", { desc = "Save all open buffers" })
 end
@@ -283,7 +282,7 @@ function M.snacks()
     elseif n_buffers <= 1 then
       vim.api.nvim_command("quit")
     else
-      vim.api.nvim_command("bp|bd#");
+      require('mini.bufremove').delete()
     end
   end, { desc = "Close Buffer" })
 end
