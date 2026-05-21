@@ -21,7 +21,9 @@ function M.edit_register(item)
   local win = require("batphone.scratch_window").open({
     text = item.value,
     on_close = function(win)
-      if not cannot_update then
+      if cannot_update then
+        vim.print("Can't update register " .. item.reg)
+      else
         vim.fn.setreg(item.reg, vim.api.nvim_buf_get_lines(win.buf, 0, -1, false))
         vim.print("Updated register " .. item.reg)
       end

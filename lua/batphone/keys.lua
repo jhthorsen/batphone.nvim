@@ -47,11 +47,11 @@ function M.blink()
 end
 
 function M.buffers()
-  vim.keymap.set("n", "<tab>", "<cmd>bnext|echo expand('%')<cr>", { desc = "Prev Buffer" })
-  vim.keymap.set("n", "<s-tab>", "<cmd>bprevious|echo expand('%')<cr>", { desc = "Next Buffer" })
-  vim.keymap.set("n", "<c-q>", "<cmd>bp|bd#|echo expand('%')<cr>", { desc = "Delete Buffer" })
+  vim.keymap.set("n", "<tab>", "<cmd>bnext<cr>", { desc = "Prev Buffer" })
+  vim.keymap.set("n", "<s-tab>", "<cmd>bprevious<cr>", { desc = "Next Buffer" })
+  vim.keymap.set("n", "<c-q>", "<cmd>bp|bd#<cr>", { desc = "Delete Buffer" })
   vim.keymap.set("n", "<leader>qa", "<cmd>wqa<cr>", { desc = "Save and Quit All" })
-  vim.keymap.set("n", "<leader>qs", "<cmd>wa!|echo expand('%')<cr>", { desc = "Save all open buffers" })
+  vim.keymap.set("n", "<leader>qs", "<cmd>wa!<cr>", { desc = "Save all open buffers" })
 end
 
 function M.codecompanion()
@@ -236,7 +236,7 @@ function M.snacks()
   vim.keymap.set("n", "<leader>sb", function() picker.grep_buffers() end, { desc = "Grep Open Buffers" })
   vim.keymap.set("n", "<leader>sg", function() picker.grep() end, { desc = "Grep Project Files" })
 
-  vim.keymap.set("n", '<leader>s"', function()
+  vim.keymap.set("n", '<leader>nr', function()
     picker.registers({
       preview = "none",
       confirm = function(p, item)

@@ -43,6 +43,7 @@ require("batphone.autocmd_buf_enter_goto_last_loc")
 require("batphone.autocmd_buf_read_post_activate_ccc")
 require("batphone.autocmd_buf_write_pre_mkdir")
 require("batphone.autocmd_lsp_attach_settings")
+require("batphone.autocmd_show_filename")
 
 require("batphone.keys").auto()
 require("batphone.keys").buffers()
