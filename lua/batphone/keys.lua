@@ -51,6 +51,29 @@ function M.buffers()
   vim.keymap.set("n", "<s-tab>", "<cmd>bprevious<cr>", { desc = "Next Buffer" })
   vim.keymap.set("n", "<leader>qa", "<cmd>wqa<cr>", { desc = "Save and Quit All" })
   vim.keymap.set("n", "<leader>qs", "<cmd>wa!<cr>", { desc = "Save all open buffers" })
+  vim.keymap.set({ "n", "t" }, "<leader>qw", "<cmd>close!<cr>", { desc = "Close window" })
+  vim.keymap.set({ "n", "t" }, "<leader>qq", function()
+    local is_terminal = string.match(vim.api.nvim_buf_get_name(0), "term://") ~= nil
+    if is_terminal then return snacks.terminal.toggle() end
+
+    local is_modified = vim.api.nvim_get_option_value("modified", { buf = vim.api.nvim_get_current_buf() })
+    if is_modified then vim.api.nvim_command("silent w!") end
+
+    local n_buffers = #vim.fn.getbufinfo({ buflisted = 1 })
+    if n_buffers <= 1 and #snacks.terminal.list() >= 1 then
+      vim.ui.select({ "Close neovim", "Show the terminal", "Do nothing" }, {}, function(choice)
+        if choice == "Close neovim" then
+          vim.api.nvim_command("quit")
+        elseif choice == "Show the terminal" then
+          snacks.terminal.toggle()
+        end
+      end)
+    elseif n_buffers <= 1 then
+      vim.api.nvim_command("quit")
+    else
+      require('mini.bufremove').delete()
+    end
+  end, { desc = "Close Buffer" })
 end
 
 function M.codecompanion()
@@ -262,29 +285,6 @@ function M.snacks()
   vim.keymap.set("n", "<leader>us", "<cmd>vsplit<cr>", { desc = "Split Window" })
 
   vim.keymap.set({ "n", "t" }, "<leader>ut", function() snacks.terminal.toggle() end, { desc = "Toggle terminal" })
-
-  vim.keymap.set({ "n", "t" }, "<leader>qq", function()
-    local is_terminal = string.match(vim.api.nvim_buf_get_name(0), "term://") ~= nil
-    if is_terminal then return snacks.terminal.toggle() end
-
-    local is_modified = vim.api.nvim_get_option_value("modified", { buf = vim.api.nvim_get_current_buf() })
-    if is_modified then vim.api.nvim_command("silent w!") end
-
-    local n_buffers = #vim.fn.getbufinfo({ buflisted = 1 })
-    if n_buffers <= 1 and #snacks.terminal.list() >= 1 then
-      vim.ui.select({ "Close neovim", "Show the terminal", "Do nothing" }, {}, function(choice)
-        if choice == "Close neovim" then
-          vim.api.nvim_command("quit")
-        elseif choice == "Show the terminal" then
-          snacks.terminal.toggle()
-        end
-      end)
-    elseif n_buffers <= 1 then
-      vim.api.nvim_command("quit")
-    else
-      require('mini.bufremove').delete()
-    end
-  end, { desc = "Close Buffer" })
 end
 
 return M
