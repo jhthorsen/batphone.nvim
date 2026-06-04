@@ -25,25 +25,6 @@ function M.kanagawa(scheme_name)
   vim.cmd("colorscheme " .. (scheme_name or "kanagawa-wave"))
   vim.cmd(":hi statusline guibg=NONE")
 
-  vim.api.nvim_create_autocmd('WinLeave', {
-    callback = function(args)
-      local win = vim.api.nvim_get_current_win()
-      local whl = vim.api.nvim_win_get_option(win, "winhighlight")
-      if whl == "" or whl == "Normal:NormalNC" then
-        vim.api.nvim_win_set_option(win, "winhighlight", "Normal:InactiveWindow")
-      end
-    end
-  })
-
-  vim.api.nvim_create_autocmd('WinEnter', {
-    callback = function(args)
-      local win = vim.api.nvim_get_current_win()
-      if vim.api.nvim_win_get_option(win, "winhighlight") == "Normal:InactiveWindow" then
-        vim.api.nvim_win_set_option(win, "winhighlight", "Normal:NormalNC")
-      end
-    end
-  })
-
   vim.api.nvim_create_autocmd("User", {
     pattern = "MiniFilesWindowUpdate",
     callback = function(args)
