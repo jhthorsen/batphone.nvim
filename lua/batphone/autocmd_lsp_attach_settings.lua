@@ -35,8 +35,9 @@ local M = {
     extensions = {},
     interactions = {
       chat = {
+        -- claude-sonnet-4.5 gpt-5.4-mini, gpt-5.4, gpt-5.5, gpt-5-mini
         adapter = vim.env.CODECOMPANION_ADAPTER or "copilot",
-        model = vim.env.CODECOMPANION_MODEL or "o4-mini",
+        model = vim.env.CODECOMPANION_MODEL or "claude-sonnet-4.5",
         keymaps = {
           close = {
             modes = { n = "q" },
@@ -48,6 +49,7 @@ local M = {
       },
       inline = {
         adapter = vim.env.CODECOMPANION_ADAPTER or "copilot",
+        model = vim.env.CODECOMPANION_MODEL or "claude-sonnet-4.5",
       },
     },
     display = {
