@@ -287,4 +287,33 @@ function M.snacks()
   vim.keymap.set({ "n", "t" }, "<leader>ut", function() snacks.terminal.toggle() end, { desc = "Toggle terminal" })
 end
 
+function M.venn()
+  vim.keymap.set('n', '<leader>v', function()
+    local venn_enabled = vim.inspect(vim.b.venn_enabled)
+    if venn_enabled == "nil" then
+        vim.b.venn_enabled = true
+        vim.cmd[[setlocal ve=all]]
+        -- draw a line on HJKL keystokes
+        vim.api.nvim_buf_set_keymap(0, "n", "J", "<c-v>j:VBox<CR>", {noremap = true})
+        vim.api.nvim_buf_set_keymap(0, "n", "K", "<c-v>k:VBox<CR>", {noremap = true})
+        vim.api.nvim_buf_set_keymap(0, "n", "H", "<c-v>h:VBox<CR>", {noremap = true})
+        vim.api.nvim_buf_set_keymap(0, "n", "L", "<c-v>l:VBox<CR>", {noremap = true})
+        vim.api.nvim_buf_set_keymap(0, "n", "<leader>j", "R▼<Esc>", {noremap = true})
+        vim.api.nvim_buf_set_keymap(0, "n", "<leader>k", "R▲<Esc>", {noremap = true})
+        vim.api.nvim_buf_set_keymap(0, "n", "<leader>h", "R◄<Esc>", {noremap = true})
+        vim.api.nvim_buf_set_keymap(0, "n", "<leader>l", "R►<Esc>", {noremap = true})
+        -- draw a box by pressing "f" with visual selection
+        vim.api.nvim_buf_set_keymap(0, "v", "f", ":VBox<CR>", {noremap = true})
+    else
+        vim.cmd[[setlocal ve=]]
+        vim.api.nvim_buf_del_keymap(0, "n", "J")
+        vim.api.nvim_buf_del_keymap(0, "n", "K")
+        vim.api.nvim_buf_del_keymap(0, "n", "L")
+        vim.api.nvim_buf_del_keymap(0, "n", "H")
+        vim.api.nvim_buf_del_keymap(0, "v", "f")
+        vim.b.venn_enabled = nil
+    end
+  end, { desc = "Draw ASCII diagrams", noremap = true})
+end
+
 return M

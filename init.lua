@@ -6,6 +6,7 @@ vim.pack.add({
   { src = "https://github.com/jake-stewart/multicursor.nvim", version = "main" },
   { src = "https://github.com/folke/snacks.nvim", version = "main" },
   { src = "https://github.com/folke/which-key.nvim", version = "main" },
+  { src = "https://github.com/jbyuki/venn.nvim", version = "main" },
   { src = "https://github.com/mason-org/mason.nvim", version = "main" },
   { src = "https://github.com/zbirenbaum/copilot.lua", version = "master" },
   { src = "https://github.com/rafamadriz/friendly-snippets", version = "main" },
@@ -53,6 +54,7 @@ require("batphone.keys").codecompanion()
 require("batphone.keys").mason()
 require("batphone.keys").quicker()
 require("batphone.keys").snacks()
+require("batphone.keys").venn()
 
 require("batphone.multicursor").setup()
 require("batphone.rust").setup()
