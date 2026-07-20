@@ -40,7 +40,6 @@ require("nvim-treesitter").setup({})
 require("batphone.theme").kanagawa("kanagawa-wave")
 require("mini.statusline").setup(require("batphone.statusline").options())
 
-require("batphone.lsp_progress")
 require("batphone.autocmd_buf_enter_goto_last_loc")
 require("batphone.autocmd_buf_read_post_activate_ccc")
 require("batphone.autocmd_buf_write_pre_mkdir")
