@@ -149,6 +149,8 @@ function M.setup()
     sources = { default = M.blink_sources() },
   }, M.blink))
 
+  require("mcphub").setup({})
+
   vim.cmd("doautocmd User LspAttached")
 end
 
