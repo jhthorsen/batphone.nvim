@@ -16,7 +16,6 @@ vim.pack.add({
   { src = "https://github.com/ravitemer/mcphub.nvim", version = "main" },
   { src = "https://github.com/olimorris/codecompanion.nvim", version = vim.version.range("19") },
   { src = "https://github.com/mrcjkb/rustaceanvim", version = vim.version.range("6") },
-  { src = "https://github.com/stevearc/quicker.nvim", version = "master" },
   { src = "https://github.com/uga-rosa/ccc.nvim", version = "main" },
 })
 
@@ -31,7 +30,6 @@ require("batphone.clipboard")
 require("batphone.which_key").setup()
 
 require("snacks").setup(require("batphone.snacks").options())
-require("quicker").setup(require("batphone.quicker").options())
 require("mini.align").setup({})
 require("mini.comment").setup({})
 require("mini.files").setup({})
@@ -57,7 +55,6 @@ require("batphone.keys").edit()
 require("batphone.keys").editor()
 require("batphone.keys").lsp()
 require("batphone.keys").mason()
-require("batphone.keys").quicker()
 require("batphone.keys").snacks()
 require("batphone.keys").venn()
 

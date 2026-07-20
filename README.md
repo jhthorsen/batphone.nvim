@@ -30,14 +30,22 @@ See the bundled [init.lua](https://github.com/jhthorsen/batphone.nvim/blob/v2.x.
 The example init.lua file has some plugins, but most of them are optional.
 
 * [echasnovski/mini.nvim](https://github.com/echasnovski/mini.nvim)
-* [copilotc-nvim/copilotchat.nvim](https://github.com/copilotc-nvim/copilotchat.nvim))
 * [fang2hou/blink-copilot](https://github.com/fang2hou/blink-copilot)
 * [folke/snacks.nvim](https://github.com/folke/snacks.nvim)
 * [folke/which-key.nvim](https://github.com/folke/which-key.nvim)
-* [jake-stewart/multicursor.nvim](https://github.com/mg979/jake-stewart/multicursor.nvim)
+* [jake-stewart/multicursor.nvim](https://github.com/jake-stewart/multicursor.nvim)
+* [jbyuki/venn.nvim](https://github.com/jbyuki/venn.nvim)
+* [mason-org/mason.nvim](https://github.com/mason-org/mason.nvim)
+* [mrcjkb/rustaceanvim](https://github.com/mrcjkb/rustaceanvim)
+* [nvim-lua/plenary.nvim](https://github.com/nvim-lua/plenary.nvim)
 * [nvim-treesitter/nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
+* [olimorris/codecompanion.nvim](https://github.com/olimorris/codecompanion.nvim)
+* [rafamadriz/friendly-snippets](https://github.com/rafamadriz/friendly-snippets)
+* [ravitemer/codecompanion-history.nvim](https://github.com/ravitemer/codecompanion-history.nvim)
+* [ravitemer/mcphub.nvim](https://github.com/ravitemer/mcphub.nvim)
+* [rebelot/kanagawa.nvim](https://github.com/rebelot/kanagawa.nvim)
 * [saghen/blink.cmp](https://github.com/saghen/blink.cmp)
-* [williamboman/mason.nvim](https://github.com/williamboman/mason.nvim)
+* [uga-rosa/ccc.nvim](https://github.com/uga-rosa/ccc.nvim)
 * [zbirenbaum/copilot.lua](https://github.com/zbirenbaum/copilot.lua)
 
 ## Themes

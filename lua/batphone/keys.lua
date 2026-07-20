@@ -198,19 +198,6 @@ function M.mason()
   vim.keymap.set("n", "<leader>nM", "<cmd>Mason<cr>", { desc = "Open Mason Package Manager" })
 end
 
-function M.quicker()
-  local quicker = require("quicker").toggle
-
-  local function ifquickfixlist(a, b)
-    return #vim.fn.getqflist() <= 0 and vim.api.nvim_feedkeys(b, "n", false) or pcall(vim.cmd, a)
-  end
-
-  vim.keymap.set("n", "<c-j>", function() ifquickfixlist("cnext", "10jzz") end, { desc = "Jump Down" })
-  vim.keymap.set("n", "<c-k>", function() ifquickfixlist("cprevious", "10kzz") end, { desc = "Jump Up" })
-  vim.keymap.set("n", "<leader>dq", function() return #vim.fn.getqflist() > 0 and quicker({ focus = true, }) or vim.diagnostic.setqflist() end, { desc = "Toggle Quickfix" })
-  vim.keymap.set("n", "<leader>dl", function() quicker({ focus = true, loclist = true }) end, { desc = "Toggle Loclist" })
-end
-
 function M.snacks()
   local snacks = require("snacks")
   local picker = require("snacks.picker")
