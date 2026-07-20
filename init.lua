@@ -26,6 +26,10 @@ vim.pack.add({
 vim.cmd("packadd batphone.nvim")
 
 require("vim._core.ui2").enable({})
+require("batphone.options")
+require("batphone.clipboard")
+require("batphone.which_key").setup()
+
 require("snacks").setup(require("batphone.snacks").opts)
 require("quicker").setup(require("batphone.quicker").opts)
 require("mini.align").setup({})
@@ -35,31 +39,40 @@ require("mini.move").setup({})
 require("mini.surround").setup({})
 require("nvim-treesitter").setup({})
 
-require("batphone.options")
-require("batphone.clipboard")
 require("batphone.theme").kanagawa("kanagawa-wave")
-require("batphone.statusline").setup()
+require("mini.statusline").setup(require("batphone.statusline").options())
 
 require("batphone.lsp_progress")
 require("batphone.autocmd_buf_enter_goto_last_loc")
 require("batphone.autocmd_buf_read_post_activate_ccc")
 require("batphone.autocmd_buf_write_pre_mkdir")
-require("batphone.autocmd_lsp_attach_settings")
 require("batphone.autocmd_show_filename")
+
+require("copilot").setup(require("batphone.copilot").options())
+require("blink.cmp").setup(require("batphone.blink").options())
 
 require("batphone.keys").auto()
 require("batphone.keys").buffers()
 require("batphone.keys").edit()
 require("batphone.keys").editor()
-require("batphone.keys").codecompanion()
+require("batphone.keys").lsp()
 require("batphone.keys").mason()
 require("batphone.keys").quicker()
 require("batphone.keys").snacks()
 require("batphone.keys").venn()
 
-require("batphone.multicursor").setup()
-require("batphone.rust").setup()
-require("batphone.which_key").setup()
+require("multicursor-nvim").setup({})
+require("batphone.keys").multicursor()
+
+require("batphone.util").ensure_binary("mcp-hub", "npm install -g mcp-hub@latest", function()
+  require("mcphub").setup({})
+  require("plenary") -- required by codecompanion
+  require("codecompanion._extensions.history")
+  require("codecompanion").setup(require("batphone.codecompanion").options())
+  require("batphone.rust").setup()
+  require("batphone.keys").codecompanion()
+  vim.cmd("doautocmd User CodeCompanionLoaded")
+end)
 
 require("batphone.util").lsp_enable({
   -- "ansiblels",

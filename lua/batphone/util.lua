@@ -20,6 +20,24 @@ function M.debug(msg)
   end
 end
 
+function M.ensure_binary(executable, command, setup)
+  if vim.fn.executable(executable) == 1 then
+    setup()
+  else
+    vim.notify("Installing " .. executable .. "...", vim.log.levels.INFO, {})
+    vim.fn.jobstart(command, {
+      on_exit = function(_, code)
+        if code == 0 then
+          vim.notify(executable .. " installed successfully.", vim.log.levels.INFO, {})
+          setup()
+        else
+          vim.notify("Failed to install " .. executable .. ". Run: " .. command, vim.log.levels.WARN, {})
+        end
+      end,
+    })
+  end
+end
+
 function M.load_file_from_runtime_paths(rel_path)
   for _, runtime_directory in ipairs(vim.api.nvim_list_runtime_paths()) do
     local fullpath = runtime_directory .. "/" .. table.concat(rel_path, "/") .. ".lua"
@@ -35,7 +53,7 @@ end
 
 function M.lsp_enable(lsp_names)
   for _, lsp_name in ipairs(lsp_names) do
-    local lsp_config = M.load_file_from_runtime_paths({"lsp", lsp_name})
+    local lsp_config = M.load_file_from_runtime_paths({ "lsp", lsp_name })
     if not lsp_config then
       vim.notify("Unable to find lsp config for " .. lsp_name, vim.log.levels.WARN, {})
     elseif M.lsp_auto_install == true then

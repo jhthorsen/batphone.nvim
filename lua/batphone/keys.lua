@@ -17,35 +17,6 @@ function M.auto()
   vim.keymap.set("i", ";", ";<c-g>u", { desc = "Set Undo break" })
 end
 
-function M.blink()
-  return {
-    preset = "default",
-    ["<cr>"] = {
-      function(ctx)
-        local item = ctx.get_selected_item() or {}
-        if item.source_id == "copilot" then return ctx.select_and_accept() end
-        if item.source_id == "snippets" then return ctx.select_and_accept() end
-
-        local col = vim.api.nvim_win_get_cursor(0)[2]
-        if col == 0 then return nil end
-
-        local line = vim.api.nvim_get_current_line()
-        local word_before = line:sub(col, col):match("[%w_.]")
-        if word_before ~= nil then return ctx.select_and_accept() end
-      end,
-      "fallback",
-    },
-    ["<tab>"] = {
-      function(ctx) return ctx.select_next() end,
-      "fallback",
-    },
-    ["<s-tab>"] = {
-      function(ctx) return ctx.select_prev() end,
-      "fallback",
-    }
-  }
-end
-
 function M.buffers()
   vim.keymap.set("n", "<tab>", "<cmd>bnext<cr>", { desc = "Prev Buffer" })
   vim.keymap.set("n", "<s-tab>", "<cmd>bprevious<cr>", { desc = "Next Buffer" })
@@ -77,31 +48,20 @@ function M.buffers()
 end
 
 function M.codecompanion()
-  require("batphone.util").once("CopilotLoaded", function()
-    toggle({
-      key = "<leader>cE",
-      desc = { enabled = "Disable Copilot", disabled = "Enable Copilot" },
-      current = function() return require("copilot.client").buf_is_attached() end,
-      set = function(enabled) vim.cmd(enabled and "Copilot disable" or "Copilot enable") end
-    })
-  end)
-
-  require("batphone.util").once("CodeCompanionLoaded", function()
-    local cmd = function(command)
-      return function()
-        require("codecompanion.config").config.display.chat.window.layout = vim.o.columns > 200 and "vertical" or "horizontal"
-        vim.cmd(command)
-      end
+  local cmd = function(command)
+    return function()
+      require("codecompanion.config").config.display.chat.window.layout = vim.o.columns > 200 and "vertical" or "horizontal"
+      vim.cmd(command)
     end
+  end
 
-    vim.keymap.set("n", "<leader>cc", cmd("CodeCompanionChat Toggle"), { desc = "CodeCompanion Chat" })
-    vim.keymap.set("n", "<leader>cH", cmd("CodeCompanionHistory"), { desc = "CodeCompanion History" })
-    vim.keymap.set("n", "<leader>cs", cmd("CodeCompanionSummaries"), { desc = "CodeCompanion Summaries" })
-    vim.keymap.set("v", "<leader>ce", cmd("CodeCompanion /explain"), { desc = "Explain Code" })
-    vim.keymap.set("v", "<leader>cf", cmd("CodeCompanion /fix"), { desc = "Fix Code" })
-    vim.keymap.set("n", "<leader>cl", cmd("CodeCompanion /lsp"), { desc = "Explain The LSP Diagnostics" })
-    vim.keymap.set("v", "<leader>ct", cmd("CodeCompanion /tests"), { desc = "Generte Tests" })
-  end)
+  vim.keymap.set("n", "<leader>cc", cmd("CodeCompanionChat Toggle"), { desc = "CodeCompanion Chat" })
+  vim.keymap.set("n", "<leader>cH", cmd("CodeCompanionHistory"), { desc = "CodeCompanion History" })
+  vim.keymap.set("n", "<leader>cs", cmd("CodeCompanionSummaries"), { desc = "CodeCompanion Summaries" })
+  vim.keymap.set("v", "<leader>ce", cmd("CodeCompanion /explain"), { desc = "Explain Code" })
+  vim.keymap.set("v", "<leader>cf", cmd("CodeCompanion /fix"), { desc = "Fix Code" })
+  vim.keymap.set("n", "<leader>cl", cmd("CodeCompanion /lsp"), { desc = "Explain The LSP Diagnostics" })
+  vim.keymap.set("v", "<leader>ct", cmd("CodeCompanion /tests"), { desc = "Generte Tests" })
 end
 
 function M.edit()
@@ -144,6 +104,16 @@ function M.editor()
 end
 
 function M.multicursor(mc)
+  local mc = require("multicursor-nvim")
+  local hl = vim.api.nvim_set_hl
+  hl(0, "MultiCursorCursor", { reverse = true })
+  hl(0, "MultiCursorVisual", { link = "Visual" })
+  hl(0, "MultiCursorSign", { link = "SignColumn"})
+  hl(0, "MultiCursorMatchPreview", { link = "Search" })
+  hl(0, "MultiCursorDisabledCursor", { reverse = true })
+  hl(0, "MultiCursorDisabledVisual", { link = "Visual" })
+  hl(0, "MultiCursorDisabledSign", { link = "SignColumn"})
+
   toggle({
     key = "<leader>me",
     mode = { "n", "v", "x" },

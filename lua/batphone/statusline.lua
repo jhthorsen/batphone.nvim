@@ -2,10 +2,7 @@ local function pad(l)
   return l + 2
 end
 
-local M = {}
-
-function M.section_buffers(opts)
-
+local function section_buffers(opts)
   -- Create buffer tabs
   local tabs = {}
   local selected_idx = 0
@@ -64,25 +61,25 @@ function M.section_buffers(opts)
   return groups
 end
 
-function M.setup()
-  local status_line = require("mini.statusline");
-  status_line.setup({
-    content = {
-      inactive = nil,
-      active = function()
-        local mode, mode_hl = status_line.section_mode({ trunc_width = 140 })
-        local location = status_line.section_location({ trunc_width = 140 })
-        local buffers_trunc_width = pad(vim.o.columns) - pad(#mode) - pad(#location)
-        local groups = M.section_buffers({ trunc_width = buffers_trunc_width })
+return {
+  options = function()
+    return {
+      content = {
+        inactive = nil,
+        active = function()
+          local status_line = require("mini.statusline");
+          local mode, mode_hl = status_line.section_mode({ trunc_width = 140 })
+          local location = status_line.section_location({ trunc_width = 140 })
+          local buffers_trunc_width = pad(vim.o.columns) - pad(#mode) - pad(#location)
+          local groups = section_buffers({ trunc_width = buffers_trunc_width })
 
-        table.insert(groups, "%=") -- End left alignment
-        table.insert(groups, { hl = mode_hl, strings = { mode } })
-        table.insert(groups, { hl = "MiniStatuslineDevinfo", strings = { location } })
+          table.insert(groups, "%=") -- End left alignment
+          table.insert(groups, { hl = mode_hl, strings = { mode } })
+          table.insert(groups, { hl = "MiniStatuslineDevinfo", strings = { location } })
 
-        return status_line.combine_groups(groups)
-      end
-    },
-  })
-end
-
-return M
+          return status_line.combine_groups(groups)
+        end
+      },
+    }
+  end
+}

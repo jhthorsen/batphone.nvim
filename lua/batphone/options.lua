@@ -46,23 +46,21 @@ vim.opt.wildmenu = true
 vim.opt.wildmode = { "longest:list", "full" }
 vim.opt.winborder = "rounded"
 
-vim.diagnostic.config({
-  severity_sort = false,
-  signs = true,
-  underline = false,
-  update_in_insert = true,
-  virtual_text = false,
-})
-
-vim.api.nvim_create_autocmd("User", {
-  pattern = "LspAttached",
-  callback = function(args)
-    local ft = vim.opt_local.filetype:get()
-
-    -- Avoid indenting attributes in html files
-    -- It did not work adding this to ftplugin/. nor after/ftplugin
-    if ft == "html" or ft == "htmldjango" then
-      vim.opt_local.indentexpr = ""
-    end
-  end,
-})
+require("batphone.util").once("CodeCompanionLoaded", function()
+  vim.lsp.inlay_hint.enable(false)
+  vim.diagnostic.config({
+    severity_sort = true,
+    underline = false,
+    update_in_insert = false,
+    virtual_text = false,
+    virtual_lines = false,
+    signs = {
+      text = {
+        [vim.diagnostic.severity.HINT] = ">",
+        [vim.diagnostic.severity.INFO] = "",
+        [vim.diagnostic.severity.WARN] = "⚠️",
+        [vim.diagnostic.severity.ERROR] = "‼️",
+      },
+    },
+  })
+end)

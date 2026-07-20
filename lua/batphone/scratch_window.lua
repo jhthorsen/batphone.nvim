@@ -18,7 +18,7 @@ local M = {
 
 function M.edit_register(item)
   local cannot_update = item.reg == '"' or item.reg == '.'
-  local win = require("batphone.scratch_window").open({
+  local win = M.open({
     text = item.value,
     on_close = function(win)
       if cannot_update then
