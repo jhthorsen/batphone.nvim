@@ -61,7 +61,6 @@ require("multicursor-nvim").setup({})
 require("batphone.keys").multicursor()
 
 require("batphone.util").ensure_binary("mcp-hub", "npm install -g mcp-hub@latest", function()
-  require("mcphub").setup({})
   require("plenary") -- required by codecompanion
   require("codecompanion._extensions.history")
   require("codecompanion").setup(require("batphone.codecompanion").opts({}))

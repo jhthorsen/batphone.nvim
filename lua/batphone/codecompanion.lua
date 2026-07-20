@@ -8,6 +8,18 @@ return {
             picker = "snacks",
           },
         },
+        mcphub = {
+          callback = "mcphub.extensions.codecompanion",
+          opts = {
+            make_tools = true,
+            show_server_tools_in_chat = true,
+            add_mcp_prefix_to_tool_names = false,
+            show_result_in_chat = true,
+            format_tool = nil,
+            make_vars = false,
+            make_slash_commands = true,
+          }
+        },
       },
       interactions = {
         chat = {
@@ -50,11 +62,6 @@ return {
         },
       },
     }
-
-    local history_ok = pcall(require, "codecompanion._extensions.history")
-    if not history_ok then
-      opts.extensions.history = nil
-    end
 
     local filename = vim.api.nvim_buf_get_name(0)
     local adapter = string.match(filename or "", "([^/]+)%.ai$")
