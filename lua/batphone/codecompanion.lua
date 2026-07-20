@@ -11,8 +11,10 @@ return {
       },
       interactions = {
         chat = {
-          adapter = vim.env.CODECOMPANION_ADAPTER or "copilot",
-          model = vim.env.CODECOMPANION_MODEL or "claude-sonnet-4.5",
+          adapter = {
+            name = vim.env.CODECOMPANION_ADAPTER or "copilot",
+            model = vim.env.CODECOMPANION_MODEL or "claude-sonnet-4.5",
+          },
           keymaps = {
             close = {
               modes = { n = "q" },
@@ -23,8 +25,10 @@ return {
           },
         },
         inline = {
-          adapter = vim.env.CODECOMPANION_ADAPTER or "copilot",
-          model = vim.env.CODECOMPANION_MODEL or "claude-sonnet-4.5",
+          adapter = {
+            name = vim.env.CODECOMPANION_ADAPTER or "copilot",
+            model = vim.env.CODECOMPANION_MODEL or "claude-sonnet-4.5",
+          },
         },
       },
       display = {
@@ -55,8 +59,7 @@ return {
     local filename = vim.api.nvim_buf_get_name(0)
     local adapter = string.match(filename or "", "([^/]+)%.ai$")
     if adapter then
-      opts.interactions.chat.adapter = adapter
-      opts.display.chat.window.layout = "buffer"
+      opts.interactions.chat.adapter.name = adapter
       require("batphone.util").once("CodeCompanionLoaded", function()
         vim.cmd("CodeCompanionChat")
       end)
