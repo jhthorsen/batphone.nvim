@@ -1,6 +1,6 @@
 return {
-  options = function()
-    return {
+  opts = function(override)
+    return vim.tbl_deep_extend("force", {
       auto_trigger = false,
       suggestion = { debounce = 350 },
       should_attach = function(_, bufname)
@@ -11,6 +11,6 @@ return {
         if string.match(bufname, "_alien") then return false end
         return true
       end
-    }
+    }, override)
   end
 }

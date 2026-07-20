@@ -1,5 +1,5 @@
 return {
-  options = function()
+  opts = function(override)
     local default_layout = {
       preview = "main",
       layout = {
@@ -36,7 +36,7 @@ return {
       },
     }
 
-    return {
+    return vim.tbl_deep_extend("force", {
       notifier = {
         level = vim.log.levels.DEBUG,
         sort = { "added" },
@@ -108,6 +108,6 @@ return {
           },
         },
       },
-    }
+    }, override)
   end
 }

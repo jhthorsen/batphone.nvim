@@ -1,6 +1,6 @@
 return {
-  options = function()
-    return {
+  opts = function(override)
+    return vim.tbl_deep_extend("force", {
       completion = {
         documentation = { auto_show = true, auto_show_delay_ms = 750 },
         menu = {
@@ -67,6 +67,6 @@ return {
           },
         },
       },
-    }
+    }, override)
   end
 }

@@ -1,5 +1,5 @@
 return {
-  options = function()
+  opts = function(override)
     local opts = {
       extensions = {
         history = {
@@ -62,6 +62,6 @@ return {
       end)
     end
 
-    return opts
+    return vim.tbl_deep_extend("force", opts, override)
   end
 }

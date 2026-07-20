@@ -29,7 +29,7 @@ require("batphone.options")
 require("batphone.clipboard")
 require("batphone.which_key").setup()
 
-require("snacks").setup(require("batphone.snacks").options())
+require("snacks").setup(require("batphone.snacks").opts({}))
 require("mini.align").setup({})
 require("mini.comment").setup({})
 require("mini.files").setup({})
@@ -38,15 +38,15 @@ require("mini.surround").setup({})
 require("nvim-treesitter").setup({})
 
 require("batphone.theme").kanagawa("kanagawa-wave")
-require("mini.statusline").setup(require("batphone.statusline").options())
+require("mini.statusline").setup(require("batphone.statusline").opts({}))
 
 require("batphone.autocmd_buf_enter_goto_last_loc")
 require("batphone.autocmd_buf_read_post_activate_ccc")
 require("batphone.autocmd_buf_write_pre_mkdir")
 require("batphone.autocmd_show_filename")
 
-require("copilot").setup(require("batphone.copilot").options())
-require("blink.cmp").setup(require("batphone.blink").options())
+require("copilot").setup(require("batphone.copilot").opts({}))
+require("blink.cmp").setup(require("batphone.blink").opts({}))
 
 require("batphone.keys").auto()
 require("batphone.keys").buffers()
@@ -64,7 +64,7 @@ require("batphone.util").ensure_binary("mcp-hub", "npm install -g mcp-hub@latest
   require("mcphub").setup({})
   require("plenary") -- required by codecompanion
   require("codecompanion._extensions.history")
-  require("codecompanion").setup(require("batphone.codecompanion").options())
+  require("codecompanion").setup(require("batphone.codecompanion").opts({}))
   require("batphone.rust").setup()
   require("batphone.keys").codecompanion()
   vim.cmd("doautocmd User CodeCompanionLoaded")

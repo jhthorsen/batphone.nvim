@@ -62,8 +62,8 @@ local function section_buffers(opts)
 end
 
 return {
-  options = function()
-    return {
+  opts = function(override)
+    return vim.tbl_deep_extend("force", {
       content = {
         inactive = nil,
         active = function()
@@ -80,6 +80,6 @@ return {
           return status_line.combine_groups(groups)
         end
       },
-    }
+    }, override)
   end
 }
